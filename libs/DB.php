@@ -15,7 +15,7 @@ class DB {
         }
     }
     
-    public static function dbh($conn = 'donate', $serverID = 0) {
+    public static function dbh($conn = 'donate', $serverID = 0, $br = '') {
         if ($conn == 'donate' && is_null(self::$donateDB) === true) {
             $host = Settings::get('database.donate.host');
             $user = Settings::get('database.donate.user');
@@ -25,15 +25,29 @@ class DB {
             self::$donateDB = self::connect($host, $user, $pass, $db);
         }
         
-        if ($conn == 'server' && is_null(self::$serverDB) === true) {
+        if ($conn == 'server') {
             if (Auth::isLoggedIn()) $serverID = Session::get('active_server_id');
             
             $serverData = Settings::get('database.servers');
-
-            $host = $serverData[$serverID]['host'];
-            $user = $serverData[$serverID]['user'];
-            $pass = $serverData[$serverID]['password'];
-            $db = $serverData[$serverID]['db'];
+            
+            if (isset($serverData[$serverID]['login'])) {
+                if ($br == 'login') {
+                    $host = $serverData[$serverID]['login']['host'];
+                    $user = $serverData[$serverID]['login']['user'];
+                    $pass = $serverData[$serverID]['login']['password'];
+                    $db = $serverData[$serverID]['login']['db'];
+                } else {
+                    $host = $serverData[$serverID]['game']['host'];
+                    $user = $serverData[$serverID]['game']['user'];
+                    $pass = $serverData[$serverID]['game']['password'];
+                    $db = $serverData[$serverID]['game']['db'];
+                }
+            } else {
+                $host = $serverData[$serverID]['host'];
+                $user = $serverData[$serverID]['user'];
+                $pass = $serverData[$serverID]['password'];
+                $db = $serverData[$serverID]['db'];
+            }
             
             self::$serverDB = self::connect($host, $user, $pass, $db);
         }
@@ -41,19 +55,19 @@ class DB {
         return ($conn == 'donate') ? self::$donateDB : self::$serverDB;
     }
     
-    public static function query($sql, $params = array(), $conn = 'donate', $serverID = 0) {
-        if ( ! self::dbh($conn, $serverID)) return false;
+    public static function query($sql, $params = array(), $conn = 'donate', $serverID = 0, $br = '') {
+        if ( ! self::dbh($conn, $serverID, $br)) return false;
         
-        $sth = self::dbh($conn, $serverID)->prepare($sql);
+        $sth = self::dbh($conn, $serverID, $br)->prepare($sql);
         $sth->execute($params);
         
         return $sth;
     }
     
-    public static function lastInsertId($sql, $params = array(), $conn = 'donate', $serverID = 0) {
-        if ( ! self::dbh($conn, $serverID)) return false;
+    public static function lastInsertId($sql, $params = array(), $conn = 'donate', $serverID = 0, $br = '') {
+        if ( ! self::dbh($conn, $serverID, $br)) return false;
         
-        $sth = self::dbh($conn, $serverID)->prepare($sql);
+        $sth = self::dbh($conn, $serverID, $br)->prepare($sql);
         $sth->execute($params);
         
         $id = self::dbh($conn)->lastInsertId();
@@ -61,19 +75,19 @@ class DB {
         return $id;
     }
     
-    public static function first($sql, $params = array(), $conn = 'donate', $serverID = 0) {
-        if ( ! self::dbh($conn, $serverID)) return false;
+    public static function first($sql, $params = array(), $conn = 'donate', $serverID = 0, $br = '') {
+        if ( ! self::dbh($conn, $serverID, $br)) return false;
         
-        $sth = self::dbh($conn, $serverID)->prepare($sql);
+        $sth = self::dbh($conn, $serverID, $br)->prepare($sql);
         $sth->execute($params);
         
         return $sth->fetch();
     }
     
-    public static function get($sql, $params = array(), $conn = 'donate', $serverID = 0) {
-        if ( ! self::dbh($conn, $serverID)) return false;
+    public static function get($sql, $params = array(), $conn = 'donate', $serverID = 0, $br = '') {
+        if ( ! self::dbh($conn, $serverID, $br = '')) return false;
         
-        $sth = self::dbh($conn, $serverID)->prepare($sql);
+        $sth = self::dbh($conn, $serverID, $br = '')->prepare($sql);
         $sth->execute($params);
         
         return $sth->fetchAll();

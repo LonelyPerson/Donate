@@ -73,14 +73,14 @@ if (isset($_POST['registration'])) {
     if (Settings::get('app.registration.max') && mb_strlen($password) > Settings::get('app.registration.max')) 
         return Output::json(Language::_('Slaptažodis negali būti ilgesnis, nei: %s simboliai (-ų)', [Settings::get('app.registration.min')]));
     
-    $serverResults = DB::first('SELECT * FROM ' . Settings::get('sql.accounts.accounts') . ' WHERE ' . Settings::get('sql.accounts.login') . ' = ?', [$username], 'server', $server);
+    $serverResults = DB::first('SELECT * FROM ' . Settings::get('sql.accounts.accounts') . ' WHERE ' . Settings::get('sql.accounts.login') . ' = ?', [$username], 'server', $server, 'login');
     $loginFieldName = Settings::get('sql.accounts.login');
     if (isset($serverResults->$loginFieldName))
         return Output::json(Language::_('Toks vartotojas jau užregistruotas'));
     
     $encodedPassword = L2::hash($password);
     
-    DB::query('INSERT INTO ' . Settings::get('sql.accounts.accounts') . ' SET ' . Settings::get('sql.accounts.login') . ' = ?, ' . Settings::get('sql.accounts.password') . ' = ?', [$username, $encodedPassword], 'server', $server);
+    DB::query('INSERT INTO ' . Settings::get('sql.accounts.accounts') . ' SET ' . Settings::get('sql.accounts.login') . ' = ?, ' . Settings::get('sql.accounts.password') . ' = ?', [$username, $encodedPassword], 'server', $server, 'login');
     
     return Output::json(['content' => Language::_('Registracija sėkminga'), type => 'success', 'success' => 'ok']);
 }

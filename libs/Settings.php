@@ -35,11 +35,18 @@ class Settings {
             
             if (isset($ex[2]))
                 $keyLevel3 = $ex[2];
+            
+            if (isset($ex[3]))
+                $keyLevel4 = $ex[3];
         }
         
         if (isset(self::$settings[$key])) {
             if ($keyLevel2 && isset(self::$settings[$key][$keyLevel2])) {
                 if ($keyLevel3 && isset(self::$settings[$key][$keyLevel2][$keyLevel3])) {
+                    if ($keyLevel4 && isset(self::$settings[$key][$keyLevel2][$keyLevel3][$keyLevel4])) {
+                        return self::$settings[$key][$keyLevel2][$keyLevel3][$keyLevel4];
+                    }
+                    
                     return self::$settings[$key][$keyLevel2][$keyLevel3];
                 }
                     

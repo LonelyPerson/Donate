@@ -3,24 +3,32 @@
 return array(
     'donate' => array(
         'host' => 'localhost',
-        'user' => 'asmanavi_donate',
-        'password' => 'yuPd2OXu',
-        'db' => 'asmanavi_donate'
+        'user' => '',
+        'password' => '',
+        'db' => ''
     ), 
     'servers' => [
         [
             'title' => 'server 1',
-            'host' => 'localhost',
-            'user' => 'asmanavi_l2j',
-            'password' => '9zl88Gr5',
-            'db' => 'asmanavi_l2j'
+            'login' => [
+                'host' => 'localhost',
+                'user' => '',
+                'password' => '',
+                'db' => ''
+            ],
+            'game' => [
+                'host' => 'localhost',
+                'user' => '',
+                'password' => '',
+                'db' => ''
+            ]
         ],
         [
             'title' => 'server 2',
             'host' => 'localhost',
-            'user' => 'asmanavi_l2j',
-            'password' => '9zl88Gr5',
-            'db' => 'asmanavi_l2j'
+            'user' => '',
+            'password' => '',
+            'db' => ''
         ]
         
     ]

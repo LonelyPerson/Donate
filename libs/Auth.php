@@ -3,7 +3,7 @@
 class Auth {
     public static function check($username = '', $password = '', $server = 0) {
         $encodedPassword = L2::hash($password);
-        $serverResults = DB::first('SELECT * FROM ' . Settings::get('sql.accounts.accounts') . ' WHERE ' . Settings::get('sql.accounts.login') . ' = ? AND ' . Settings::get('sql.accounts.password') . ' = ?', [$username, $encodedPassword], 'server', $server);
+        $serverResults = DB::first('SELECT * FROM ' . Settings::get('sql.accounts.accounts') . ' WHERE ' . Settings::get('sql.accounts.login') . ' = ? AND ' . Settings::get('sql.accounts.password') . ' = ?', [$username, $encodedPassword], 'server', $server, 'login');
         
         $loginFieldName = Settings::get('sql.accounts.login');
         $login = $serverResults->$loginFieldName;
