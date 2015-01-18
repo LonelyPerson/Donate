@@ -74,3 +74,6 @@ body {
 #jas-content .languages-list a:hover, #jas-content .languages-list a.active {
     opacity: 1;
 }
+#jas-content #selected-char {
+    text-align: center;
+}

@@ -15,10 +15,13 @@
                 </thead>
                 <tbody>
                     <?php
+                        $SqlObjId = SQL::get('sql.characters.obj_Id');
+                        $SqlCharName = SQL::get('sql.characters.char_name');
+                                
                         foreach ($characters as $row) {
                             ?>
                                 <tr>
-                                    <td><a href="javascript: void(0)" onclick="selectCharacter('<?php echo $row->obj_Id; ?>'); return false;"><?php echo $row->char_name; ?></a></td>
+                                    <td><a href="javascript: void(0)" onclick="selectCharacter('<?php echo $row->$SqlObjId; ?>', '<?=$row->$SqlCharName;?>'); return false;"><?php echo $row->$SqlCharName; ?></a></td>
                                 </tr>
                             <?php
                         }

@@ -5,11 +5,9 @@ class Settings {
     
     public static function load() {
         $database = include ROOT_PATH . '/settings/database.php';
-        $sql = include ROOT_PATH . '/settings/sql.php';
         $app = include ROOT_PATH . '/settings/app.php';
         
         self::$settings['database'] = $database;
-        self::$settings['sql'] = $sql;
         
         if ($app['base_url'] == '')
             $app['base_url'] = URL::baseUrl();

@@ -13,7 +13,6 @@ $(document).ready(function() {
             var data = $this.serialize();
 
             $.post('ajax.php', data, function(response) {
-                log(response.content);
                 if (response.hasOwnProperty('view')) {
                     loadView(response.view);
                 } else {

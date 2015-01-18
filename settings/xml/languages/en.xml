@@ -28,7 +28,7 @@
     <translation key="Grupė" value="" />
     <translation key="Vardas" value="" />
     <translation key="Veikėjai" value="" />
-    <translation key="Žaidėjo pasirinkimas" value="" />
+    <translation key="Veikėjo pasirinkimas" value="" />
     <translation key="Balansas" value="" />
     <translation key="Istorija" value="" />
     <translation key="Atsijungti" value="" />
@@ -54,4 +54,6 @@
     <translation key="Papildytas balansas per mokejimai.lt sistemą. Papildymo suma: %s" value="" />
     <translation key="Dabartinė" value="" />
     <translation key="Nėra nė vieno veikėjo" value="" />
+    <translation key="Veikėjas nepasirinktas" value="" />
+    <translation key="Nepasirinktas veikėjas" value="" />
 </language>

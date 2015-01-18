@@ -41,10 +41,11 @@ function logout() {
     });
 }
 
-function selectCharacter(id) {
-    $.post('ajax.php', { select_character: true, character_obj_id: id }, function(response) {
-        if (response.success)
-            loadView('shop');
+function selectCharacter(id, name) {
+    $.post('ajax.php', { select_character: true, character_obj_id: id, character_name: name }, function(response) {
+        if (response.success) {
+            $('#selected-char').html(name);
+        }
     });
 }
 

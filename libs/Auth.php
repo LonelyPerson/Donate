@@ -3,9 +3,9 @@
 class Auth {
     public static function check($username = '', $password = '', $server = 0) {
         $encodedPassword = L2::hash($password);
-        $serverResults = DB::first('SELECT * FROM ' . Settings::get('sql.accounts.accounts') . ' WHERE ' . Settings::get('sql.accounts.login') . ' = ? AND ' . Settings::get('sql.accounts.password') . ' = ?', [$username, $encodedPassword], 'server', $server, 'login');
+        $serverResults = DB::first('SELECT * FROM ' . SQL::get('sql.accounts.accounts', SQL::getServerID($server)) . ' WHERE ' . SQL::get('sql.accounts.login', SQL::getServerID($server)) . ' = ? AND ' . SQL::get('sql.accounts.password', SQL::getServerID($server)) . ' = ?', [$username, $encodedPassword], 'server', $server, 'login');
         
-        $loginFieldName = Settings::get('sql.accounts.login');
+        $loginFieldName = SQL::get('sql.accounts.login', SQL::getServerID($server));
         $login = $serverResults->$loginFieldName;
         
         if ($serverResults && isset($login) && ! empty($login)) {

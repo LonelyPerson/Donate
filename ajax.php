@@ -73,14 +73,14 @@ if (isset($_POST['registration'])) {
     if (Settings::get('app.registration.max') && mb_strlen($password) > Settings::get('app.registration.max')) 
         return Output::json(Language::_('Slaptažodis negali būti ilgesnis, nei: %s simboliai (-ų)', [Settings::get('app.registration.min')]));
     
-    $serverResults = DB::first('SELECT * FROM ' . Settings::get('sql.accounts.accounts') . ' WHERE ' . Settings::get('sql.accounts.login') . ' = ?', [$username], 'server', $server, 'login');
-    $loginFieldName = Settings::get('sql.accounts.login');
+    $serverResults = DB::first('SELECT * FROM ' . SQL::get('sql.accounts.accounts', SQL::getServerID($server)) . ' WHERE ' . SQL::get('sql.accounts.login', SQL::getServerID($server)) . ' = ?', [$username], 'server', $server, 'login');
+    $loginFieldName = SQL::get('sql.accounts.login', SQL::getServerID($server));
     if (isset($serverResults->$loginFieldName))
         return Output::json(Language::_('Toks vartotojas jau užregistruotas'));
     
     $encodedPassword = L2::hash($password);
     
-    DB::query('INSERT INTO ' . Settings::get('sql.accounts.accounts') . ' SET ' . Settings::get('sql.accounts.login') . ' = ?, ' . Settings::get('sql.accounts.password') . ' = ?', [$username, $encodedPassword], 'server', $server, 'login');
+    DB::query('INSERT INTO ' . SQL::get('sql.accounts.accounts', SQL::getServerID($server)) . ' SET ' . SQL::get('sql.accounts.login', SQL::getServerID($server)) . ' = ?, ' . SQL::get('sql.accounts.password', SQL::getServerID($server)) . ' = ?', [$username, $encodedPassword], 'server', $server, 'login');
     
     return Output::json(['content' => Language::_('Registracija sėkminga'), type => 'success', 'success' => 'ok']);
 }
@@ -101,7 +101,7 @@ if (isset($_POST['buy'])) {
     $userBalance = Auth::user()->balance;
 
     if ( ! Session::has('character_obj_id')) { 
-        return Output::json(Language::_('Nenumatyta klaida, susisiekite su administratoriumi'));
+        return Output::json(Language::_('Nepasirinktas veikėjas'));
     }
     
     $_itemData = json_decode(json_encode($itemData), true);
@@ -121,7 +121,7 @@ if (isset($_POST['buy'])) {
         
         /// group
         foreach ($itemData->item as $key => $row) {
-            $results = DB::first('SELECT max(' . Settings::get('sql.items.object_id') . ') as maxObjId FROM ' . Settings::get('sql.items.items'), [], 'server');
+            $results = DB::first('SELECT max(' . SQL::get('sql.items.object_id') . ') as maxObjId FROM ' . SQL::get('sql.items.items'), [], 'server');
 
             $maxObjId = $results->maxObjId;
             if ( ! $results->maxObjId)
@@ -139,7 +139,7 @@ if (isset($_POST['buy'])) {
                     else
                         $maxObjId = $maxObjId + 1;
 
-                    DB::query("INSERT INTO " . Settings::get('sql.items.items') . " SET " . Settings::get('sql.items.owner_id') . " = :owner_id, " . Settings::get('sql.items.object_id') . " = :object_id, " . Settings::get('sql.items.item_id') . " = :item_id, " . Settings::get('sql.items.count') . " = :count, " . Settings::get('sql.items.enchant_level') . " = :enchant_level, " . Settings::get('sql.items.loc') . " = :loc", [
+                    DB::query("INSERT INTO " . SQL::get('sql.items.items') . " SET " . SQL::get('sql.items.owner_id') . " = :owner_id, " . SQL::get('sql.items.object_id') . " = :object_id, " . SQL::get('sql.items.item_id') . " = :item_id, " . SQL::get('sql.items.count') . " = :count, " . SQL::get('sql.items.enchant_level') . " = :enchant_level, " . SQL::get('sql.items.loc') . " = :loc", [
                         ':owner_id' => $characterId,
                         ':object_id' => $maxObjId,
                         ':item_id' => $row->id,
@@ -153,7 +153,7 @@ if (isset($_POST['buy'])) {
                 $maxObjId = $maxObjId + 1;
 
                 // same block
-                $results = DB::first("SELECT * FROM " . Settings::get('sql.items.items') . " WHERE " . Settings::get('sql.items.owner_id') . " = :owner_id AND " . Settings::get('sql.items.item_id') . " = :item_id", [
+                $results = DB::first("SELECT * FROM " . SQL::get('sql.items.items') . " WHERE " . SQL::get('sql.items.owner_id') . " = :owner_id AND " . SQL::get('sql.items.item_id') . " = :item_id", [
                     'owner_id' => $characterId, 
                     'item_id' => $row->id
                 ], 'server');
@@ -161,13 +161,13 @@ if (isset($_POST['buy'])) {
                 if (isset($results->owner_id)) {
                     $newCount = $results->count + $row->count;
 
-                    DB::query("UPDATE " . Settings::get('sql.items.items') . " SET " . Settings::get('sql.items.count') . " = :count WHERE " . Settings::get('sql.items.owner_id') . " = :owner_id AND " . Settings::get('sql.items.item_id') . " = :item_id ", [
+                    DB::query("UPDATE " . SQL::get('sql.items.items') . " SET " . SQL::get('sql.items.count') . " = :count WHERE " . SQL::get('sql.items.owner_id') . " = :owner_id AND " . SQL::get('sql.items.item_id') . " = :item_id ", [
                         ':owner_id' => $characterId,
                         ':item_id' => $row->id,
                         ':count' => $newCount
                     ], 'server');
                 } else {
-                    DB::query("INSERT INTO " . Settings::get('sql.items.items') . " SET " . Settings::get('sql.items.owner_id') . " = :owner_id, " . Settings::get('sql.items.object_id') . " = :object_id, " . Settings::get('sql.items.item_id') . " = :item_id, " . Settings::get('sql.items.count') . " = :count, " . Settings::get('sql.items.enchant_level') . " = :enchant_level, " . Settings::get('sql.items.loc') . " = :loc", [
+                    DB::query("INSERT INTO " . SQL::get('sql.items.items') . " SET " . SQL::get('sql.items.owner_id') . " = :owner_id, " . SQL::get('sql.items.object_id') . " = :object_id, " . SQL::get('sql.items.item_id') . " = :item_id, " . SQL::get('sql.items.count') . " = :count, " . SQL::get('sql.items.enchant_level') . " = :enchant_level, " . SQL::get('sql.items.loc') . " = :loc", [
                         ':owner_id' => $characterId,
                         ':object_id' => $maxObjId,
                         ':item_id' => $row->id,
@@ -193,7 +193,7 @@ if (isset($_POST['buy'])) {
         ]);
         
         // obj id
-        $results = DB::first('SELECT max(' . Settings::get('sql.items.object_id') . ') as maxObjId FROM ' . Settings::get('sql.items.items'), [], 'server');
+        $results = DB::first('SELECT max(' . SQL::get('sql.items.object_id') . ') as maxObjId FROM ' . SQL::get('sql.items.items'), [], 'server');
 
         $maxObjId = $results->maxObjId;
         if ( ! $results->maxObjId)
@@ -211,7 +211,7 @@ if (isset($_POST['buy'])) {
                 else
                     $maxObjId = $maxObjId + 1;
 
-                DB::query("INSERT INTO " . Settings::get('sql.items.items') . " SET " . Settings::get('sql.items.owner_id') . " = :owner_id, " . Settings::get('sql.items.object_id') . " = :object_id, " . Settings::get('sql.items.item_id') . " = :item_id, " . Settings::get('sql.items.count') . " = :count, " . Settings::get('sql.items.enchant_level') . " = :enchant_level, " . Settings::get('sql.items.loc') . " = :loc", [
+                DB::query("INSERT INTO " . SQL::get('sql.items.items') . " SET " . SQL::get('sql.items.owner_id') . " = :owner_id, " . SQL::get('sql.items.object_id') . " = :object_id, " . SQL::get('sql.items.item_id') . " = :item_id, " . SQL::get('sql.items.count') . " = :count, " . SQL::get('sql.items.enchant_level') . " = :enchant_level, " . SQL::get('sql.items.loc') . " = :loc", [
                     ':owner_id' => $characterId,
                     ':object_id' => $maxObjId,
                     ':item_id' => $itemData->id,
@@ -225,7 +225,7 @@ if (isset($_POST['buy'])) {
             $maxObjId = $maxObjId + 1;
 
             // same block
-            $results = DB::first("SELECT * FROM " . Settings::get('sql.items.items') . " WHERE " . Settings::get('sql.items.owner_id') . " = :owner_id AND " . Settings::get('sql.items.item_id') . " = :item_id", [
+            $results = DB::first("SELECT * FROM " . SQL::get('sql.items.items') . " WHERE " . SQL::get('sql.items.owner_id') . " = :owner_id AND " . SQL::get('sql.items.item_id') . " = :item_id", [
                 'owner_id' => $characterId, 
                 'item_id' => $itemData->id
             ], 'server');
@@ -233,13 +233,13 @@ if (isset($_POST['buy'])) {
             if (isset($results->owner_id)) {
                 $newCount = $results->count + $itemData->count;
 
-                DB::query("UPDATE " . Settings::get('sql.items.items') . " SET " . Settings::get('sql.items.count') . " = :count WHERE " . Settings::get('sql.items.owner_id') . " = :owner_id AND " . Settings::get('sql.items.item_id') . " = :item_id ", [
+                DB::query("UPDATE " . SQL::get('sql.items.items') . " SET " . SQL::get('sql.items.count') . " = :count WHERE " . SQL::get('sql.items.owner_id') . " = :owner_id AND " . SQL::get('sql.items.item_id') . " = :item_id ", [
                     ':owner_id' => $characterId,
                     ':item_id' => $itemData->id,
                     ':count' => $newCount
                 ], 'server');
             } else {
-                DB::query("INSERT INTO " . Settings::get('sql.items.items') . " SET " . Settings::get('sql.items.owner_id') . " = :owner_id, " . Settings::get('sql.items.object_id') . " = :object_id, " . Settings::get('sql.items.item_id') . " = :item_id, " . Settings::get('sql.items.count') . " = :count, " . Settings::get('sql.items.enchant_level') . " = :enchant_level, " . Settings::get('sql.items.loc') . " = :loc", [
+                DB::query("INSERT INTO " . SQL::get('sql.items.items') . " SET " . SQL::get('sql.items.owner_id') . " = :owner_id, " . SQL::get('sql.items.object_id') . " = :object_id, " . SQL::get('sql.items.item_id') . " = :item_id, " . SQL::get('sql.items.count') . " = :count, " . SQL::get('sql.items.enchant_level') . " = :enchant_level, " . SQL::get('sql.items.loc') . " = :loc", [
                     ':owner_id' => $characterId,
                     ':object_id' => $maxObjId,
                     ':item_id' => $itemData->id,
@@ -258,14 +258,16 @@ if (isset($_POST['buy'])) {
 
 if (isset($_POST['select_character'])) {
     $characterObjId = $_POST['character_obj_id'];
+    $characterName = Input::get('character_name');
     
     if ( ! $characterObjId) { 
         return Output::json(Language::_('Deja, bet nepavyko pasirinkti veikėjo'));
     }
     
     Session::put('character_obj_id', $characterObjId);
+    Session::put('character_name', $characterName);
     
-    return Output::json(['success' => Language::_('Veikėjas pasirinktas')]);
+    return Output::json(['success' => Language::_('Veikėjas pasirinktas'), 'character_name' => $characterName]);
 }
 
 if (isset($_POST['paypal'])) {
