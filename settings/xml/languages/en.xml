@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language>
+    <translation key="Veiksmų istorija" value="" />
+    <translation key="Istorijoje rodomi paskutinieji %s veiksmų (-ai)" value="" />
+    <translation key="Istorija tuščia" value="" />
+    <translation key="Skyrius" value="" />
+    <translation key="Veiksmas" value="" />
+    <translation key="Data" value="" />
+    <translation key="Balanso pildymas" value="" />
+    <translation key="Paypal" value="" />
+    <translation key="Patvirtinti" value="" />
+    <translation key="Mokejimai / Paysera" value="" />
+    <translation key="Prisijungimas" value="" />
+    <translation key="Registracija" value="" />
+    <translation key="Slapyvardis" value="" />
+    <translation key="Slaptažodis" value="" />
+    <translation key="Prisijungti" value="" />
+    <translation key="Registruotis" value="" />
+    <translation key="Meniu" value="" />
+    <translation key="Informacija" value="" />
+    <translation key="Jūsų apmokėjimas per paypal sistemą užskaitytas" value="" />
+    <translation key="Jūs atšaukėte apmokėjimą" value="" />
+    <translation key="Jūsų apmokėjimas per mokejimai.lt sistemą užskaitytas" value="" />
+    <translation key="Parduotuvė" value="" />
+    <translation key="Kaina:" value="" />
+    <translation key="Pirkti" value="" />
+    <translation key="Grupėje esantys daiktai:" value="" />
+    <translation key="Grupė" value="" />
+    <translation key="Vardas" value="" />
+    <translation key="Veikėjai" value="" />
+    <translation key="Žaidėjo pasirinkimas" value="" />
+    <translation key="Balansas" value="" />
+    <translation key="Istorija" value="" />
+    <translation key="Atsijungti" value="" />
+    <translation key="Neteisingai įvestas apsaugos kodas" value="" />
+    <translation key="Užpildykite visus laukelius" value="" />
+    <translation key="Prisijungti nepavyko" value="" />
+    <translation key="Minimalus slaptažodžio ilgis turi būti: %s simboliai (-ų)" value="" />
+    <translation key="Slaptažodis negali būti ilgesnis, nei: %s simboliai (-ų)" value="" />
+    <translation key="Toks vartotojas jau užregistruotas" value="" />
+    <translation key="Registracija sėkminga" value="" />
+    <translation key="Nenumatyta klaida, susisiekite su administratoriumi" value="" />
+    <translation key="Jūsų vartotojo balansas nepakankamas" value="" />
+    <translation key="Nupirkta prekių grupė: %s, kaina: %s" value="" />
+    <translation key="Nupirkta prekė: %s, kaina: %s" value="" />
+    <translation key="Prekė nupirkta sėkmingai" value="" />
+    <translation key="Deja, bet nepavyko pasirinkti veikėjo" value="" />
+    <translation key="Veikėjas pasirinktas" value="" />
+    <translation key="Neįvedėte taškų sumos" value="" />
+    <translation key="Prašome įvesti tik skaičius" value="" />
+    <translation key="Minimalus taškų kiekis: %s" value="" />
+    <translation key="Maksimalus taškų kiekis: %s" value="" />
+    <translation key="Papildytas balansas per paypal sistemą. Papildymo suma: %s" value="" />
+    <translation key="Papildytas balansas per mokejimai.lt sistemą. Papildymo suma: %s" value="" />
+    <translation key="Dabartinė" value="" />
+    <translation key="Nėra nė vieno veikėjo" value="" />
+</language>

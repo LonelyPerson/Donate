@@ -1,0 +1,76 @@
+body {
+    background: url('../img/bg.jpg') no-repeat center top;
+}
+
+#jas-content {
+    width: 710px;
+    margin: 120px auto;
+}
+#jas-content .left-side {
+    width: 500px;
+}
+#jas-content .right-side {
+    width: 200px;
+}
+#jas-content .panel-body:after {
+    clear: none !important;
+}
+#jas-content .input {
+    margin-top: 10px;
+}
+#jas-content #recaptcha_challenge_image {
+    width: 228px !important;
+}
+#jas-content #captcha {
+    border: 1px solid #e7e7e7;
+    padding: 10px;
+    margin-top: 10px
+}
+#jas-content .input-group-addon {
+    height: 15px !important;
+}
+#jas-content .box {
+    border: 1px solid #e7e7e7;
+    padding: 10px;
+    
+}
+#jas-content .box legend {
+    border: none !important;
+    width: auto !important;
+    font-size: 16px;
+    background: #fff;
+    padding: 0px 5px 0px 5px;
+    margin-bottom: 0px !important;
+}
+#jas-content .item-box {
+    width: 150px;
+    border: 1px solid #e7e7e7;
+    padding: 5px;
+    margin-left: 5px;
+    margin-top: 20px;
+    text-align: center;
+}
+#jas-content .item-box .price {
+    position: absolute;
+    margin-top: -14px;
+    margin-left: -15px;
+}
+#jas-content .item-box .group-price {
+    position: absolute;
+    margin-top: -14px;
+    margin-left: -15px;
+}
+#jas-content .item-box .group {
+    position: absolute;
+    margin-top: -14px;
+    margin-left: 78px;
+}
+#jas-content .item-box .jas-buy-box {
+    margin-top: 5px;
+}
+#jas-content .languages-list a {
+    opacity: 0.7;
+}
+#jas-content .languages-list a:hover, #jas-content .languages-list a.active {
+    opacity: 1;
+}
