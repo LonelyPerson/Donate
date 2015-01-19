@@ -68,6 +68,10 @@ body {
 #jas-content .item-box .jas-buy-box {
     margin-top: 5px;
 }
+#jas-content .languages-list {
+    text-align: center;
+    margin-bottom: 15px;
+}
 #jas-content .languages-list a {
     opacity: 0.7;
 }

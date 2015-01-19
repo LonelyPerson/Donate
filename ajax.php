@@ -35,7 +35,7 @@ if (isset($_POST['auth'])) {
     $username = Input::get('username');
     $password = Input::get('password');
     $server = Input::get('server');
-    
+
     if (Settings::get('app.captcha.login')) {
         $resp = recaptcha_check_answer(Settings::get('app.captcha.secret'), $_SERVER["REMOTE_ADDR"], Input::get("recaptcha_challenge_field"), Input::get("recaptcha_response_field"));
 
@@ -73,14 +73,14 @@ if (isset($_POST['registration'])) {
     if (Settings::get('app.registration.max') && mb_strlen($password) > Settings::get('app.registration.max')) 
         return Output::json(Language::_('Slaptažodis negali būti ilgesnis, nei: %s simboliai (-ų)', [Settings::get('app.registration.min')]));
     
-    $serverResults = DB::first('SELECT * FROM ' . SQL::get('sql.accounts.accounts', SQL::getServerID($server)) . ' WHERE ' . SQL::get('sql.accounts.login', SQL::getServerID($server)) . ' = ?', [$username], 'server', $server, 'login');
-    $loginFieldName = SQL::get('sql.accounts.login', SQL::getServerID($server));
+    $serverResults = DB::first('SELECT * FROM ' . SQL::get('sql.accounts.accounts', Server::getID($server)) . ' WHERE ' . SQL::get('sql.accounts.login', Server::getID($server)) . ' = ?', [$username], 'server', $server, 'login');
+    $loginFieldName = SQL::get('sql.accounts.login', Server::getID($server));
     if (isset($serverResults->$loginFieldName))
         return Output::json(Language::_('Toks vartotojas jau užregistruotas'));
+
+    $encodedPassword = L2::hash($password, Server::getHashType($server));
     
-    $encodedPassword = L2::hash($password);
-    
-    DB::query('INSERT INTO ' . SQL::get('sql.accounts.accounts', SQL::getServerID($server)) . ' SET ' . SQL::get('sql.accounts.login', SQL::getServerID($server)) . ' = ?, ' . SQL::get('sql.accounts.password', SQL::getServerID($server)) . ' = ?', [$username, $encodedPassword], 'server', $server, 'login');
+    DB::query('INSERT INTO ' . SQL::get('sql.accounts.accounts', Server::getID($server)) . ' SET ' . SQL::get('sql.accounts.login', Server::getID($server)) . ' = ?, ' . SQL::get('sql.accounts.password', Server::getID($server)) . ' = ?', [$username, $encodedPassword], 'server', $server, 'login');
     
     return Output::json(['content' => Language::_('Registracija sėkminga'), type => 'success', 'success' => 'ok']);
 }

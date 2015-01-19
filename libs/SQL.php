@@ -13,10 +13,4 @@ class SQL {
         
         return $result;
     }
-    
-    public static function getServerID($id) {
-        $server = include ROOT_PATH . '/settings/database.php';
-        
-        return $server['servers'][$id]['id'];
-    }
 }

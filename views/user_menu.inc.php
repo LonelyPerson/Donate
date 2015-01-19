@@ -9,6 +9,8 @@
 <div class="panel panel-default">
     <div class="panel-heading"><?=Language::_('Meniu');?></div>
     <div class="panel-body">
+        <?php include ROOT_PATH . '/views/languages.inc.php'; ?>
+
         <ul class="nav nav-pills nav-stacked">
             <li id="user"><a href="javacript: void(0);" onclick="loadView('user'); return false;"><?=Language::_('Veikėjo pasirinkimas');?></a></li>
             <li id="shop"><a href="javacript: void(0);" onclick="loadView('shop'); return false;"><?=Language::_('Parduotuvė');?></a></li>

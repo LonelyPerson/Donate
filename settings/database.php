@@ -9,7 +9,7 @@ return array(
     ), 
     'servers' => [
         [
-            'title' => 'server 1',
+            'title' => 'Server 1',
             'id' => 1,
             'login' => [
                 'host' => 'localhost',
@@ -25,12 +25,12 @@ return array(
             ]
         ],
         [
-            'title' => 'server 2',
+            'title' => 'Server 2',
             'id' => 2,
             'host' => 'localhost',
             'user' => 'root',
             'password' => '',
-            'db' => 'asmanavi_l2j'
+            'db' => 'asmanavi_l2j_2'
         ]
         
     ]

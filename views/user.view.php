@@ -1,7 +1,4 @@
-<?php 
-    include ROOT_PATH . '/views/user_menu.inc.php'; 
-    include ROOT_PATH . '/views/languages.inc.php';
-?>
+<?php include ROOT_PATH . '/views/user_menu.inc.php'; ?>
 
 <div class="panel panel-default left-side">
     <div class="panel-heading"><?=Language::_('Veikėjai');?></div>

@@ -2,10 +2,10 @@
 
 class Auth {
     public static function check($username = '', $password = '', $server = 0) {
-        $encodedPassword = L2::hash($password);
-        $serverResults = DB::first('SELECT * FROM ' . SQL::get('sql.accounts.accounts', SQL::getServerID($server)) . ' WHERE ' . SQL::get('sql.accounts.login', SQL::getServerID($server)) . ' = ? AND ' . SQL::get('sql.accounts.password', SQL::getServerID($server)) . ' = ?', [$username, $encodedPassword], 'server', $server, 'login');
+        $encodedPassword = L2::hash($password, Server::getHashType($server));
+        $serverResults = DB::first('SELECT * FROM ' . SQL::get('sql.accounts.accounts', Server::getID($server)) . ' WHERE ' . SQL::get('sql.accounts.login', Server::getID($server)) . ' = ? AND ' . SQL::get('sql.accounts.password', Server::getID($server)) . ' = ?', [$username, $encodedPassword], 'server', $server, 'login');
         
-        $loginFieldName = SQL::get('sql.accounts.login', SQL::getServerID($server));
+        $loginFieldName = SQL::get('sql.accounts.login', Server::getID($server));
         $login = $serverResults->$loginFieldName;
         
         if ($serverResults && isset($login) && ! empty($login)) {
