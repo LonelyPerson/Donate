@@ -42,6 +42,9 @@ body {
     padding: 0px 5px 0px 5px;
     margin-bottom: 0px !important;
 }
+#jas-content .box legend span {
+    font-size: 12px;
+}
 #jas-content .item-box {
     width: 150px;
     border: 1px solid #e7e7e7;
@@ -80,4 +83,9 @@ body {
 }
 #jas-content #selected-char {
     text-align: center;
+}
+#jas-content .select-char.selected {
+    cursor: default;
+    color: #000;
+    text-decoration: none;
 }

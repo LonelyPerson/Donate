@@ -5,13 +5,14 @@ CREATE TABLE IF NOT EXISTS `history` (
   `action_value` text NOT NULL,
   `action_date` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS `mokejimai` (
   `orderid` varchar(255) NOT NULL,
   `user_id` int(11) NOT NULL,
   `status` varchar(50) NOT NULL,
   `amount` float NOT NULL,
+  `currency` varchar(50) NOT NULL,
   `points` float NOT NULL,
   `ip` varchar(50) NOT NULL,
   `start_date` datetime NOT NULL,
@@ -23,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `paypal` (
   `item_number` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL,
   `amount` float NOT NULL,
+  `currency` varchar(50) NOT NULL,
   `txn_id` varchar(255) NOT NULL,
   `user_id` int(11) NOT NULL,
   `points` float NOT NULL,
@@ -46,4 +48,4 @@ CREATE TABLE IF NOT EXISTS `users` (
   `balance` float NOT NULL,
   `server` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;

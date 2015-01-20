@@ -257,17 +257,20 @@ if (isset($_POST['buy'])) {
 }
 
 if (isset($_POST['select_character'])) {
-    $characterObjId = $_POST['character_obj_id'];
     $characterName = Input::get('character_name');
-    
-    if ( ! $characterObjId) { 
+    $oldChar = '<a href="javascript: void(0);" class="select-char">' . Session::get('character_name') . '</a>';
+
+    $characters = DB::first("SELECT * FROM " . SQL::get('sql.characters.characters') . " WHERE " . SQL::get('sql.characters.account_name') . " = ? AND " . SQL::get('sql.characters.char_name') . " = ?", [Session::get('server_account_login'), $characterName], 'server');
+
+    if ( ! $characters) {
         return Output::json(Language::_('Deja, bet nepavyko pasirinkti veikėjo'));
     }
-    
-    Session::put('character_obj_id', $characterObjId);
+
+    $charObjId = SQL::get('sql.characters.obj_Id');
+    Session::put('character_obj_id', $characters->$charObjId);
     Session::put('character_name', $characterName);
     
-    return Output::json(['success' => Language::_('Veikėjas pasirinktas'), 'character_name' => $characterName]);
+    return Output::json(['success' => 'ok', 'content' => Language::_('Veikėjas pasirinktas'), 'type' => 'success', 'character_name' => $characterName, 'old_char' => $oldChar]);
 }
 
 if (isset($_POST['paypal'])) {
@@ -295,6 +298,11 @@ if (isset($_POST['paypal'])) {
 
     $querystring .= "item_name=" . urlencode(Settings::get('app.paypal.purpose')) . "&";
     $querystring .= "amount=" . urlencode($amount) . "&";
+    $querystring .= "currency_code=" . urlencode(strtoupper(Settings::get('app.paypal.currency'))) . "&";
+    $querystring .= "cmd=" . urlencode('_donations') . "&";
+    $querystring .= "rm=" . urlencode('2') . "&";
+    $querystring .= "no_note=" . urlencode('1') . "&";
+    $querystring .= "bn=" . urlencode('PP-BuyNowBF:btn_buynow_LG.gif:NonHostedGuest') . "&";
 
     foreach ($data as $key => $value) {
         $value = urlencode(stripslashes($value));
@@ -307,10 +315,11 @@ if (isset($_POST['paypal'])) {
 
     $results = DB::first("SELECT * FROM paypal WHERE item_number = :item_number", [':item_number' => $data['item_number']]);
     if ( ! isset($results->id)) {
-        DB::query("INSERT INTO paypal SET item_number = :item_number, status = :status, amount = :amount, txn_id = :txn_id, user_id = :user_id, points = :points, ip = :ip, start_date = :start_date", [
+        DB::query("INSERT INTO paypal SET item_number = :item_number, status = :status, amount = :amount, currency = :currency, txn_id = :txn_id, user_id = :user_id, points = :points, ip = :ip, start_date = :start_date", [
             ':item_number' => $itemNumber,
             ':status' => 'waiting',
             ':amount' => $amount,
+            ':currency' => strtoupper(Settings::get('app.paypal.currency')),
             ':txn_id' => '',
             ':user_id' => Session::get('donate_user_id'),
             ':points' => $data['sum'],
@@ -353,6 +362,7 @@ if (isset($_POST['mokejimai'])) {
             ':user_id' => Session::get('donate_user_id'),
             ':status' => 'waiting',
             ':amount' => $amount,
+            ':currency' => Settings::get('app.mokejimai.currency'),
             ':points' => $data['sum'],
             ':ip' => $_SERVER['REMOTE_ADDR'],
             ':start_date' => date('Y-m-d H:i:s')
@@ -365,6 +375,7 @@ if (isset($_POST['mokejimai'])) {
             'sign_password' => Settings::get('app.mokejimai.secret'),
             'amount'        => $amount,
             'orderid'       => $order,
+            'currency'      => strtoupper(Settings::get('app.mokejimai.currency')),
             'paytext'       => Settings::get('app.mokejimai.text') . ' (nr. [order_nr]) ([site_name])',
             'accepturl'     => Settings::get('app.base_url') . '/pay.php?id=mokejimai&action=verify',
             'cancelurl'     => Settings::get('app.base_url') . '/pay.php?id=mokejimai&action=cancel',

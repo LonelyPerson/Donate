@@ -10,12 +10,13 @@ return [
         'max' => 16
     ],
     'paypal' => [
-        'price' => 1,
+        'price' => 1.23,
         'email' => 'justas.asmanavicius-merchant@gmail.com',
         'test' => true,
         'purpose' => 'Test server donate points',
         'min' => 1,
-        'max' => 5
+        'max' => 10,
+        'currency' => 'eur'
     ],
     'mokejimai' => [
         'id' => 45961,
@@ -25,7 +26,8 @@ return [
         'max' => 5,
         'price' => 1,
         'text' => 'Donate taskai',
-        'version' => 1.6
+        'version' => 1.6,
+        'currency' => 'eur'
     ],
     'captcha' => [
         'key' => '6Lf7lgATAAAAALOM3MwgHdFaaU8KzIwjvZQLb34x',

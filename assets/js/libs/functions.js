@@ -41,14 +41,6 @@ function logout() {
     });
 }
 
-function selectCharacter(id, name) {
-    $.post('ajax.php', { select_character: true, character_obj_id: id, character_name: name }, function(response) {
-        if (response.success) {
-            $('#selected-char').html(name);
-        }
-    });
-}
-
 function loadCaptcha(key) {
     Recaptcha.create(key,
         "captcha", {

@@ -3,6 +3,8 @@
 <div class="panel panel-default left-side">
     <div class="panel-heading"><?=Language::_('Veikėjai');?></div>
     <div class="panel-body">
+        <div id="response"></div>
+
         <?php if ($characters) { ?>
             <table class="table table-striped">
                 <thead>
@@ -12,13 +14,16 @@
                 </thead>
                 <tbody>
                     <?php
-                        $SqlObjId = SQL::get('sql.characters.obj_Id');
-                        $SqlCharName = SQL::get('sql.characters.char_name');
-                                
                         foreach ($characters as $row) {
                             ?>
                                 <tr>
-                                    <td><a href="javascript: void(0)" onclick="selectCharacter('<?php echo $row->$SqlObjId; ?>', '<?=$row->$SqlCharName;?>'); return false;"><?php echo $row->$SqlCharName; ?></a></td>
+                                    <td>
+                                        <?php if (Session::get('character_obj_id') == $row->$SqlObjId) { ?>
+                                            <a href="javascript: void(0)" class="select-char selected"><?php echo $row->$SqlCharName; ?></a>
+                                        <?php } else { ?>
+                                            <a href="javascript: void(0)" class="select-char"><?php echo $row->$SqlCharName; ?></a>
+                                        <?php } ?>
+                                    </td>
                                 </tr>
                             <?php
                         }

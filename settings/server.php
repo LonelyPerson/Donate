@@ -5,9 +5,11 @@
  * */
 return [
     1 => [
-        'pack' => 'default'
+        'pack' => 'default',
+        'chronicle' => 'c6',
     ],
     2 => [
-        'pack' => 'fandc'
+        'pack' => 'fandc',
+        'chronicle' => 'h5'
     ]
 ];
