@@ -1,4 +1,9 @@
-<?php include ROOT_PATH . '/views/user_menu.inc.php'; ?>
+<?php
+    include ROOT_PATH . '/views/user_menu.inc.php';
+
+    if ( ! Settings::get('app.history.enabled'))
+        exit('History disabled');
+?>
 
 <div class="panel panel-default left-side">
     <div class="panel-heading"><?=Language::_('Veiksmų istorija');?></div>

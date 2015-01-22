@@ -57,4 +57,14 @@ class File {
             return '<img src="' . $iconPath . '/default_no_img.jpg" />';
         }
     }
+
+    public static function getFlagIcon($code, $width = 0) {
+        $code = strtoupper($code);
+        $flagPath = Settings::get('app.base_url') . '/assets/img/flags';
+
+        if (file_exists(ROOT_PATH . '/assets/img/flags/' . $code . '.png'))
+            return '<img src="' . $flagPath . '/' . $code . '.png" />';
+
+        return $code;
+    }
 }

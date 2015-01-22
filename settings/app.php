@@ -9,7 +9,11 @@ return [
         'min' => 4,
         'max' => 16
     ],
+    'shop' => [
+        'enabled' => true
+    ],
     'paypal' => [
+        'enabled' => true,
         'price' => 1.23,
         'email' => 'justas.asmanavicius-merchant@gmail.com',
         'test' => true,
@@ -19,6 +23,7 @@ return [
         'currency' => 'eur'
     ],
     'mokejimai' => [
+        'enabled' => true,
         'id' => 45961,
         'secret' => '654784daf0b133e42d02214b22cb03a6',
         'test' => true,
@@ -35,8 +40,15 @@ return [
         'login' => false,
         'registration' => false
     ],
+    'sms' => [
+        'paysera' => true,
+    ],
     'history' => [
+        'enabled' => true,
         'limit' => 20
+    ],
+    'settings' => [
+        'enabled' => true
     ],
     'language' => [
         'enabled' => [

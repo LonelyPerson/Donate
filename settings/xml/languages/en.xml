@@ -57,4 +57,16 @@
     <translation key="Veikėjas nepasirinktas" value="" />
     <translation key="Nepasirinktas veikėjas" value="" />
     <translation key="Minimali taškų suma: %s Maksimali taškų suma: %s" value="" />
+    <translation key="SMS tekstas" value="" />
+    <translation key="Numeris" value="" />
+    <translation key="Kaina" value="" />
+    <translation key="Šalis" value="" />
+    <translation key="Taškai" value="" />
+    <translation key="Nėra įjungtų balanso pildymo būdų" value="" />
+    <translation key="Nustatymai" value="" />
+    <translation key="El. pašto adresas" value="" />
+    <translation key="Išsaugoti" value="" />
+    <translation key="Neteisingai sudarytas el. pašto adresas" value="" />
+    <translation key="Toks el. pašto adresas jau naudojamas" value="" />
+    <translation key="Būtina nurodyti el. pašto adresą" value="" />
 </language>

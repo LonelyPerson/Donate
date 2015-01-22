@@ -1,4 +1,9 @@
-<?php include ROOT_PATH . '/views/user_menu.inc.php'; ?>
+<?php
+    include ROOT_PATH . '/views/user_menu.inc.php';
+
+    if ( ! Settings::get('app.shop.enabled'))
+        exit('Shop disabled');
+?>
 
 <div class="panel panel-default pull-left left-side">
     <div class="panel-heading"><?=Language::_('Parduotuvė');?></div>

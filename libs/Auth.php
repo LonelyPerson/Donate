@@ -13,14 +13,23 @@ class Auth {
             
             $results = DB::first('SELECT * FROM users WHERE username = ?', [$login]);
             if ( ! isset($results->id)) {
-                $id = DB::lastInsertId('INSERT INTO users SET username = ?, server = ?', [$login, $server]);
+                while(true) {
+                    $code = mt_rand(10000, 999999999);
+                    $result = DB::first('SELECT * FROM users WHERE code = ?', [$code]);
+                    if ( ! $result)
+                        break;
+                }
+
+                $id = DB::lastInsertId('INSERT INTO users SET code = ?, username = ?, server = ?', [$code, $login, $server]);
             } else {
                 $id = $results->id;
+                $code = $results->code;
             }
             
             Session::put('server_account_login', $login);
             Session::put('donate_user_id', $id);
             Session::put('active_server_id', $server);
+            Session::put('donate_user_code', $code);
             
             return true;
         }

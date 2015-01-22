@@ -44,8 +44,23 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(30) NOT NULL,
   `username` varchar(255) NOT NULL,
   `balance` float NOT NULL,
   `server` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
+
+CREATE TABLE IF NOT EXISTS `sms` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sms_unique_id` varchar(255) NOT NULL,
+  `sms_keyword` varchar(255) NOT NULL,
+  `sms_price` varchar(50) NOT NULL,
+  `sms_currency` varchar(50) NOT NULL,
+  `sms_response` text NOT NULL,
+  `sms_date` datetime NOT NULL,
+  `sms_type` varchar(20) NOT NULL,
+  `sms_from` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;

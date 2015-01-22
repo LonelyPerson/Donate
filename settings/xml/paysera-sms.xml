@@ -1,0 +1,43 @@
+<?xml version='1.0' standalone='yes'?>
+<sms>
+    <item>
+        <keyword>DONATE</keyword>
+        <number>1679</number>
+        <country>LT</country>
+        <currency>EUR</currency>
+        <price>1</price>
+        <points>1</points>
+        <note></note>
+        <response>Test</response>
+    </item>
+    <item>
+        <keyword>DONATE 2</keyword>
+        <number>1679</number>
+        <country>LT</country>
+        <currency>EUR</currency>
+        <price>2</price>
+        <points>2</points>
+        <note></note>
+        <response>Test</response>
+    </item>
+    <item>
+        <keyword>DONATE 3</keyword>
+        <number>8745</number>
+        <country>GB</country>
+        <currency>EUR</currency>
+        <price>2</price>
+        <points>2</points>
+        <note></note>
+        <response>Test</response>
+    </item>
+    <item>
+        <keyword>DONATE 5</keyword>
+        <number>7777</number>
+        <country>JP</country>
+        <currency>EUR</currency>
+        <price>2</price>
+        <points>2</points>
+        <note></note>
+        <response>Test</response>
+    </item>
+</sms>

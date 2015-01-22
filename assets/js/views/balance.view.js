@@ -8,6 +8,7 @@ $(document).ready(function() {
 
             if ($.isNumeric(value) && value <= max && value >= min) {
                 var _price = parseFloat(value * price);
+                _price = _price.toFixed(2);
                 $('#jas-paypal-form .paypal-price span').text(_price);
             } else {
                 $('#jas-paypal-form .paypal-price span').text('0.00');
@@ -37,6 +38,7 @@ $(document).ready(function() {
 
             if ($.isNumeric(value) && value <= max && value >= min) {
                 var _price = parseFloat(value * price);
+                _price = _price.toFixed(2);
                 $('#jas-mokejimai-form .mokejimai-price span').text(_price);
             } else {
                 $('#jas-mokejimai-form .mokejimai-price span').text('0.00');
@@ -57,6 +59,24 @@ $(document).ready(function() {
                 } else {
                     $("#response").html(formatMessage(response.content, response.type));
                     
+                    unblockScreen();
+                }
+            });
+        });
+
+        // sms
+        $('.sms-flags li').on('click', function() {
+            blockScreen();
+
+            $('.sms-flags li').removeClass('active');
+            $(this).addClass('active');
+
+            var code = $(this).attr('data-code');
+
+            $.post('ajax.php', { get_sms_data: 'ok', 'code': code }, function(response) {
+                if (response.hasOwnProperty('success')) {
+                    $('#sms').html(response.table);
+
                     unblockScreen();
                 }
             });

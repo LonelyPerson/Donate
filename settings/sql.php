@@ -13,7 +13,7 @@ return [
         ],
         'accounts' => [
             'accounts' => 'accounts',
-            'login' => 'loginn',
+            'login' => 'login',
             'password' => 'password'
         ],
         'characters' => [

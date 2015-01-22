@@ -5,7 +5,7 @@ return array(
         'host' => 'localhost',
         'user' => 'root',
         'password' => '',
-        'db' => 'asmanavi_donate'
+        'db' => 'donate'
     ), 
     'servers' => [
         [
@@ -15,13 +15,13 @@ return array(
                 'host' => 'localhost',
                 'user' => 'root',
                 'password' => '',
-                'db' => 'asmanavi_l2j'
+                'db' => 'l2j_il'
             ],
             'game' => [
                 'host' => 'localhost',
                 'user' => 'root',
                 'password' => '',
-                'db' => 'asmanavi_l2j'
+                'db' => 'l2j_il'
             ]
         ],
         [

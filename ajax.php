@@ -390,6 +390,79 @@ if (isset($_POST['mokejimai'])) {
     return Output::json(['submit' => 'submit', 'sign' => $request['sign'], 'data' => $request['data']]);
 }
 
+if (isset($_POST['get_sms_data'])) {
+
+    $code = Input::get('code');
+
+    if ( ! $code)
+        Output::json(['error' => '#1']);
+
+    $table = '<div class="sms-flags-sep"></div>';
+    $table .= '<table class="table table-striped table-hover">';
+    $table .= '<thead>
+    <tr>
+        <th>' . Language::_('SMS tekstas') . '</th>
+        <th style="text-align: center;">' . Language::_('Numeris') . '</th>
+        <th style="text-align: center;">' . Language::_('Kaina') . '</th>
+        <th style="text-align: center;">' . Language::_('Šalis') . '</th>
+        <th style="text-align: center;">' . Language::_('Taškai') . '</th>
+    </tr>
+</thead>
+<tbody>';
+    $sms = simplexml_load_file(ROOT_PATH . '/settings/xml/paysera-sms.xml');
+    foreach ($sms as $item) {
+
+        $country = (string)$item->country;
+
+        if (strtoupper($country) != strtoupper($code)) continue;
+
+        $table .= '<tr>';
+        $table .= '<td>' . (string)$item->keyword . ' ' . Session::get('donate_user_code') . '</td>';
+        $table .= '<td style="text-align: center;">' . (string)$item->number . '</td>';
+        $table .= '<td style="text-align: center;">' . (string)$item->price . ' ' . (string)$item->currency  .  '</td>';
+        $table .= '<td style="text-align: center;">' . strtoupper((string)$item->country) . '</td>';
+        $table .= '<td style="text-align: center;">' . (string)$item->points . '</td>';
+        $table .= '</tr>';
+
+    }
+    $table .= '</tbody></table>';
+
+    Output::json(['success' => 'ok', 'table' => $table]);
+}
+
+if (isset($_POST['settings_save'])) {
+    $email = Input::get('email');
+    $update = false;
+
+    if ( ! empty($email)) {
+        $emailValidationPattern = '/^(?!(?:(?:\\x22?\\x5C[\\x00-\\x7E]\\x22?)|(?:\\x22?[^\\x5C\\x22]\\x22?)){255,})(?!(?:(?:\\x22?\\x5C[\\x00-\\x7E]\\x22?)|(?:\\x22?[^\\x5C\\x22]\\x22?)){65,}@)(?:(?:[\\x21\\x23-\\x27\\x2A\\x2B\\x2D\\x2F-\\x39\\x3D\\x3F\\x5E-\\x7E]+)|(?:\\x22(?:[\\x01-\\x08\\x0B\\x0C\\x0E-\\x1F\\x21\\x23-\\x5B\\x5D-\\x7F]|(?:\\x5C[\\x00-\\x7F]))*\\x22))(?:\\.(?:(?:[\\x21\\x23-\\x27\\x2A\\x2B\\x2D\\x2F-\\x39\\x3D\\x3F\\x5E-\\x7E]+)|(?:\\x22(?:[\\x01-\\x08\\x0B\\x0C\\x0E-\\x1F\\x21\\x23-\\x5B\\x5D-\\x7F]|(?:\\x5C[\\x00-\\x7F]))*\\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-+[a-z0-9]+)*\\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-+[a-z0-9]+)*)|(?:\\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\\]))$/iD';
+
+        if (preg_match($emailValidationPattern, $email) !== 1)
+            Output::json('Neteisingai sudarytas el. pašto adresas');
+
+        $emailExists = DB::first('SELECT * FROM users WHERE email = ? AND id != ?', [$email, Session::get('donate_user_id')]);
+        if ($emailExists)
+            Output::json(Language::_('Toks el. pašto adresas jau naudojamas'));
+
+        if (Auth::user()->email != $email)
+            $update = true;
+    } else {
+        if (Auth::user()->email)
+            Output::json('Būtina nurodyti el. pašto adresą');
+    }
+
+    if ($update) {
+        DB::query('UPDATE users SET email = :email WHERE id = :id', [
+            ':email' => $email,
+            ':id' => Session::get('donate_user_id')
+        ]);
+
+        Output::json(['content' => 'Nustatymai išsaugoti', 'type' => 'success']);
+    } else {
+        Output::json('Nėra nustatymų kuriuos reikėtų išsaugoti');
+    }
+}
+
 if (isset($_POST['logout'])) {
     Auth::logout();
 
