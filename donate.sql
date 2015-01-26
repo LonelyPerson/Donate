@@ -64,3 +64,12 @@ CREATE TABLE IF NOT EXISTS `sms` (
   `sms_from` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+CREATE TABLE IF NOT EXISTS `recovery` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `code` varchar(255) NOT NULL,
+  `server` int(11) NOT NULL,
+  `active_until` varchar(100) NOT NULL,
+  `add_date` datetime NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
