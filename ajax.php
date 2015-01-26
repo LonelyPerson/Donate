@@ -21,7 +21,7 @@ if (isset($_GET['route'])) {
         $m = $ex[1];
     }
     
-    if (($c != 'login' && $c != 'registration') && ! Auth::isLoggedIn()) exit('error #4'); 
+    if (($c != 'login' && $c != 'registration' && $c != 'recovery') && ! Auth::isLoggedIn()) exit('error #4');
     
     include ROOT_PATH . '/controllers/' . ucfirst($c) . '.php';
 
@@ -83,6 +83,83 @@ if (isset($_POST['registration'])) {
     DB::query('INSERT INTO ' . SQL::get('sql.accounts.accounts', Server::getID($server)) . ' SET ' . SQL::get('sql.accounts.login', Server::getID($server)) . ' = ?, ' . SQL::get('sql.accounts.password', Server::getID($server)) . ' = ?', [$username, $encodedPassword], 'server', $server, 'login');
     
     return Output::json(['content' => Language::_('Registracija sėkminga'), type => 'success', 'success' => 'ok']);
+}
+
+if (isset($_POST['recovery'])) {
+    $input = Input::get('recovery_input');
+    $server = Input::get('server');
+    $userId = false;
+
+    if ( ! $input)
+        return Output::json(Language::_('Užpildykite visus laukelius'));
+
+    if (strpos($input, '@') !== false) {
+        $result = DB::first('SELECT * FROM users WHERE server = :server AND email = :email', [
+            ':email' => $input,
+            ':server' => $server
+        ]);
+
+        if ( ! $result)
+            return Output::json(Language::_('Toks el. pašto adresas nerastas'));
+
+        $userId = $result->id;
+        $email = $result->email;
+    } else {
+        $result = DB::first('SELECT * FROM users WHERE username = :username', [
+            ':username' => $input,
+            ':server' => $server
+        ]);
+
+        if ( ! $result)
+            return Output::json(Language::_('Vartotojas tokiu slapyvardžių nerastas'));
+
+        $userId = $result->id;
+        $email = $result->email;
+    }
+
+    if ($userId) {
+        $result = DB::first('SELECT * FROM recovery WHERE user_id = :user_id AND active_until >= :active', [
+            ':user_id' => $userId,
+            ':active' => time()
+        ]);
+
+        if ($result)
+            return Output::json(Language::_('Negalite keisti slaptažodžio dažniau, nei kartą per 12 valandų'));
+
+        while(true) {
+            $code = File::randomString(35);
+            $result = DB::first('SELECT * FROM recovery WHERE code = ?', [$code]);
+            if ( ! $result)
+                break;
+        }
+
+        DB::query('INSERT INTO recovery SET user_id = :user_id, code = :code, server = :server, active_until = :active_until, add_date = :add_date', [
+            ':user_id' => $userId,
+            ':code' => $code,
+            ':server' => $server,
+            ':active_until' => strtotime("+12 hours", strtotime(date('Y-m-d H:i:s'))),
+            ':add_date' => date('Y-m-d H:i:s')
+        ]);
+
+        $code = base64_encode($code);
+
+        $verifyLink = Settings::get('app.base_url') . '/recovery.php?id=recovery&action=verify&r=' . $code;
+
+        $subject = 'Slaptažodžio keitimo patvirtinimas';
+
+        $headers = "From: " . strip_tags(Settings::get('app.email')) . "\r\n";
+        $headers .= "Reply-To: ". strip_tags(Settings::get('app.email')) . "\r\n";
+        $headers .= "MIME-Version: 1.0\r\n";
+
+        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+
+        $message = 'Jei tikrai norite gauti naują slaptažodį puslapyje ' . Settings::get('app.base_url') . ' paspauskite žemiau esančią patvirtinimo nuorodą <br /><br />';
+        $message .= 'Patvirtinimo nuoroda: ' . $verifyLink;
+
+        mail($email, $subject, $message, $headers);
+
+        return Output::json(['content' => Language::_('Slaptažodžio keitimo patvirtinimas nusiųstas Jums į el. paštą'), 'type' => 'success']);
+    }
 }
 
 if (isset($_POST['set_language'])) {
@@ -432,6 +509,10 @@ if (isset($_POST['get_sms_data'])) {
 
 if (isset($_POST['settings_save'])) {
     $email = Input::get('email');
+    $oldPassword = Input::get('old_password');
+    $newPassword = Input::get('new_password');
+    $server = Session::get('active_server_id');
+    $username = Session::get('server_account_login');
     $update = false;
 
     if ( ! empty($email)) {
@@ -444,22 +525,42 @@ if (isset($_POST['settings_save'])) {
         if ($emailExists)
             Output::json(Language::_('Toks el. pašto adresas jau naudojamas'));
 
-        if (Auth::user()->email != $email)
+        if (Auth::user()->email != $email) {
+            DB::query('UPDATE users SET email = :email WHERE id = :id', [
+                ':email' => $email,
+                ':id' => Session::get('donate_user_id')
+            ]);
+
             $update = true;
+        }
     } else {
         if (Auth::user()->email)
-            Output::json('Būtina nurodyti el. pašto adresą');
+            Output::json(Language::_('Būtina nurodyti el. pašto adresą'));
+    }
+
+    if ($oldPassword) {
+        if ( ! $newPassword)
+            Output::json(Language::_('Būtina nurodyti naują slaptažodį'));
+        
+        $oldEncryptedPassword = L2::hash($oldPassword, Server::getHashType($server));
+        $serverResults = DB::first('SELECT * FROM ' . SQL::get('sql.accounts.accounts', Server::getID($server)) . ' WHERE ' . SQL::get('sql.accounts.login', Server::getID($server)) . ' = ? AND ' . SQL::get('sql.accounts.password', Server::getID($server)) . ' = ?', [$username, $oldEncryptedPassword], 'server', $server, 'login');
+        if ( ! $serverResults)
+            Output::json(Language::_('Neteisingas senas slaptažodis'));
+
+        if (Settings::get('app.settings.min_password') > 0 && strlen($newPassword) <= Settings::get('app.settings.min_password')) 
+            Output::json(Language::_('Minimalus slaptažodžio ilgis: %s simbolių (-ai)', [Settings::get('app.settings.min_password')]));
+
+        $newEncryptedPassword = L2::hash($newPassword, Server::getHashType($server));
+        
+        DB::query('UPDATE ' . SQL::get('sql.accounts.accounts', Server::getID($server)) . ' SET ' . SQL::get('sql.accounts.password', Server::getID($server)) . ' = ? WHERE ' . SQL::get('sql.accounts.login', Server::getID($server)) . ' = ?', [$newEncryptedPassword, $username], 'server', $server, 'login');
+        
+        $update = true;
     }
 
     if ($update) {
-        DB::query('UPDATE users SET email = :email WHERE id = :id', [
-            ':email' => $email,
-            ':id' => Session::get('donate_user_id')
-        ]);
-
-        Output::json(['content' => 'Nustatymai išsaugoti', 'type' => 'success']);
+        Output::json(['content' => Language::_('Nustatymai išsaugoti'), 'type' => 'success']);
     } else {
-        Output::json('Nėra nustatymų kuriuos reikėtų išsaugoti');
+        Output::json(Language::_('Nėra nustatymų kuriuos reikėtų išsaugoti'));
     }
 }
 

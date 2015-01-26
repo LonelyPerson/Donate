@@ -2,7 +2,7 @@
 
 if ( ! defined('STARTED')) {
     define('STARTED', true);
-    error_reporting(0);
+    error_reporting(1);
 
     // some global settings
     if ( ! defined('ROOT_PATH'))
@@ -22,7 +22,7 @@ if ( ! defined('STARTED')) {
 
     // load all settings
     Settings::load();
-    
+
     if (Settings::get('app.timezone'))
         date_default_timezone_set(Settings::get('app.timezone'));
     

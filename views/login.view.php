@@ -34,6 +34,9 @@
 
             <div class="input">
                 <input type="button" name="auth" class="btn btn-primary pull-right" value="<?=Language::_('Prisijungti');?>" />
+                <?php if (Settings::get('app.recovery.enabled')) { ?>
+                    <a href="javacript: void(0);" class="pull-right" style="margin-top: 8px; margin-right: 10px;" onclick="loadView('recovery'); return false;"><?=Language::_('Pamiršai slaptažodį?');?></a>
+                <?php } ?>
             </div>
             
             <div class="clearfix"></div>

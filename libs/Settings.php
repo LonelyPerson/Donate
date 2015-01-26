@@ -8,7 +8,7 @@ class Settings {
         $app = include ROOT_PATH . '/settings/app.php';
         
         self::$settings['database'] = $database;
-        
+
         if ($app['base_url'] == '')
             $app['base_url'] = URL::baseUrl();
         

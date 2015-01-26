@@ -69,4 +69,22 @@
     <translation key="Neteisingai sudarytas el. pašto adresas" value="" />
     <translation key="Toks el. pašto adresas jau naudojamas" value="" />
     <translation key="Būtina nurodyti el. pašto adresą" value="" />
+    <translation key="Slaptažodžio atstatymas" value="" />
+    <translation key="El. pašto adresas arba slapyvardis" value="" />
+    <translation key="Gauti naują slaptažodį" value="" />
+    <translation key="Pamiršai slaptažodį?" value="" />
+    <translation key="Toks el. pašto adresas nerastas" value="" />
+    <translation key="Vartotojas tokiu slapyvardžių nerastas" value="" />
+    <translation key="Negalite keisti slaptažodžio dažniau, nei kartą per 12 valand" value="" />
+    <translation key="Slaptažodžio keitimo patvirtinimas nusiųstas Jums į el. paštą" value="" />
+    <translation key="Slaptažodžio pakeitimas patvirtinas sėkmingai, naujas slaptažodis išsiųstas į Jūsų el. paštą." value="" />
+    <translation key="Slaptažodžio pakeitimas nepatvirtinas, jei nenumanote kodėl tai galėjo įvykti, susisiekite su administratoriumi" value="" />
+    <translation key="Būtina nurodyti naują slaptažodį" value="" />
+    <translation key="Neteisingas senas slaptažodis" value="" />
+    <translation key="Senas slaptažodis" value="" />
+    <translation key="Dabartinis slaptažodis" value="" />
+    <translation key="Minimalus slaptažodžio ilgis: %s simbolių (-ai)" value="" />
+
+    <translation key="Nustatymai išsaugoti" value="" />
+    <translation key="Nėra nustatymų kuriuos reikėtų išsaugoti" value="" />
 </language>

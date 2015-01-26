@@ -4,10 +4,15 @@ return [
     'base_url' => '',
     'css_theme' => 'lumen', // cosmo, darkly, lumen, paper, sandstone, simplex, slate, spacelab, superhero, united, yeti
     'timezone' => 'Europe/Vilnius',
+    'email' => 'justas.asmanavicius@gmail.com',
     'registration' => [
         'enabled' => true,
         'min' => 4,
         'max' => 16
+    ],
+    'recovery' => [
+        'enabled' => true,
+        'in_menu' => true
     ],
     'shop' => [
         'enabled' => true
@@ -38,7 +43,8 @@ return [
         'key' => '6Lf7lgATAAAAALOM3MwgHdFaaU8KzIwjvZQLb34x',
         'secret' => '6Lf7lgATAAAAALTriss9mruOYAzehs2KZ05awXeN',
         'login' => false,
-        'registration' => false
+        'registration' => false,
+        'recovery' => false
     ],
     'sms' => [
         'paysera' => true,
@@ -48,7 +54,8 @@ return [
         'limit' => 20
     ],
     'settings' => [
-        'enabled' => true
+        'enabled' => true,
+        'min_password' => 5,
     ],
     'language' => [
         'enabled' => [

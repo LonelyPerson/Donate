@@ -8,6 +8,9 @@
             <?php if (Settings::get('app.registration.enabled')) { ?>
                 <li id="registration"><a href="javacript: void(0);" onclick="loadView('registration'); return false;"><?=Language::_('Registracija');?></a></li>
             <?php } ?>
+            <?php if (Settings::get('app.recovery.in_menu') && Settings::get('app.recovery.enabled')) { ?>
+                <li id="recovery"><a href="javacript: void(0);" onclick="loadView('recovery'); return false;"><?=Language::_('Slaptažodžio atstatymas');?></a></li>
+            <?php } ?>
         </ul>
     </div>
 </div>
