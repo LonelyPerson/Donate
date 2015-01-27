@@ -10,3 +10,6 @@ Jei jau naudojatės sistema ir norite atsinaujinti failus į naujausius, nepamir
 
 #Mokejimai.lt SMS nustatymai
 Kelias iki callback failo mokejimai.lt sistemoje (sms): http://manopuslapis.lt/pay.php?id=paysera-sms&action=notify (p.s vietoje manopuslapis.lt nurodykite savo donate sistemos puslapį).
+
+#Paygol SMS nustatymai
+Kelias iki callback failo paygol sistemoje: http://manopuslapis.lt/pay.php?id=paygol&action=notify (p.s vietoje manopuslapis.lt nurodykite savo donate sistemos puslapį). Kitų URL (accept ir cancel) nurodyti greičiausiai neprireiks.
