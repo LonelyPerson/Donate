@@ -112,3 +112,10 @@ body {
 #jas-content .sms-flags li:active {
     opacity: 1;
 }
+
+#jas-content .email-verified {
+    color: #27ae60;
+}
+#jas-content .email-not-verified {
+    color: #c0392b;
+}

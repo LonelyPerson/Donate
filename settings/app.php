@@ -39,6 +39,15 @@ return [
         'version' => 1.6,
         'currency' => 'eur'
     ],
+    'paygol' => [
+        'enabled' => true,
+        'id' => 328750,
+        'min' => 1,
+        'max' => 5,
+        'price' => 1,
+        'text' => 'Donate taskai',
+        'currency' => 'eur'
+    ],
     'captcha' => [
         'key' => '6Lf7lgATAAAAALOM3MwgHdFaaU8KzIwjvZQLb34x',
         'secret' => '6Lf7lgATAAAAALTriss9mruOYAzehs2KZ05awXeN',

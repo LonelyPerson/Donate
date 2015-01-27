@@ -432,9 +432,9 @@ if (isset($_POST['mokejimai'])) {
     $amount = round(Settings::get('app.mokejimai.price') * $data['sum'], 2);
     $amount = $amount * 100;
 
-    $result = DB::first("SELECT * FROM mokejimai WHERE orderid = :orderid", [':orderid' => $order]);
-    if ( ! isset($result->order)) {
-        DB::query("INSERT INTO mokejimai SET orderid = :orderid, user_id = :user_id, status = :status, amount = :amount, points = :points, ip = :ip, start_date = :start_date", [
+    $result = DB::first("SELECT * FROM mokejimai WHERE orderid = ?", [$order]);
+    if ( ! isset($result->orderid)) {
+        DB::query("INSERT INTO mokejimai SET orderid = :orderid, user_id = :user_id, status = :status, amount = :amount, currency = :currency, points = :points, ip = :ip, start_date = :start_date", [
             ':orderid' => $order,
             ':user_id' => Session::get('donate_user_id'),
             ':status' => 'waiting',
@@ -465,6 +465,43 @@ if (isset($_POST['mokejimai'])) {
     }
 
     return Output::json(['submit' => 'submit', 'sign' => $request['sign'], 'data' => $request['data']]);
+}
+
+if (isset($_POST['paygol'])) {
+    $data = $_POST;
+    
+    if ( ! Input::get('order') || ! Input::get('pg_price'))
+        return Output::json(Language::_('Neįvedėte taškų sumos'));
+    
+    $number = preg_match("/^-?(?:\d+|\d*\.\d+)$/", Input::get('pg_price'));
+    if ( ! $number)
+        return Output::json(Language::_('Prašome įvesti tik skaičius'));
+    
+    if (Input::get('pg_price') < Settings::get('app.paygol.min'))
+        return Output::json(Language::_('Minimalus taškų kiekis: %s', [Settings::get('app.paygol.min')]));
+    
+    if (Settings::get('app.paygol.max') && Input::get('pg_price') > Settings::get('app.paygol.max'))
+        return Output::json(Language::_('Maksimalus taškų kiekis: %s', [Settings::get('app.paygol.max')]));
+    
+    $order = $data['order'];
+    $amount = round(Settings::get('app.paygol.price') * $data['pg_price'], 2);
+    $amount = $amount * 100;
+
+    $result = DB::first("SELECT * FROM paygol WHERE orderid = ?", [$order]);
+    if ( ! isset($result->orderid)) {
+        DB::query("INSERT INTO paygol SET orderid = :orderid, user_id = :user_id, status = :status, amount = :amount, currency = :currency, points = :points, ip = :ip, start_date = :start_date", [
+            ':orderid' => $order,
+            ':user_id' => Session::get('donate_user_id'),
+            ':status' => 'waiting',
+            ':amount' => $amount,
+            ':currency' => Settings::get('app.paygol.currency'),
+            ':points' => $data['pg_price'],
+            ':ip' => $_SERVER['REMOTE_ADDR'],
+            ':start_date' => date('Y-m-d H:i:s')
+        ]);
+    }
+
+    return Output::json(['submit' => 'submit']);
 }
 
 if (isset($_POST['get_sms_data'])) {
@@ -514,6 +551,8 @@ if (isset($_POST['settings_save'])) {
     $server = Session::get('active_server_id');
     $username = Session::get('server_account_login');
     $update = false;
+    $emailVerify = false;
+    $emailForm = '';
 
     if ( ! empty($email)) {
         $emailValidationPattern = '/^(?!(?:(?:\\x22?\\x5C[\\x00-\\x7E]\\x22?)|(?:\\x22?[^\\x5C\\x22]\\x22?)){255,})(?!(?:(?:\\x22?\\x5C[\\x00-\\x7E]\\x22?)|(?:\\x22?[^\\x5C\\x22]\\x22?)){65,}@)(?:(?:[\\x21\\x23-\\x27\\x2A\\x2B\\x2D\\x2F-\\x39\\x3D\\x3F\\x5E-\\x7E]+)|(?:\\x22(?:[\\x01-\\x08\\x0B\\x0C\\x0E-\\x1F\\x21\\x23-\\x5B\\x5D-\\x7F]|(?:\\x5C[\\x00-\\x7F]))*\\x22))(?:\\.(?:(?:[\\x21\\x23-\\x27\\x2A\\x2B\\x2D\\x2F-\\x39\\x3D\\x3F\\x5E-\\x7E]+)|(?:\\x22(?:[\\x01-\\x08\\x0B\\x0C\\x0E-\\x1F\\x21\\x23-\\x5B\\x5D-\\x7F]|(?:\\x5C[\\x00-\\x7F]))*\\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-+[a-z0-9]+)*\\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-+[a-z0-9]+)*)|(?:\\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\\]))$/iD';
@@ -526,12 +565,67 @@ if (isset($_POST['settings_save'])) {
             Output::json(Language::_('Toks el. pašto adresas jau naudojamas'));
 
         if (Auth::user()->email != $email) {
+<<<<<<< HEAD
+            while(true) {
+                $code = File::randomString(35);
+                $result = DB::first('SELECT * FROM users WHERE email_verify_code = ?', [$code]);
+                if ( ! $result)
+                    break;
+            }
+
+            $result = DB::first('SELECT * FROM users WHERE id = :id', [
+                ':id' => Session::get('donate_user_id')
+            ]);
+
+            DB::query('UPDATE users SET email_status = :email_status, email = :email WHERE id = :id', [
+                ':id' => Session::get('donate_user_id'),
+                ':email' => $email,
+                ':email_status' => 2
+            ]);
+
+            DB::query('INSERT INTO email_verify SET user_id = :user_id, old_email = :old_email, new_email = :new_email, code = :code', [
+                ':user_id' => $result->id, 
+                ':old_email' => $result->email,
+                ':new_email' => $email,
+                ':code' => $code,
+            ]);
+
+            $code = base64_encode($code);
+
+            $verifyLink = Settings::get('app.base_url') . '/verify.php?id=email&action=verify&r=' . $code;
+
+            $subject = 'El. pašto adreso patvirtinimas';
+
+            $headers = "From: " . strip_tags(Settings::get('app.email')) . "\r\n";
+            $headers .= "Reply-To: ". strip_tags(Settings::get('app.email')) . "\r\n";
+            $headers .= "MIME-Version: 1.0\r\n";
+
+            $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+
+            $message = 'Jei tikrai norite patvirtinti el. pašto adresą ' . $email . ' puslapyje ' . Settings::get('app.base_url') . ' paspauskite žemiau esančią patvirtinimo nuorodą <br /><br />';
+            $message .= 'Patvirtinimo nuoroda: ' . $verifyLink;
+
+            mail($email, $subject, $message, $headers);
+
+            $update = true;
+            $emailVerify = true;
+            $emailForm = '<input type="text" name="email" class="form-control" placeholder="' . Language::_('El. pašto adresas') . '" disabled="disabled" value="' . Auth::user()->email . '" />
+                          <span class="input-group-addon email-not-verified">
+                                <span 
+                                    data-toggle="tooltip" 
+                                    data-placement="top" 
+                                    title="' . Language::_('El. pašto adresas laukia patvirtinimo') . '" 
+                                    class="glyphicon glyphicon-time" 
+                                    aria-hidden="true"></span>
+                            </span>';
+=======
             DB::query('UPDATE users SET email = :email WHERE id = :id', [
                 ':email' => $email,
                 ':id' => Session::get('donate_user_id')
             ]);
 
             $update = true;
+>>>>>>> origin/master
         }
     } else {
         if (Auth::user()->email)
@@ -546,10 +640,17 @@ if (isset($_POST['settings_save'])) {
         $serverResults = DB::first('SELECT * FROM ' . SQL::get('sql.accounts.accounts', Server::getID($server)) . ' WHERE ' . SQL::get('sql.accounts.login', Server::getID($server)) . ' = ? AND ' . SQL::get('sql.accounts.password', Server::getID($server)) . ' = ?', [$username, $oldEncryptedPassword], 'server', $server, 'login');
         if ( ! $serverResults)
             Output::json(Language::_('Neteisingas senas slaptažodis'));
+<<<<<<< HEAD
 
         if (Settings::get('app.settings.min_password') > 0 && strlen($newPassword) <= Settings::get('app.settings.min_password')) 
             Output::json(Language::_('Minimalus slaptažodžio ilgis: %s simbolių (-ai)', [Settings::get('app.settings.min_password')]));
 
+=======
+
+        if (Settings::get('app.settings.min_password') > 0 && strlen($newPassword) <= Settings::get('app.settings.min_password')) 
+            Output::json(Language::_('Minimalus slaptažodžio ilgis: %s simbolių (-ai)', [Settings::get('app.settings.min_password')]));
+
+>>>>>>> origin/master
         $newEncryptedPassword = L2::hash($newPassword, Server::getHashType($server));
         
         DB::query('UPDATE ' . SQL::get('sql.accounts.accounts', Server::getID($server)) . ' SET ' . SQL::get('sql.accounts.password', Server::getID($server)) . ' = ? WHERE ' . SQL::get('sql.accounts.login', Server::getID($server)) . ' = ?', [$newEncryptedPassword, $username], 'server', $server, 'login');
@@ -558,7 +659,14 @@ if (isset($_POST['settings_save'])) {
     }
 
     if ($update) {
+<<<<<<< HEAD
+        if ($emailVerify)
+            Output::json(['content' => Language::_('Nustatymai išsaugoti, naujojo el. pašto patvirtinimo nuoroda nusiųsta į senąjį el. pašto adresą'), 'type' => 'success', 'verify-email' => 'ok', 'email_form' => $emailForm]);
+        else
+            Output::json(['content' => Language::_('Nustatymai išsaugoti'), 'type' => 'success']);
+=======
         Output::json(['content' => Language::_('Nustatymai išsaugoti'), 'type' => 'success']);
+>>>>>>> origin/master
     } else {
         Output::json(Language::_('Nėra nustatymų kuriuos reikėtų išsaugoti'));
     }

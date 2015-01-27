@@ -84,7 +84,18 @@
     <translation key="Senas slaptažodis" value="" />
     <translation key="Dabartinis slaptažodis" value="" />
     <translation key="Minimalus slaptažodžio ilgis: %s simbolių (-ai)" value="" />
+<<<<<<< HEAD
+    <translation key="Nustatymai išsaugoti" value="" />
+    <translation key="Nėra nustatymų kuriuos reikėtų išsaugoti" value="" />
+    <translation key="Paygol" value="" />
+    <translation key="Jūsų apmokėjimas per Paygol sistemą užskaitytas" value="" />
+    <translation key="Papildytas balansas per Paygol sistemą. Papildymo suma: %s" value="" />
+    <translation key="El. pašto adresas laukia patvirtinimo" value="" />
+    <translation key="El. pašto adresas patvirtintas" value="" />
+    <translation key="Nenurodytas el. pašto adresas" value="" />
+=======
 
     <translation key="Nustatymai išsaugoti" value="" />
     <translation key="Nėra nustatymų kuriuos reikėtų išsaugoti" value="" />
+>>>>>>> origin/master
 </language>

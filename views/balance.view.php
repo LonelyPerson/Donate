@@ -69,5 +69,33 @@
                 </form>
             </fieldset>
         <?php } ?>
+
+        <?php if (Settings::get('app.paygol.enabled')) { ?>
+            <fieldset class="box">
+                <legend><?=Language::_('Paygol');?> <span><?php echo 1 . ' = ' . Settings::get('app.paygol.price') . ' ' . ucfirst(Settings::get('app.paygol.currency'));  ?></span></legend>
+
+                <div class="alert alert-info"><?=Language::_('Minimali taškų suma: %s Maksimali taškų suma: %s', [Settings::get('app.paygol.min'), Settings::get('app.paygol.max')]);?></div>
+
+                <form name="pg_frm" method="post" action="https://www.paygol.com/pay" id='jas-paygol-form' class="form-inline">
+                    <input type="hidden" name="pg_serviceid" value="<?=Settings::get('app.paygol.id');?>">
+                    <input type="hidden" name="pg_currency" value="<?=strtoupper(Settings::get('app.paygol.currency'));?>">
+                    <input type="hidden" name="pg_name" value="<?=Settings::get('app.paygol.text');?>">
+                    <input type="hidden" name="pg_custom" value="<?php echo $pgItemNumber; ?>">
+                    <input type="hidden" name="pg_return_url" value="<?=Settings::get('app.base_url') . '/pay.php?id=paygol&action=verify';?>">
+                    <input type="hidden" name="pg_cancel_url" value="<?=Settings::get('app.base_url') . '/pay.php?id=paygol&action=cancel';?>">
+
+                    <input type="hidden" name="paygol" value="paygol" />
+                    <input type="hidden" name="order" value="<?php echo $pgItemNumber; ?>" />
+
+                    <div class="input-group col-sm-9">
+                        <span class="input-group-addon paygol-price" data-price="<?=Settings::get('app.paygol.price');?>" data-max="<?=Settings::get('app.paygol.max');?>" data-min="<?=Settings::get('app.paygol.min');?>"><span>0.00</span> <?php echo ucfirst(Settings::get('app.mokejimai.currency')); ?></span>
+                        <input type='text' name="pg_price" class="form-control" id="temp_amount" autocomplete='off' />
+                    </div>
+
+                    <input type='button' name="jas_paygol_submit" class="btn btn-primary" value='<?=Language::_('Patvirtinti');?>' />
+                </form>
+            </fieldset>
+        <?php } ?>
+    </form>
     </div>
 </div>

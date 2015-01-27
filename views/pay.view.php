@@ -18,5 +18,13 @@
         <?php if ($id == 'mokejimai' && $action == 'cancel') { ?>
             <?=Language::_('Jūs atšaukėte apmokėjimą');?>
         <?php } ?>
+
+        <?php if ($id == 'paygol' && $action == 'verify') { ?>
+            <?=Language::_('Jūsų apmokėjimas per Paygol sistemą užskaitytas');?>
+        <?php } ?>
+
+        <?php if ($id == 'paygol' && $action == 'cancel') { ?>
+            <?=Language::_('Jūs atšaukėte apmokėjimą');?>
+        <?php } ?>
     </div>
 </div>

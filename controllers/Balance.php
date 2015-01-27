@@ -4,6 +4,7 @@ class Balance {
     public function index() {
         // order / item number
         $itemNumber = md5(time());
+        $pgItemNumber = md5(time() . 'pg' . time());
         
         // paysera
         try {
@@ -33,6 +34,6 @@ class Balance {
                 $payseraSms[$country] = $item;
         }
         
-        return View::make('balance', ['itemNumber' => $itemNumber, 'hiddenInputs' => $request, 'payseraSms' => $payseraSms]);
+        return View::make('balance', ['itemNumber' => $itemNumber, 'hiddenInputs' => $request, 'payseraSms' => $payseraSms, 'pgItemNumber' => $pgItemNumber]);
     }
 }

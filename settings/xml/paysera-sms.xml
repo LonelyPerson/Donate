@@ -11,32 +11,12 @@
         <response>Test</response>
     </item>
     <item>
-        <keyword>DONATE 2</keyword>
-        <number>1679</number>
+        <keyword>don</keyword>
+        <number>1398</number>
         <country>LT</country>
         <currency>EUR</currency>
-        <price>2</price>
-        <points>2</points>
-        <note></note>
-        <response>Test</response>
-    </item>
-    <item>
-        <keyword>DONATE 3</keyword>
-        <number>8745</number>
-        <country>GB</country>
-        <currency>EUR</currency>
-        <price>2</price>
-        <points>2</points>
-        <note></note>
-        <response>Test</response>
-    </item>
-    <item>
-        <keyword>DONATE 5</keyword>
-        <number>7777</number>
-        <country>JP</country>
-        <currency>EUR</currency>
-        <price>2</price>
-        <points>2</points>
+        <price>0.58</price>
+        <points>5.5</points>
         <note></note>
         <response>Test</response>
     </item>

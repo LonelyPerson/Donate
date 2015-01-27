@@ -30,6 +30,7 @@ $(document).ready(function() {
             });
         });
 
+        // mokejimai
         $('#jas-mokejimai-form input[name="sum"]').on('keyup', function() {
             var value = parseFloat($(this).val());
             var min = $('#jas-mokejimai-form .mokejimai-price').attr('data-min');
@@ -56,6 +57,38 @@ $(document).ready(function() {
                     $('#jas-mokejimai-form input[name="data"]').val(response.data);
                     
                     $('#jas-mokejimai-form').submit();
+                } else {
+                    $("#response").html(formatMessage(response.content, response.type));
+                    
+                    unblockScreen();
+                }
+            });
+        });
+
+        // paygol
+        $('#jas-paygol-form input[name="pg_price"]').on('keyup', function() {
+            var value = parseFloat($(this).val());
+            var min = $('#jas-paygol-form .paygol-price').attr('data-min');
+            var max = $('#jas-paygol-form .paygol-price').attr('data-max');
+            var price = parseFloat($('#jas-paygol-form .paygol-price').attr('data-price'));
+
+            if ($.isNumeric(value) && value <= max && value >= min) {
+                var _price = parseFloat(value * price);
+                _price = _price.toFixed(2);
+                $('#jas-paygol-form .paygol-price span').text(_price);
+            } else {
+                $('#jas-paygol-form .paygol-price span').text('0.00');
+            }
+        });
+
+        $('#jas-paygol-form input[name="jas_paygol_submit"]').on('click', function() {
+            blockScreen();
+            
+            var data = $('#jas-paygol-form').serialize();
+
+            $.post('ajax.php', data, function(response) {
+                if (response.hasOwnProperty('submit')) {
+                    $('#jas-paygol-form').submit();
                 } else {
                     $("#response").html(formatMessage(response.content, response.type));
                     
