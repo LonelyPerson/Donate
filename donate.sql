@@ -67,16 +67,11 @@ CREATE TABLE IF NOT EXISTS `sms` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS `recovery` (
-<<<<<<< HEAD
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-=======
 `id` int(11) NOT NULL AUTO_INCREMENT,
->>>>>>> origin/master
   `user_id` int(11) NOT NULL,
   `code` varchar(255) NOT NULL,
   `server` int(11) NOT NULL,
   `active_until` varchar(100) NOT NULL,
-<<<<<<< HEAD
   `add_date` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
@@ -106,7 +101,3 @@ CREATE TABLE IF NOT EXISTS `paygol` (
   `end_date` datetime NOT NULL,
   PRIMARY KEY (`orderid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-=======
-  `add_date` datetime NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
->>>>>>> origin/master
