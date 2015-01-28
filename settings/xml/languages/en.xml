@@ -78,13 +78,12 @@
     <translation key="Negalite keisti slaptažodžio dažniau, nei kartą per 12 valand" value="" />
     <translation key="Slaptažodžio keitimo patvirtinimas nusiųstas Jums į el. paštą" value="" />
     <translation key="Slaptažodžio pakeitimas patvirtinas sėkmingai, naujas slaptažodis išsiųstas į Jūsų el. paštą." value="" />
-    <translation key="Slaptažodžio pakeitimas nepatvirtinas, jei nenumanote kodėl tai galėjo įvykti, susisiekite su administratoriumi" value="" />
+    <translation key="Nepavyko patvirtinti slaptažodžio keitimo" value="" />
     <translation key="Būtina nurodyti naują slaptažodį" value="" />
     <translation key="Neteisingas senas slaptažodis" value="" />
     <translation key="Senas slaptažodis" value="" />
     <translation key="Dabartinis slaptažodis" value="" />
     <translation key="Minimalus slaptažodžio ilgis: %s simbolių (-ai)" value="" />
-<<<<<<< HEAD
     <translation key="Nustatymai išsaugoti" value="" />
     <translation key="Nėra nustatymų kuriuos reikėtų išsaugoti" value="" />
     <translation key="Paygol" value="" />
@@ -93,9 +92,12 @@
     <translation key="El. pašto adresas laukia patvirtinimo" value="" />
     <translation key="El. pašto adresas patvirtintas" value="" />
     <translation key="Nenurodytas el. pašto adresas" value="" />
-=======
-
-    <translation key="Nustatymai išsaugoti" value="" />
-    <translation key="Nėra nustatymų kuriuos reikėtų išsaugoti" value="" />
->>>>>>> origin/master
+    <translation key="El. pašto adreso patvirtinimas" value="" />
+    <translation key="Jei tikrai norite patvirtinti el. pašto adresą %s puslapyje %s paspauskite žemiau esančią patvirtinimo nuorodą" value="" />
+    <translation key="Nustatymai išsaugoti, el. pašto patvirtinimo nuoroda išsiųsta Jums į el. paštą" value="" />
+    <translation key="Nepavyko patvirtinti el. pašto adreso" value="" />
+    <translation key="Slaptažodžio keitimo patvirtinimas" value="" />
+    <translation key="Jei tikrai norite gauti naują slaptažodį puslapyje %s paspauskite žemiau esančią patvirtinimo nuorodą" value="" />
+    <translation key="Naujas slaptažodis" value="" />
+    <translation key="Jūsų naujasis slaptažodis yra: %s" value="" />
 </language>

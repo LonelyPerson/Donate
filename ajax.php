@@ -21,7 +21,7 @@ if (isset($_GET['route'])) {
         $m = $ex[1];
     }
     
-    if (($c != 'login' && $c != 'registration' && $c != 'recovery') && ! Auth::isLoggedIn()) exit('error #4');
+    if (($c != 'login' && $c != 'registration' && $c != 'recovery' && $c != 'information') && ! Auth::isLoggedIn()) exit('error #4');
     
     include ROOT_PATH . '/controllers/' . ucfirst($c) . '.php';
 
@@ -81,7 +81,7 @@ if (isset($_POST['registration'])) {
     $encodedPassword = L2::hash($password, Server::getHashType($server));
     
     DB::query('INSERT INTO ' . SQL::get('sql.accounts.accounts', Server::getID($server)) . ' SET ' . SQL::get('sql.accounts.login', Server::getID($server)) . ' = ?, ' . SQL::get('sql.accounts.password', Server::getID($server)) . ' = ?', [$username, $encodedPassword], 'server', $server, 'login');
-    
+
     return Output::json(['content' => Language::_('Registracija sėkminga'), type => 'success', 'success' => 'ok']);
 }
 
@@ -143,20 +143,12 @@ if (isset($_POST['recovery'])) {
 
         $code = base64_encode($code);
 
-        $verifyLink = Settings::get('app.base_url') . '/recovery.php?id=recovery&action=verify&r=' . $code;
+        $verifyLink = Settings::get('app.base_url') . '/e.php/recovery/verify/' . $code;
 
-        $subject = 'Slaptažodžio keitimo patvirtinimas';
+        $message = Language::_('Jei tikrai norite gauti naują slaptažodį puslapyje paspauskite žemiau esančią patvirtinimo nuorodą', [Settings::get('app.base_url')]) . '<br />';
+        $message .= $verifyLink;
 
-        $headers = "From: " . strip_tags(Settings::get('app.email')) . "\r\n";
-        $headers .= "Reply-To: ". strip_tags(Settings::get('app.email')) . "\r\n";
-        $headers .= "MIME-Version: 1.0\r\n";
-
-        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-
-        $message = 'Jei tikrai norite gauti naują slaptažodį puslapyje ' . Settings::get('app.base_url') . ' paspauskite žemiau esančią patvirtinimo nuorodą <br /><br />';
-        $message .= 'Patvirtinimo nuoroda: ' . $verifyLink;
-
-        mail($email, $subject, $message, $headers);
+        Mail::send($email, Language::_('Slaptažodžio keitimo patvirtinimas'), $message);
 
         return Output::json(['content' => Language::_('Slaptažodžio keitimo patvirtinimas nusiųstas Jums į el. paštą'), 'type' => 'success']);
     }
@@ -386,9 +378,9 @@ if (isset($_POST['paypal'])) {
         $querystring .= "$key=$value&";
     }
 
-    $querystring .= "return=" . urlencode(stripslashes(Settings::get('app.base_url') . '/pay.php?id=paypal&action=verify')) . "&";
-    $querystring .= "cancel_return=" . urlencode(stripslashes(Settings::get('app.base_url') . '/pay.php?id=paypal&action=cancel')) . "&";
-    $querystring .= "notify_url=" . urlencode(Settings::get('app.base_url') . '/pay.php?id=paypal&action=notify');
+    $querystring .= "return=" . urlencode(stripslashes(Settings::get('app.base_url') . '/e.php/paypal/verified')) . "&";
+    $querystring .= "cancel_return=" . urlencode(stripslashes(Settings::get('app.base_url') . '/e.php/paypal/cancel')) . "&";
+    $querystring .= "notify_url=" . urlencode(Settings::get('app.base_url') . '/e.php/paypal/notify');
 
     $results = DB::first("SELECT * FROM paypal WHERE item_number = :item_number", [':item_number' => $data['item_number']]);
     if ( ! isset($results->id)) {
@@ -454,9 +446,9 @@ if (isset($_POST['mokejimai'])) {
             'orderid'       => $order,
             'currency'      => strtoupper(Settings::get('app.mokejimai.currency')),
             'paytext'       => Settings::get('app.mokejimai.text') . ' (nr. [order_nr]) ([site_name])',
-            'accepturl'     => Settings::get('app.base_url') . '/pay.php?id=mokejimai&action=verify',
-            'cancelurl'     => Settings::get('app.base_url') . '/pay.php?id=mokejimai&action=cancel',
-            'callbackurl'   => Settings::get('app.base_url') . '/pay.php?id=mokejimai&action=notify',
+            'accepturl'     => Settings::get('app.base_url') . '/e.php/paysera-bank/verified',
+            'cancelurl'     => Settings::get('app.base_url') . '/e.php/paysera-bank/cancel',
+            'callbackurl'   => Settings::get('app.base_url') . '/e.php/paysera-bank/notify',
             'version'       => Settings::get('app.mokejimai.version'),
             'test'          => Settings::get('app.mokejimai.test')
         ));
@@ -554,6 +546,7 @@ if (isset($_POST['settings_save'])) {
     $emailVerify = false;
     $emailForm = '';
 
+    // change email
     if ( ! empty($email)) {
         $emailValidationPattern = '/^(?!(?:(?:\\x22?\\x5C[\\x00-\\x7E]\\x22?)|(?:\\x22?[^\\x5C\\x22]\\x22?)){255,})(?!(?:(?:\\x22?\\x5C[\\x00-\\x7E]\\x22?)|(?:\\x22?[^\\x5C\\x22]\\x22?)){65,}@)(?:(?:[\\x21\\x23-\\x27\\x2A\\x2B\\x2D\\x2F-\\x39\\x3D\\x3F\\x5E-\\x7E]+)|(?:\\x22(?:[\\x01-\\x08\\x0B\\x0C\\x0E-\\x1F\\x21\\x23-\\x5B\\x5D-\\x7F]|(?:\\x5C[\\x00-\\x7F]))*\\x22))(?:\\.(?:(?:[\\x21\\x23-\\x27\\x2A\\x2B\\x2D\\x2F-\\x39\\x3D\\x3F\\x5E-\\x7E]+)|(?:\\x22(?:[\\x01-\\x08\\x0B\\x0C\\x0E-\\x1F\\x21\\x23-\\x5B\\x5D-\\x7F]|(?:\\x5C[\\x00-\\x7F]))*\\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-+[a-z0-9]+)*\\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-+[a-z0-9]+)*)|(?:\\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\\]))$/iD';
 
@@ -565,10 +558,9 @@ if (isset($_POST['settings_save'])) {
             Output::json(Language::_('Toks el. pašto adresas jau naudojamas'));
 
         if (Auth::user()->email != $email) {
-<<<<<<< HEAD
             while(true) {
                 $code = File::randomString(35);
-                $result = DB::first('SELECT * FROM users WHERE email_verify_code = ?', [$code]);
+                $result = DB::first('SELECT * FROM email_verify WHERE code = ?', [$code]);
                 if ( ! $result)
                     break;
             }
@@ -583,29 +575,22 @@ if (isset($_POST['settings_save'])) {
                 ':email_status' => 2
             ]);
 
-            DB::query('INSERT INTO email_verify SET user_id = :user_id, old_email = :old_email, new_email = :new_email, code = :code', [
+            DB::query('INSERT INTO email_verify SET user_id = :user_id, old_email = :old_email, new_email = :new_email, code = :code, start_date = :start_date', [
                 ':user_id' => $result->id, 
                 ':old_email' => $result->email,
                 ':new_email' => $email,
                 ':code' => $code,
+                ':start_date' => date('Y-m-d H:i:s')
             ]);
 
             $code = base64_encode($code);
 
-            $verifyLink = Settings::get('app.base_url') . '/verify.php?id=email&action=verify&r=' . $code;
+            $verifyLink = Settings::get('app.base_url') . '/e.php/email/verify/' . $code;
 
-            $subject = 'El. pašto adreso patvirtinimas';
+            $message = Language::_('Jei tikrai norite patvirtinti el. pašto adresą %s puslapyje %s paspauskite žemiau esančią patvirtinimo nuorodą', [$email, Settings::get('app.base_url')]) . '<br />';
+            $message .= $verifyLink;
 
-            $headers = "From: " . strip_tags(Settings::get('app.email')) . "\r\n";
-            $headers .= "Reply-To: ". strip_tags(Settings::get('app.email')) . "\r\n";
-            $headers .= "MIME-Version: 1.0\r\n";
-
-            $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-
-            $message = 'Jei tikrai norite patvirtinti el. pašto adresą ' . $email . ' puslapyje ' . Settings::get('app.base_url') . ' paspauskite žemiau esančią patvirtinimo nuorodą <br /><br />';
-            $message .= 'Patvirtinimo nuoroda: ' . $verifyLink;
-
-            mail($email, $subject, $message, $headers);
+            Mail::send($email, Language::_('El. pašto adreso patvirtinimas'), $message);
 
             $update = true;
             $emailVerify = true;
@@ -618,20 +603,13 @@ if (isset($_POST['settings_save'])) {
                                     class="glyphicon glyphicon-time" 
                                     aria-hidden="true"></span>
                             </span>';
-=======
-            DB::query('UPDATE users SET email = :email WHERE id = :id', [
-                ':email' => $email,
-                ':id' => Session::get('donate_user_id')
-            ]);
-
-            $update = true;
->>>>>>> origin/master
         }
     } else {
-        if (Auth::user()->email)
+        if (Auth::user()->email && Auth::user()->email_status == 1)
             Output::json(Language::_('Būtina nurodyti el. pašto adresą'));
     }
 
+    // change password
     if ($oldPassword) {
         if ( ! $newPassword)
             Output::json(Language::_('Būtina nurodyti naują slaptažodį'));
@@ -640,17 +618,10 @@ if (isset($_POST['settings_save'])) {
         $serverResults = DB::first('SELECT * FROM ' . SQL::get('sql.accounts.accounts', Server::getID($server)) . ' WHERE ' . SQL::get('sql.accounts.login', Server::getID($server)) . ' = ? AND ' . SQL::get('sql.accounts.password', Server::getID($server)) . ' = ?', [$username, $oldEncryptedPassword], 'server', $server, 'login');
         if ( ! $serverResults)
             Output::json(Language::_('Neteisingas senas slaptažodis'));
-<<<<<<< HEAD
 
         if (Settings::get('app.settings.min_password') > 0 && strlen($newPassword) <= Settings::get('app.settings.min_password')) 
             Output::json(Language::_('Minimalus slaptažodžio ilgis: %s simbolių (-ai)', [Settings::get('app.settings.min_password')]));
 
-=======
-
-        if (Settings::get('app.settings.min_password') > 0 && strlen($newPassword) <= Settings::get('app.settings.min_password')) 
-            Output::json(Language::_('Minimalus slaptažodžio ilgis: %s simbolių (-ai)', [Settings::get('app.settings.min_password')]));
-
->>>>>>> origin/master
         $newEncryptedPassword = L2::hash($newPassword, Server::getHashType($server));
         
         DB::query('UPDATE ' . SQL::get('sql.accounts.accounts', Server::getID($server)) . ' SET ' . SQL::get('sql.accounts.password', Server::getID($server)) . ' = ? WHERE ' . SQL::get('sql.accounts.login', Server::getID($server)) . ' = ?', [$newEncryptedPassword, $username], 'server', $server, 'login');
@@ -659,14 +630,10 @@ if (isset($_POST['settings_save'])) {
     }
 
     if ($update) {
-<<<<<<< HEAD
         if ($emailVerify)
-            Output::json(['content' => Language::_('Nustatymai išsaugoti, naujojo el. pašto patvirtinimo nuoroda nusiųsta į senąjį el. pašto adresą'), 'type' => 'success', 'verify-email' => 'ok', 'email_form' => $emailForm]);
+            Output::json(['content' => Language::_('Nustatymai išsaugoti, el. pašto patvirtinimo nuoroda išsiųsta Jums į el. paštą'), 'type' => 'success', 'verify-email' => 'ok', 'email_form' => $emailForm]);
         else
             Output::json(['content' => Language::_('Nustatymai išsaugoti'), 'type' => 'success']);
-=======
-        Output::json(['content' => Language::_('Nustatymai išsaugoti'), 'type' => 'success']);
->>>>>>> origin/master
     } else {
         Output::json(Language::_('Nėra nustatymų kuriuos reikėtų išsaugoti'));
     }

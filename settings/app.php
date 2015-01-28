@@ -64,7 +64,7 @@ return [
     ],
     'settings' => [
         'enabled' => true,
-        'min_password' => 5,
+        'min_password' => 5
     ],
     'language' => [
         'enabled' => [

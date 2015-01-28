@@ -14,9 +14,9 @@ class Balance {
                 'amount'        => 0,
                 'orderid'       => $itemNumber,
                 'paytext'	    => Settings::get('app.mokejimai.text') . ' (nr. [order_nr]) ([site_name])',
-                'accepturl'     => Settings::get('app.base_url') . '/pay.php?id=mokejimai&action=verify',
-                'cancelurl'     => Settings::get('app.base_url') . '/pay.php?id=mokejimai&action=cancel',
-                'callbackurl'   => Settings::get('app.base_url') . '/pay.php?id=mokejimai&action=notify',
+                'accepturl'     => Settings::get('app.base_url') . '/e.php/paysera-bank/verified',
+                'cancelurl'     => Settings::get('app.base_url') . '/e.php/paysera-bank/cancel',
+                'callbackurl'   => Settings::get('app.base_url') . '/e.php/paysera-bank/notify',
                 'version'	    => Settings::get('app.mokejimai.version'),
                 'test'          => Settings::get('app.mokejimai.test')
             ));

@@ -15,13 +15,13 @@ return array(
                 'host' => 'localhost',
                 'user' => 'root',
                 'password' => '',
-                'db' => 'l2j_il'
+                'db' => 'l2j'
             ],
             'game' => [
                 'host' => 'localhost',
                 'user' => 'root',
                 'password' => '',
-                'db' => 'l2j_il'
+                'db' => 'l2j'
             ]
         ],
         [
@@ -30,7 +30,7 @@ return array(
             'host' => 'localhost',
             'user' => 'root',
             'password' => '',
-            'db' => 'asmanavi_l2j_2'
+            'db' => 'l2j_2'
         ]
         
     ]

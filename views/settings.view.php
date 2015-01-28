@@ -10,7 +10,6 @@
                 <input type="hidden" name="settings_save" value="ok" />
                 
                 <div class="form-group">
-<<<<<<< HEAD
                     <div class="input-group email-group">
                         <input type="text" name="email" class="form-control" placeholder="<?=Language::_('El. pašto adresas');?>" <?=(Auth::user()->email_status == 2) ? 'disabled="disabled"' : '';?> value="<?=Auth::user()->email;?>" />
                         
@@ -36,9 +35,6 @@
                             </span>
                         <?php } ?>
                     </div>
-=======
-                    <input type="text" name="email" class="form-control" placeholder="<?=Language::_('El. pašto adresas');?>" value="<?=Auth::user()->email;?>" />
->>>>>>> origin/master
                 </div>
 
                 <div class="form-group">

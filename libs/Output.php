@@ -11,4 +11,9 @@ class Output {
         
         exit;
     }
+
+    public static function information($content = '') {
+        Session::put('message', $content);
+        URL::to('#information');
+    }
 }

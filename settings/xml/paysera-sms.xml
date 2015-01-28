@@ -1,22 +1,12 @@
 <?xml version='1.0' standalone='yes'?>
 <sms>
     <item>
-        <keyword>DONATE</keyword>
+        <keyword>donate</keyword>
         <number>1679</number>
         <country>LT</country>
         <currency>EUR</currency>
         <price>1</price>
         <points>1</points>
-        <note></note>
-        <response>Test</response>
-    </item>
-    <item>
-        <keyword>don</keyword>
-        <number>1398</number>
-        <country>LT</country>
-        <currency>EUR</currency>
-        <price>0.58</price>
-        <points>5.5</points>
         <note></note>
         <response>Test</response>
     </item>

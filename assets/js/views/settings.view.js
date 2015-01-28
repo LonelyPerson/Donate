@@ -12,15 +12,12 @@ $(document).ready(function() {
                     $('#settings-form input[name="new_password"]').val('');
                     $('#settings-form input[name="old_password"]').val('');
 
-<<<<<<< HEAD
                     if (response.hasOwnProperty('verify-email')) {
                         $('#settings-form .email-group').html(response.email_form);
                         
                         $('[data-toggle="tooltip"]').tooltip();
                     }
 
-=======
->>>>>>> origin/master
                     unblockScreen();
                 }
             });

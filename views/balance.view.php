@@ -81,8 +81,8 @@
                     <input type="hidden" name="pg_currency" value="<?=strtoupper(Settings::get('app.paygol.currency'));?>">
                     <input type="hidden" name="pg_name" value="<?=Settings::get('app.paygol.text');?>">
                     <input type="hidden" name="pg_custom" value="<?php echo $pgItemNumber; ?>">
-                    <input type="hidden" name="pg_return_url" value="<?=Settings::get('app.base_url') . '/pay.php?id=paygol&action=verify';?>">
-                    <input type="hidden" name="pg_cancel_url" value="<?=Settings::get('app.base_url') . '/pay.php?id=paygol&action=cancel';?>">
+                    <input type="hidden" name="pg_return_url" value="<?=Settings::get('app.base_url') . '/e.php/paygol/verified';?>">
+                    <input type="hidden" name="pg_cancel_url" value="<?=Settings::get('app.base_url') . '/e.php/paygol/cancel';?>">
 
                     <input type="hidden" name="paygol" value="paygol" />
                     <input type="hidden" name="order" value="<?php echo $pgItemNumber; ?>" />

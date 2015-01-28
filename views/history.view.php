@@ -24,7 +24,7 @@
                     <?php foreach ($history as $row) { ?>
                         <tr>
                             <td><?php echo $row->action_key; ?></td>
-                            <td><?php echo $row->action_value; ?></td>
+                            <td><span data-toggle="tooltip" data-placement="right" title="<?=$row->action_value;?>"><?php echo String::truncate($row->action_value); ?></span></td>
                             <td style="width: 135px"><?php echo $row->action_date; ?></td>
                         </tr>
                     <?php } ?>
