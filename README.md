@@ -1,9 +1,10 @@
 ### Atgimusi Lineage 2 serverių donate sistema
+![Donate](http://asmanavicius.lt/donate/intro.png)
 ##### Apie
 Ši sistema nėra perkurta senoji sistema, tai nauja, tobulesnė ir saugesnė, turinti daugiau galimybių sistema. Šios sistemos autorius, kaip ir senosios, esu aš, manau tai puikus įrodymas, jog sistemoje nėra jokio žalingo kodo (backdoor ar kt.)
 
 ##### Sistemos įdiegimas / atnaujinimas
-Norėdami įdiegti sistemą atsisiųskite visus failus, išskleiskite juos ten kur norite, kad veiktų sistema. Tuomet įkelkite donate.sql failą į savo duom. bazę, po to atidarykite "settings" aplanką (jį rasite ten kur sukėlėte visus failus), jame turėtų būti keli failai kuriuose rasite daug įvairių nustatymų, juos galite koreguoti pagal save. 
+Norėdami įdiegti sistemą atsisiųskite visus failus, išskleiskite juos ten kur norite, kad veiktų sistema. Tuomet įkelkite donate.sql failą į savo duom. bazę, po to atidarykite "settings" aplanką (jį rasite ten kur sukėlėte visus failus), jame turėtų būti keli failai kuriuose rasite daug įvairių nustatymų, juos galite koreguoti pagal save.
 
 Norėdami atnaujinti sistemą vėl gi atsisiųskite visus failus ir pakeiskite jais senuosius, po to atnaujinkite duom. bazę su donate.sql failiuku (geriausia jei ištrintumėte senas donate duom. bazės lentutes ir tada sukurtumėte naujas).
 
