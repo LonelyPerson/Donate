@@ -1,16 +1,21 @@
 body {
-    background: url('../img/bg.jpg') no-repeat center top;
+    font-family: 'Roboto';
 }
 
+.bg {
+    position: absolute;
+    z-index: -1;
+    top: 30px;
+}
 #jas-content {
-    width: 865px;
+    width: 935px;
     margin: 120px auto;
 }
 #jas-content .left-side {
     width: 655px;
 }
 #jas-content .right-side {
-    width: 200px;
+    width: 250px;
 }
 #jas-content .panel-body:after {
     clear: none !important;
@@ -32,7 +37,6 @@ body {
 #jas-content .box {
     border: 1px solid #e7e7e7;
     padding: 10px;
-    
 }
 #jas-content .box legend {
     border: none !important;
@@ -46,12 +50,33 @@ body {
     font-size: 12px;
 }
 #jas-content .item-box {
-    width: 150px;
+    width: 300px;
     border: 1px solid #e7e7e7;
     padding: 5px;
-    margin-left: 5px;
-    margin-top: 20px;
+    margin-left: 8px;
+    margin-top: 8px;
     text-align: center;
+    cursor: pointer;
+}
+#jas-content .item-box .overlay {
+    position: absolute;
+    width: 298px;
+    height: 110px;
+    margin-left: -5px;
+    margin-top: -5px;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 50;
+    display: none;
+}
+#jas-content .item-box .overlay .title {
+    position: absolute;
+    z-index: 1500;
+    color:  rgba(255, 255, 255, 1);
+    font-size: 16px;
+    margin-top: -8px;
+    margin-left: -15px;
+    font-weight: 300;
+    text-transform: uppercase;
 }
 #jas-content .item-box .price {
     position: absolute;
@@ -70,7 +95,20 @@ body {
 }
 #jas-content .item-box .jas-buy-box {
     margin-top: 5px;
+    width: 170px;
 }
+#jas-content .item-box .jas-buy-box ul {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+#jas-content .item-box .jas-buy-box ul li {
+    padding: 0px;
+    margin: 0px;
+    text-align: left;
+    font-size: 12px;
+}
+#jas-content .item-box .jas-buy-box ul li span {}
 #jas-content .languages-list {
     text-align: center;
     margin-bottom: 15px;
@@ -83,6 +121,8 @@ body {
 }
 #jas-content #selected-char {
     text-align: center;
+    font-weight: 700;
+    text-transform: uppercase;
 }
 #jas-content .select-char.selected {
     cursor: default;
@@ -118,4 +158,15 @@ body {
 }
 #jas-content .email-not-verified {
     color: #c0392b;
+}
+
+#jas-content .right-side i.fa.pull-right {
+    margin-top: 5px;
+}
+
+.modal-backdrop {
+    z-index: 0;
+}
+.modal {
+    z-index: 9999;
 }

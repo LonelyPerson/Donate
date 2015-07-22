@@ -1,14 +1,16 @@
 function loadPage(page, controller, callback) {
     blockScreen();
-    
+
     $('#jas-content').load('ajax.php?route=' + controller, function() {
         setPage(page);
         callback();
-        
+
         // set active menu item
         $('.nav li').removeClass('active');
         $('.nav li#' + page).addClass('active');
-        
+
+        $('.left-side').append('<div style="position: absolute; margin-top: 10px; font-size: 10px; text-transform: uppercase;">Autorius: <a href="http://justas.asmanavicius.lt" target="_blank">Justas Ašmanavičius</a></div>');
+
         unblockScreen();
     });
 }
@@ -20,13 +22,13 @@ function loadView(view) {
 function getPage() {
     var page = window.location.hash;
     page = page.replace('#', '');
-    
+
     return page;
 }
 
 function getPageByKey(key) {
     if (getPage() == key) return true;
-    
+
     return false;
 }
 
@@ -57,23 +59,23 @@ function formatMessage(message, type) {
 function blockScreen() {
     $.blockUI({
         message: '<span style="font-size: 30px;"></span>',
-        overlayCSS:  { 
-            backgroundColor: '#fff', 
-            opacity: 0.8, 
-            cursor: 'pointer' 
-        }, 
-        css: { 
-            padding:        0, 
-            margin:         0, 
-            width:          '30%', 
-            top:            '40%', 
-            left:           '35%', 
-            textAlign:      'center', 
-            color:          '#000', 
-            border:         'none', 
-            backgroundColor:'transparent', 
-            cursor:         'pointer' 
-        }, 
+        overlayCSS:  {
+            backgroundColor: '#fff',
+            opacity: 0.8,
+            cursor: 'pointer'
+        },
+        css: {
+            padding:        0,
+            margin:         0,
+            width:          '30%',
+            top:            '40%',
+            left:           '35%',
+            textAlign:      'center',
+            color:          '#000',
+            border:         'none',
+            backgroundColor:'transparent',
+            cursor:         'pointer'
+        },
     });
 }
 function unblockScreen() {
@@ -82,10 +84,18 @@ function unblockScreen() {
 
 function setLanguage(code) {
     blockScreen();
-    
+
     $.post('ajax.php', { set_language: true, language: code }, function(response) {
         if (response.success) {
             window.location.reload();
         }
     });
+}
+
+jQuery.fn.center = function (element) {
+    this.css("top", Math.max(0, (($(element).height() - $(this).outerHeight()) / 2) +
+                                                $(element).scrollTop()) + "px");
+    this.css("left", Math.max(0, (($(element).width() - $(this).outerWidth()) / 2) +
+                                                $(element).scrollLeft()) + "px");
+    return this;
 }

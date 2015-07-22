@@ -29,7 +29,7 @@
             <fieldset class="box">
                 <legend><?=Language::_('Paypal');?> <span><?php echo 1 . ' = ' . Settings::get('app.paypal.price') . ' ' . ucfirst(Settings::get('app.paypal.currency'));  ?></span></legend>
 
-                <div class="alert alert-info"><?=Language::_('Minimali taškų suma: %s Maksimali taškų suma: %s', [Settings::get('app.paypal.min'), Settings::get('app.paypal.max')]);?></div>
+                <div class="alert alert-warning"><?=Language::_('Minimali taškų suma: %s Maksimali taškų suma: %s', [Settings::get('app.paypal.min'), Settings::get('app.paypal.max')]);?></div>
 
                 <form id="jas-paypal-form" class="form-inline">
                     <input type="hidden" name="paypal" value="true" />
@@ -37,7 +37,7 @@
 
                     <div class="input-group col-sm-9">
                         <span class="input-group-addon paypal-price" data-price="<?=Settings::get('app.paypal.price');?>" data-max="<?=Settings::get('app.paypal.max');?>" data-min="<?=Settings::get('app.paypal.min');?>"><span>0.00</span> <?php echo ucfirst(Settings::get('app.paypal.currency')); ?></span>
-                        <input type='text' name='sum' class="form-control" autocomplete='off' />
+                        <input type='text' name='sum' class="form-control" autocomplete='off' placeholder="<?=Language::_('Norima taškų suma');?>" />
                     </div>
 
                     <input type='button' name='jas_paypal_submit' class="btn btn-primary" value="<?=Language::_('Patvirtinti');?>" />
@@ -49,7 +49,7 @@
             <fieldset class="box">
                 <legend><?=Language::_('Mokejimai / Paysera');?> <span><?php echo 1 . ' = ' . Settings::get('app.mokejimai.price') . ' ' . ucfirst(Settings::get('app.mokejimai.currency'));  ?></span></legend>
 
-                <div class="alert alert-info"><?=Language::_('Minimali taškų suma: %s Maksimali taškų suma: %s', [Settings::get('app.mokejimai.min'), Settings::get('app.mokejimai.max')]);?></div>
+                <div class="alert alert-warning"><?=Language::_('Minimali taškų suma: %s Maksimali taškų suma: %s', [Settings::get('app.mokejimai.min'), Settings::get('app.mokejimai.max')]);?></div>
 
                 <form action='https://www.mokejimai.lt/pay/' method='post' id='jas-mokejimai-form' class="form-inline">
                     <?php foreach ($hiddenInputs as $name => $value) { ?>
@@ -62,7 +62,7 @@
 
                     <div class="input-group col-sm-9">
                         <span class="input-group-addon mokejimai-price" data-price="<?=Settings::get('app.mokejimai.price');?>" data-max="<?=Settings::get('app.mokejimai.max');?>" data-min="<?=Settings::get('app.mokejimai.min');?>"><span>0.00</span> <?php echo ucfirst(Settings::get('app.mokejimai.currency')); ?></span>
-                        <input type='text' name="sum" class="form-control" id="temp_amount" autocomplete='off' />
+                        <input type='text' name="sum" class="form-control" id="temp_amount" autocomplete='off' placeholder="<?=Language::_('Norima taškų suma');?>" />
                     </div>
 
                     <input type='button' name="jas_mokejimai_submit" class="btn btn-primary" value='<?=Language::_('Patvirtinti');?>' />
@@ -74,7 +74,7 @@
             <fieldset class="box">
                 <legend><?=Language::_('Paygol');?> <span><?php echo 1 . ' = ' . Settings::get('app.paygol.price') . ' ' . ucfirst(Settings::get('app.paygol.currency'));  ?></span></legend>
 
-                <div class="alert alert-info"><?=Language::_('Minimali taškų suma: %s Maksimali taškų suma: %s', [Settings::get('app.paygol.min'), Settings::get('app.paygol.max')]);?></div>
+                <div class="alert alert-warning"><?=Language::_('Minimali taškų suma: %s Maksimali taškų suma: %s', [Settings::get('app.paygol.min'), Settings::get('app.paygol.max')]);?></div>
 
                 <form name="pg_frm" method="post" action="https://www.paygol.com/pay" id='jas-paygol-form' class="form-inline">
                     <input type="hidden" name="pg_serviceid" value="<?=Settings::get('app.paygol.id');?>">
@@ -89,7 +89,7 @@
 
                     <div class="input-group col-sm-9">
                         <span class="input-group-addon paygol-price" data-price="<?=Settings::get('app.paygol.price');?>" data-max="<?=Settings::get('app.paygol.max');?>" data-min="<?=Settings::get('app.paygol.min');?>"><span>0.00</span> <?php echo ucfirst(Settings::get('app.mokejimai.currency')); ?></span>
-                        <input type='text' name="pg_price" class="form-control" id="temp_amount" autocomplete='off' />
+                        <input type='text' name="pg_price" class="form-control" id="temp_amount" autocomplete='off' placeholder="<?=Language::_('Norima taškų suma');?>" />
                     </div>
 
                     <input type='button' name="jas_paygol_submit" class="btn btn-primary" value='<?=Language::_('Patvirtinti');?>' />

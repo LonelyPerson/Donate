@@ -20,14 +20,15 @@ if (isset($_GET['route'])) {
         $c = $ex[0];
         $m = $ex[1];
     }
-    
+
+    // routes if not logged in
     if (($c != 'login' && $c != 'registration' && $c != 'recovery' && $c != 'information') && ! Auth::isLoggedIn()) exit('error #4');
-    
+
     include ROOT_PATH . '/controllers/' . ucfirst($c) . '.php';
 
     $s = new $c();
     $s->$m();
-    
+
     exit;
 }
 
@@ -42,10 +43,10 @@ if (isset($_POST['auth'])) {
         if ( ! $resp->is_valid)
             return Output::json(Language::_('Neteisingai įvestas apsaugos kodas'));
     }
-    
-    if ( ! $username || ! $password) 
+
+    if ( ! $username || ! $password)
         return Output::json(Language::_('Užpildykite visus laukelius'));
-    
+
     if (Auth::check($username, $password, $server))
         return Output::json(array('view' => 'user'));
 
@@ -56,30 +57,30 @@ if (isset($_POST['registration'])) {
     $username = Input::get('username');
     $password = Input::get('password');
     $server = Input::get('server');
-    
+
     if (Settings::get('app.captcha.registration')) {
         $resp = recaptcha_check_answer(Settings::get('app.captcha.secret'), $_SERVER["REMOTE_ADDR"], Input::get("recaptcha_challenge_field"), Input::get("recaptcha_response_field"));
 
         if ( ! $resp->is_valid)
             return Output::json(Language::_('Neteisingai įvestas apsaugos kodas'));
     }
-    
-    if ( ! $username || ! $password) 
+
+    if ( ! $username || ! $password)
         return Output::json(Language::_('Užpildykite visus laukelius'));
-    
-    if (Settings::get('app.registration.min') && mb_strlen($password) < Settings::get('app.registration.min')) 
+
+    if (Settings::get('app.registration.min') && mb_strlen($password) < Settings::get('app.registration.min'))
         return Output::json(Language::_('Minimalus slaptažodžio ilgis turi būti: %s simboliai (-ų)', [Settings::get('app.registration.min')]));
 
-    if (Settings::get('app.registration.max') && mb_strlen($password) > Settings::get('app.registration.max')) 
+    if (Settings::get('app.registration.max') && mb_strlen($password) > Settings::get('app.registration.max'))
         return Output::json(Language::_('Slaptažodis negali būti ilgesnis, nei: %s simboliai (-ų)', [Settings::get('app.registration.min')]));
-    
+
     $serverResults = DB::first('SELECT * FROM ' . SQL::get('sql.accounts.accounts', Server::getID($server)) . ' WHERE ' . SQL::get('sql.accounts.login', Server::getID($server)) . ' = ?', [$username], 'server', $server, 'login');
     $loginFieldName = SQL::get('sql.accounts.login', Server::getID($server));
     if (isset($serverResults->$loginFieldName))
         return Output::json(Language::_('Toks vartotojas jau užregistruotas'));
 
     $encodedPassword = L2::hash($password, Server::getHashType($server));
-    
+
     DB::query('INSERT INTO ' . SQL::get('sql.accounts.accounts', Server::getID($server)) . ' SET ' . SQL::get('sql.accounts.login', Server::getID($server)) . ' = ?, ' . SQL::get('sql.accounts.password', Server::getID($server)) . ' = ?', [$username, $encodedPassword], 'server', $server, 'login');
 
     return Output::json(['content' => Language::_('Registracija sėkminga'), type => 'success', 'success' => 'ok']);
@@ -156,10 +157,10 @@ if (isset($_POST['recovery'])) {
 
 if (isset($_POST['set_language'])) {
     $language = Input::get('language');
-    
+
     if ( ! empty($language))
         Session::put('active_language', $language);
-    
+
     return Output::json(['success' => 'ok']);
 }
 
@@ -169,16 +170,16 @@ if (isset($_POST['buy'])) {
     $itemData = json_decode($_POST['item_data']);
     $userBalance = Auth::user()->balance;
 
-    if ( ! Session::has('character_obj_id')) { 
+    if ( ! Session::has('character_obj_id')) {
         return Output::json(Language::_('Nepasirinktas veikėjas'));
     }
-    
+
     $_itemData = json_decode(json_encode($itemData), true);
-    
+
     $characterId = Session::get('character_obj_id');
 
     if (isset($itemData->item)) {
-        if ($userBalance < $_itemData['@attributes']['price']) { 
+        if ($userBalance < $_itemData['@attributes']['price']) {
             return Output::json(Language::_('Jūsų vartotojo balansas nepakankamas'));
         }
 
@@ -187,7 +188,7 @@ if (isset($_POST['buy'])) {
             ':balance' => $newUserBalance,
             ':id' => Session::get('donate_user_id')
         ]);
-        
+
         /// group
         foreach ($itemData->item as $key => $row) {
             $results = DB::first('SELECT max(' . SQL::get('sql.items.object_id') . ') as maxObjId FROM ' . SQL::get('sql.items.items'), [], 'server');
@@ -199,12 +200,12 @@ if (isset($_POST['buy'])) {
             // find consume type
             $consumeType = File::findXMLByItemID($row->id);
 
-            // is stackable? 
+            // is stackable?
             if ($consumeType != 'stackable' && $consumeType != 'asset') {
                 // not stackable
                 for($i=1;$i <= $row->count;$i++) {
                     if ($i != 1)
-                        $maxObjId = $maxObjId + 1; 
+                        $maxObjId = $maxObjId + 1;
                     else
                         $maxObjId = $maxObjId + 1;
 
@@ -223,7 +224,7 @@ if (isset($_POST['buy'])) {
 
                 // same block
                 $results = DB::first("SELECT * FROM " . SQL::get('sql.items.items') . " WHERE " . SQL::get('sql.items.owner_id') . " = :owner_id AND " . SQL::get('sql.items.item_id') . " = :item_id", [
-                    'owner_id' => $characterId, 
+                    'owner_id' => $characterId,
                     'item_id' => $row->id
                 ], 'server');
 
@@ -247,11 +248,11 @@ if (isset($_POST['buy'])) {
                 }
             }
         }
-        
+
         Histuar::add(Language::_('Parduotuvė'), Language::_('Nupirkta prekių grupė: %s, kaina: %s', [$_itemData['title'], $_itemData['price']]));
     } else {
         // single
-        if ($userBalance < $itemData->price) { 
+        if ($userBalance < $itemData->price) {
             return Output::json(Language::_('Jūsų vartotojo balansas nepakankamas'));
         }
 
@@ -260,7 +261,7 @@ if (isset($_POST['buy'])) {
             ':balance' => $newUserBalance,
             ':id' => Session::get('donate_user_id')
         ]);
-        
+
         // obj id
         $results = DB::first('SELECT max(' . SQL::get('sql.items.object_id') . ') as maxObjId FROM ' . SQL::get('sql.items.items'), [], 'server');
 
@@ -271,12 +272,12 @@ if (isset($_POST['buy'])) {
         // find consume type
         $consumeType = File::findXMLByItemID($itemData->id);
 
-        // is stackable? 
+        // is stackable?
         if ($consumeType != 'stackable' && $consumeType != 'asset') {
             // not stackable
             for($i=1;$i <= $itemData->count;$i++) {
                 if ($i != 1)
-                    $maxObjId = $maxObjId + 1; 
+                    $maxObjId = $maxObjId + 1;
                 else
                     $maxObjId = $maxObjId + 1;
 
@@ -295,7 +296,7 @@ if (isset($_POST['buy'])) {
 
             // same block
             $results = DB::first("SELECT * FROM " . SQL::get('sql.items.items') . " WHERE " . SQL::get('sql.items.owner_id') . " = :owner_id AND " . SQL::get('sql.items.item_id') . " = :item_id", [
-                'owner_id' => $characterId, 
+                'owner_id' => $characterId,
                 'item_id' => $itemData->id
             ], 'server');
 
@@ -318,10 +319,10 @@ if (isset($_POST['buy'])) {
                 ], 'server');
             }
         }
-        
+
         Histuar::add(Language::_('Parduotuvė'), Language::_('Nupirkta prekė: %s, kaina: %s', [$itemData->title, $itemData->price]));
     }
-    
+
     return Output::json(['content' => Language::_('Prekė nupirkta sėkmingai'), 'type' => 'success', 'balance' => $newUserBalance]);
 }
 
@@ -338,32 +339,32 @@ if (isset($_POST['select_character'])) {
     $charObjId = SQL::get('sql.characters.obj_Id');
     Session::put('character_obj_id', $characters->$charObjId);
     Session::put('character_name', $characterName);
-    
+
     return Output::json(['success' => 'ok', 'content' => Language::_('Veikėjas pasirinktas'), 'type' => 'success', 'character_name' => $characterName, 'old_char' => $oldChar]);
 }
 
 if (isset($_POST['paypal'])) {
     $data = $_POST;
-    
+
     if ( ! Input::get('item_number') || ! Input::get('sum'))
         return Output::json(Language::_('Neįvedėte taškų sumos'));
-    
+
     $number = preg_match("/^-?(?:\d+|\d*\.\d+)$/", Input::get('sum'));
     if ( ! $number)
         return Output::json(Language::_('Prašome įvesti tik skaičius'));
-    
+
     if (Input::get('sum') < Settings::get('app.paypal.min'))
         return Output::json(Language::_('Minimalus taškų kiekis: %s', [Settings::get('app.paypal.min')]));
-    
+
     if (Settings::get('app.paypal.max') && Input::get('sum') > Settings::get('app.paypal.max'))
         return Output::json(Language::_('Maksimalus taškų kiekis: %s', [Settings::get('app.paypal.max')]));
-    
+
     $itemNumber = $data['item_number'];
     $amount = round(Settings::get('app.paypal.price') * $data['sum'], 2);
 
     unset($data['jas_paypal_submit']);
-    
-    $querystring .= "?business=" . urlencode(Settings::get('app.paypal.email')) . "&";	
+
+    $querystring .= "?business=" . urlencode(Settings::get('app.paypal.email')) . "&";
 
     $querystring .= "item_name=" . urlencode(Settings::get('app.paypal.purpose')) . "&";
     $querystring .= "amount=" . urlencode($amount) . "&";
@@ -406,20 +407,20 @@ if (isset($_POST['paypal'])) {
 
 if (isset($_POST['mokejimai'])) {
     $data = $_POST;
-    
+
     if ( ! Input::get('order') || ! Input::get('sum'))
         return Output::json(Language::_('Neįvedėte taškų sumos'));
-    
+
     $number = preg_match("/^-?(?:\d+|\d*\.\d+)$/", Input::get('sum'));
     if ( ! $number)
         return Output::json(Language::_('Prašome įvesti tik skaičius'));
-    
+
     if (Input::get('sum') < Settings::get('app.mokejimai.min'))
         return Output::json(Language::_('Minimalus taškų kiekis: %s', [Settings::get('app.mokejimai.min')]));
-    
+
     if (Settings::get('app.mokejimai.max') && Input::get('sum') > Settings::get('app.mokejimai.max'))
         return Output::json(Language::_('Maksimalus taškų kiekis: %s', [Settings::get('app.mokejimai.max')]));
-    
+
     $order = $data['order'];
     $amount = round(Settings::get('app.mokejimai.price') * $data['sum'], 2);
     $amount = $amount * 100;
@@ -437,7 +438,7 @@ if (isset($_POST['mokejimai'])) {
             ':start_date' => date('Y-m-d H:i:s')
         ]);
     }
-    
+
     try {
         $request = WebToPay::buildRequest(array(
             'projectid'     => Settings::get('app.mokejimai.id'),
@@ -461,20 +462,20 @@ if (isset($_POST['mokejimai'])) {
 
 if (isset($_POST['paygol'])) {
     $data = $_POST;
-    
+
     if ( ! Input::get('order') || ! Input::get('pg_price'))
         return Output::json(Language::_('Neįvedėte taškų sumos'));
-    
+
     $number = preg_match("/^-?(?:\d+|\d*\.\d+)$/", Input::get('pg_price'));
     if ( ! $number)
         return Output::json(Language::_('Prašome įvesti tik skaičius'));
-    
+
     if (Input::get('pg_price') < Settings::get('app.paygol.min'))
         return Output::json(Language::_('Minimalus taškų kiekis: %s', [Settings::get('app.paygol.min')]));
-    
+
     if (Settings::get('app.paygol.max') && Input::get('pg_price') > Settings::get('app.paygol.max'))
         return Output::json(Language::_('Maksimalus taškų kiekis: %s', [Settings::get('app.paygol.max')]));
-    
+
     $order = $data['order'];
     $amount = round(Settings::get('app.paygol.price') * $data['pg_price'], 2);
     $amount = $amount * 100;
@@ -576,7 +577,7 @@ if (isset($_POST['settings_save'])) {
             ]);
 
             DB::query('INSERT INTO email_verify SET user_id = :user_id, old_email = :old_email, new_email = :new_email, code = :code, start_date = :start_date', [
-                ':user_id' => $result->id, 
+                ':user_id' => $result->id,
                 ':old_email' => $result->email,
                 ':new_email' => $email,
                 ':code' => $code,
@@ -596,11 +597,11 @@ if (isset($_POST['settings_save'])) {
             $emailVerify = true;
             $emailForm = '<input type="text" name="email" class="form-control" placeholder="' . Language::_('El. pašto adresas') . '" disabled="disabled" value="' . Auth::user()->email . '" />
                           <span class="input-group-addon email-not-verified">
-                                <span 
-                                    data-toggle="tooltip" 
-                                    data-placement="top" 
-                                    title="' . Language::_('El. pašto adresas laukia patvirtinimo') . '" 
-                                    class="glyphicon glyphicon-time" 
+                                <span
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="' . Language::_('El. pašto adresas laukia patvirtinimo') . '"
+                                    class="glyphicon glyphicon-time"
                                     aria-hidden="true"></span>
                             </span>';
         }
@@ -613,19 +614,19 @@ if (isset($_POST['settings_save'])) {
     if ($oldPassword) {
         if ( ! $newPassword)
             Output::json(Language::_('Būtina nurodyti naują slaptažodį'));
-        
+
         $oldEncryptedPassword = L2::hash($oldPassword, Server::getHashType($server));
         $serverResults = DB::first('SELECT * FROM ' . SQL::get('sql.accounts.accounts', Server::getID($server)) . ' WHERE ' . SQL::get('sql.accounts.login', Server::getID($server)) . ' = ? AND ' . SQL::get('sql.accounts.password', Server::getID($server)) . ' = ?', [$username, $oldEncryptedPassword], 'server', $server, 'login');
         if ( ! $serverResults)
             Output::json(Language::_('Neteisingas senas slaptažodis'));
 
-        if (Settings::get('app.settings.min_password') > 0 && strlen($newPassword) <= Settings::get('app.settings.min_password')) 
+        if (Settings::get('app.settings.min_password') > 0 && strlen($newPassword) <= Settings::get('app.settings.min_password'))
             Output::json(Language::_('Minimalus slaptažodžio ilgis: %s simbolių (-ai)', [Settings::get('app.settings.min_password')]));
 
         $newEncryptedPassword = L2::hash($newPassword, Server::getHashType($server));
-        
+
         DB::query('UPDATE ' . SQL::get('sql.accounts.accounts', Server::getID($server)) . ' SET ' . SQL::get('sql.accounts.password', Server::getID($server)) . ' = ? WHERE ' . SQL::get('sql.accounts.login', Server::getID($server)) . ' = ?', [$newEncryptedPassword, $username], 'server', $server, 'login');
-        
+
         $update = true;
     }
 

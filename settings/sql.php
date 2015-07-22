@@ -19,7 +19,7 @@ return [
         'characters' => [
             'characters' => 'characters',
             'account_name' => 'account_name',
-            'obj_Id' => 'obj_Id',
+            'obj_Id' => 'charId',
             'char_name' => 'char_name'
         ]
     ],
@@ -45,5 +45,5 @@ return [
             'char_name' => 'char_name'
         ]
     ]
-    
+
 ];

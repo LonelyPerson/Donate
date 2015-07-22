@@ -18,7 +18,7 @@
                             ?>
                                 <tr>
                                     <td>
-                                        <?php if (Session::get('character_obj_id') == $row->$SqlObjId) { ?>
+                                        <?php if (Session::has('character_obj_id') && Session::get('character_obj_id') == $row->$SqlObjId) { ?>
                                             <a href="javascript: void(0)" class="select-char selected"><?php echo $row->$SqlCharName; ?></a>
                                         <?php } else { ?>
                                             <a href="javascript: void(0)" class="select-char"><?php echo $row->$SqlCharName; ?></a>

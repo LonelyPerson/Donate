@@ -2,7 +2,6 @@
 
 return [
     'base_url' => '',
-    'css_theme' => 'lumen', // cosmo, darkly, lumen, paper, sandstone, simplex, slate, spacelab, superhero, united, yeti
     'timezone' => 'Europe/Vilnius',
     'email' => 'justas.asmanavicius@gmail.com',
     'registration' => [
@@ -15,7 +14,8 @@ return [
         'in_menu' => true
     ],
     'shop' => [
-        'enabled' => true
+        'enabled' => true,
+        'buy_confirmation' => false
     ],
     'paypal' => [
         'enabled' => true,
@@ -30,14 +30,15 @@ return [
     'mokejimai' => [
         'enabled' => true,
         'id' => 45961,
-        'secret' => '654784daf0b133e42d02214b22cb03a6',
+        'secret' => '654784daf0b133e42x02214b22cb03a6',
         'test' => true,
         'min' => 1,
         'max' => 5,
         'price' => 1,
         'text' => 'Donate taskai',
         'version' => 1.6,
-        'currency' => 'eur'
+        'currency' => 'eur',
+        'verify_code' => '<meta name="verify-paysera" content="99456500740208784d3505b6bd1ccbc9">'
     ],
     'paygol' => [
         'enabled' => true,
@@ -66,9 +67,22 @@ return [
         'enabled' => true,
         'min_password' => 5
     ],
+    'mail' => [
+        'type' => 'smtp',
+        'from' => 'justas.asmanavicius@gmail.com',
+        'from_name' => 'justas',
+        'smtp' => [
+            'host' => 'smtp.mandrillapp.com',
+            'auth' => true,
+            'username' => 'justas.asmanavicius@gmail.com',
+            'password' => 'vCZ5diji9E9IembZ6_bpiw',
+            'encryption' => 'tls', // tls / ssl
+            'port' => 587
+        ]
+    ],
     'language' => [
         'enabled' => [
             'lt', 'ru', 'gb', 'us'
         ]
     ]
-]; 
+];
