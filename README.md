@@ -14,10 +14,10 @@ Norėdami atnaujinti sistemą vėl gi atsisiųskite visus failus ir pakeiskite j
 * Paygol
 
 ##### Mokejimai / Paysera SMS nustatymai
-Kelias iki callback failo mokejimai.lt sistemoje: http://manopuslapis.lt/e.php/paysera-sms/notify (p.s vietoje manopuslapis.lt nurodykite savo donate sistemos puslapį).
+Kelias iki callback failo mokejimai.lt sistemoje: http://manopuslapis.lt/index.php/paysera-sms/notify (p.s vietoje manopuslapis.lt nurodykite savo donate sistemos puslapį).
 
 ##### Paygol SMS nustatymai
-Kelias iki "Url Background (IPN)" paygol sistemoje: http://manopuslapis.lt/e.php/paygol/notify (p.s vietoje manopuslapis.lt nurodykite savo donate sistemos puslapį). Kitų URL (accept ir cancel) nurodyti nereikia.
+Kelias iki "Url Background (IPN)" paygol sistemoje: http://manopuslapis.lt/index.php/paygol/notify (p.s vietoje manopuslapis.lt nurodykite savo donate sistemos puslapį). Kitų URL (accept ir cancel) nurodyti nereikia.
 
 ##### Pagrindiniai dalykai esantys sistemoje šiuo metu
 * Daugybė nustatymų
