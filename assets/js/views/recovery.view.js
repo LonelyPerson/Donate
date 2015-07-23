@@ -5,7 +5,7 @@ $(document).ready(function() {
 
             var data = $('#recovery-form').serialize();
 
-            $.post('ajax.php', data, function(response) {
+            $.post('index.php', data, function(response) {
                 if (response.hasOwnProperty('content')) {
                     $("#response").html(formatMessage(response.content, response.type));
 

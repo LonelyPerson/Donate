@@ -129,10 +129,15 @@ body {
     color: #000;
     text-decoration: none;
 }
+#jas-content .tab-content {
+    padding-top: 10px;
+}
 #jas-content .sms-flags {
     list-style: none;
     margin: 0;
     padding: 0;
+    margin: 20px auto;
+    text-align: center;
 }
 #jas-content .sms-flags-sep {
     border-bottom: 1px solid #e7e7e7;
@@ -140,7 +145,7 @@ body {
     margin-bottom: 15px;
 }
 #jas-content .sms-flags li {
-    float: left;
+    display: inline-block;
     opacity: 0.7;
     margin-left: 2px;
     margin-right: 2px;
@@ -149,7 +154,7 @@ body {
     cursor: pointer;
     opacity: 1;
 }
-#jas-content .sms-flags li:active {
+#jas-content .sms-flags li.active {
     opacity: 1;
 }
 
@@ -169,4 +174,30 @@ body {
 }
 .modal {
     z-index: 9999;
+}
+
+/* balance page */
+#jas-content .balance .tab-content p {
+    margin: 0;
+}
+#jas-content .balance .tab-content form {
+    text-align: center;
+    margin-top: 15px;
+}
+#jas-content .balance .payment-title {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 18px;
+}
+#jas-content .balance .payment-description {
+    text-align: center;
+    margin-top: -7px;
+}
+#jas-content .balance .payment-info {
+    text-align: center;
+    margin: 25px 0;
+}
+
+#jas-content .pagination-wrapper {
+    text-align: center;
 }

@@ -1,7 +1,7 @@
 function loadPage(page, controller, callback) {
     blockScreen();
 
-    $('#jas-content').load('ajax.php?route=' + controller, function() {
+    $('#jas-content').load('index.php?route=' + controller, function() {
         setPage(page);
         callback();
 
@@ -10,6 +10,8 @@ function loadPage(page, controller, callback) {
         $('.nav li#' + page).addClass('active');
 
         $('.left-side').append('<div style="position: absolute; margin-top: 10px; font-size: 10px; text-transform: uppercase;">Autorius: <a href="http://justas.asmanavicius.lt" target="_blank">Justas Ašmanavičius</a></div>');
+
+        $("html, body").animate({ scrollTop: 0 }, "slow");
 
         unblockScreen();
     });
@@ -37,7 +39,7 @@ function setPage(page) {
 }
 
 function logout() {
-    $.post('ajax.php', { logout: true }, function(response) {
+    $.post('index.php', { logout: true }, function(response) {
         if (response.success)
             loadView('login');
     });
@@ -85,7 +87,7 @@ function unblockScreen() {
 function setLanguage(code) {
     blockScreen();
 
-    $.post('ajax.php', { set_language: true, language: code }, function(response) {
+    $.post('index.php', { set_language: true, language: code }, function(response) {
         if (response.success) {
             window.location.reload();
         }

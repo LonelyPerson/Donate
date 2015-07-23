@@ -5,7 +5,7 @@ $(document).ready(function() {
 
             var data = $('#settings-form').serialize();
 
-            $.post('ajax.php', data, function(response) {
+            $.post('index.php', data, function(response) {
                 if (response.hasOwnProperty('content')) {
                     $("#response").html(formatMessage(response.content, response.type));
 
@@ -14,7 +14,7 @@ $(document).ready(function() {
 
                     if (response.hasOwnProperty('verify-email')) {
                         $('#settings-form .email-group').html(response.email_form);
-                        
+
                         $('[data-toggle="tooltip"]').tooltip();
                     }
 

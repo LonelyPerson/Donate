@@ -7,7 +7,7 @@ $(document).ready(function() {
 
             if ($this.hasClass('selected')) return;
 
-            $.post('ajax.php', { select_character: true, character_name: name }, function(response) {
+            $.post('index.php', { select_character: true, character_name: name }, function(response) {
                 if (response.success) {
                     $('#selected-char').html(name);
 

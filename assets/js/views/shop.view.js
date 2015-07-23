@@ -33,7 +33,7 @@ $(document).ready(function() {
             var $this = $(this);
             var data = $this.attr('data-item');
 
-            $.post('ajax.php', { buy: true, item_data: data }, function(response) {
+            $.post('index.php', { buy: true, item_data: data }, function(response) {
                 if (response.hasOwnProperty('content')) {
                     $('.nav li#balance span').html(response.balance);
                     $("#response").html(formatMessage(response.content, response.type));
@@ -44,11 +44,33 @@ $(document).ready(function() {
         });
 
         $('.overlay .title').center('.item-box');
-        
+
         $('.item-box').on('mouseenter', function() {
             $(this).find('.overlay').stop(true).fadeIn('fast');
         }).on('mouseleave', function() {
             $(this).find('.overlay').stop(true).fadeOut('fast');
         });
+
+        $('.pagination li a').on('click', function() {
+            if ($(this).parent().hasClass('active')) return;
+
+            var page = parseInt($(this).attr('data-page'));
+            var perPage = parseInt(gVar['shop-pagination']);
+            var start = 0;
+            if (page != 1) {
+                start = (page - 1) * perPage;
+            }
+            var end = parseInt(start + perPage - 1);
+
+            $('.shop .p').not(':hidden').stop(true, true).fadeOut('fast', function() {
+                $(this).hide();
+                for(i=start;i<=end;i++) {
+                    $('.shop .p#' + i).fadeIn('fast');
+                }
+            });
+
+            $('.pagination li.active').removeClass('active');
+            $(this).parent().addClass('active');
+        })
     });
 });

@@ -1,6 +1,6 @@
 <?php
     define('ROOT_PATH', dirname(__FILE__));
-    include(ROOT_PATH . '/libs/helpers/load.php');
+    include(ROOT_PATH . '/vendor/helpers/load.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -17,13 +17,16 @@
         <link rel="stylesheet" href="<?=Settings::get('app.css');?>/font-awesome.min.css" />
         <link rel="stylesheet" href="<?=Settings::get('app.css');?>/style.css" />
 
-        <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+        <?php if (Settings::get('app.captcha.registration')) : ?>
+            <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+        <?php endif; ?>
 
         <script>
             var gVar = [];
             <?php if (Auth::isLoggedIn()) { ?>
                 gVar['support-email'] = "<?=Settings::get('app.email');?>";
             <?php } ?>
+            gVar['shop-pagination'] = "<?=Settings::get('app.shop.per_page');?>";
             gVar['buy-confirm'] = "<?=Settings::get('app.shop.buy_confirmation');?>";
         </script>
         <?php if (Settings::get('app.mokejimai.verify_code')) : ?>
