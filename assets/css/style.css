@@ -201,3 +201,50 @@ body {
 #jas-content .pagination-wrapper {
     text-align: center;
 }
+
+/* install */
+#jas-content.install .steps a.current {
+    background-color: #FF7416;
+    border-color: #FF7416;
+    color: #fff;
+}
+#jas-content.install .steps a.done {
+    background-color: #71BA51;
+    border-color: #71BA51;
+    color: #fff;
+}
+#jas-content.install .nav-buttons {
+    margin-top: 15px;
+    text-align: center;
+}
+#jas-content.install .form-control {
+    font-size: 12px;
+}
+#jas-content.install p {
+    margin: 0;
+}
+#jas-content.install .description {
+    margin-bottom: 10px;
+}
+#jas-content.install .check {
+    display: none;
+}
+#jas-content.install .req .loader {
+    color: #FF7416;
+}
+#jas-content.install .req .yes {
+    color: #71BA51;
+}
+#jas-content.install .req .no {
+    color: #D6523C;
+}
+#jas-content.install .install-progress .wait {
+    color: #FF7416;
+}
+#jas-content.install .install-progress .success {
+    color: #71BA51;
+}
+#jas-content.install h4 {
+    margin-top: 20px;
+    margin-bottom: 5px;
+}

@@ -77,4 +77,15 @@ class File {
 
         return $string;
     }
+
+    public static function read($file) {
+        $content = @fread(@fopen($file, 'r'), @filesize($file)) or die('File::read error');
+
+        return $content;
+    }
+
+    public static function create($path) {
+        $h = fopen($path, "w") or die("File::create error");
+        fclose($h);
+    }
 }

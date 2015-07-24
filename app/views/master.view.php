@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="author" content="Justas Ašmanavičius" />
 
-        <title>Test</title>
+        <title><?=Language::_('Donate sistema');?></title>
 
         <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700&subset=latin,latin-ext,cyrillic-ext' rel='stylesheet' type='text/css'>
 

@@ -4,6 +4,8 @@ return [
     'base_url' => '',
     'timezone' => 'Europe/Vilnius',
     'email' => 'justas.asmanavicius@gmail.com',
+    'session' => 'simple', // simple/database - veiks tik po sistemos idiegimo
+    'dev' => false,
     'registration' => [
         'enabled' => true,
         'min' => 4,

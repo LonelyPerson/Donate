@@ -94,6 +94,12 @@ function setLanguage(code) {
     });
 }
 
+(function($){
+  $.isBlank = function(obj){
+    return(!obj || $.trim(obj) === "");
+  };
+})(jQuery);
+
 jQuery.fn.center = function (element) {
     this.css("top", Math.max(0, (($(element).height() - $(this).outerHeight()) / 2) +
                                                 $(element).scrollTop()) + "px");

@@ -156,6 +156,38 @@ if (isset($_POST['set_language'])) {
     return Output::json(['success' => 'ok']);
 }
 
+if (isset($_POST['check_mysql_data'])) {
+    if ( ! DB::isActive())
+        return  Output::json(['status' => 'error']);
+
+    return  Output::json(['status' => 'success']);
+}
+
+if (isset($_POST['check_chmod'])) {
+    if ( ! is_writable(APP_PATH . '/storage')) {
+        return Output::json(['status' => 'error']);
+    }
+
+    return Output::json(['status' => 'success']);
+}
+
+if (isset($_POST['install'])) {
+    ini_set('memory_limit', -1);
+    set_time_limit(0);
+
+    $query = File::read(ROOT_PATH . '/install/donate.sql');
+    $query = SQL::removeRemarks($query);
+    $query = SQL::splitFile($query, ';');
+
+    foreach($query as $sql){
+        DB::query($sql);
+    }
+
+    File::create(STORAGE_PATH . '/installed');
+
+    return Output::json(['status' => 'success']);
+}
+
 if ( ! Auth::isLoggedIn()) exit('error #5');
 
 if (isset($_POST['buy'])) {

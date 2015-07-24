@@ -9,7 +9,7 @@ class Language {
 
     public static function load($code = 'lt') {
         if (Language::getActive() && Language::getActive() != 'lt' && file_exists(CONFIG_PATH . '/xml/languages/' . Language::getActive() . '.xml')) {
-            $xml = simplexml_load_file(CONFIG_PATH . '/xml/languages/' . Language::getActive() . '.xml');
+            $xml = simplexml_load_file(CONFIG_PATH . '/xml/languages/' . self::getActive() . '.xml');
 
             if ($xml) {
                 foreach ($xml as $translation) {
@@ -20,7 +20,7 @@ class Language {
     }
 
     public static function _($key, $args = []) {
-        if (isset(self::$translations[$key])) {
+        if (isset(self::$translations[$key]) && ! empty(self::$translations[$key])) {
             if ($args) {
                 return vsprintf(self::$translations[$key], $args);
             } else {

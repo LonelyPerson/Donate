@@ -13,6 +13,7 @@ if ( ! defined('STARTED')) {
     define('VENDOR_PATH', ROOT_PATH . '/vendor');
     define('CONTROLLERS_PATH', APP_PATH . '/controllers');
     define('CONFIG_PATH', APP_PATH . '/config');
+    define('STORAGE_PATH', APP_PATH . '/storage');
 
     include VENDOR_PATH . '/PHPMailer/PHPMailer.php';
     include VENDOR_PATH . '/PHPMailer/SMTP.php';
@@ -44,4 +45,16 @@ if ( ! defined('STARTED')) {
 
     // payment
     include VENDOR_PATH . '/helpers/payment.php';
+
+    // installed?
+    if ( ! file_exists(STORAGE_PATH . '/installed')) {
+        include ROOT_PATH . '/install/index.php';
+        exit;
+    }
+    if ( ! Settings::get('app.dev')) {
+        if (file_exists(STORAGE_PATH . '/installed') && file_exists(ROOT_PATH . '/install')) {
+            include ROOT_PATH . '/install/warning.php';
+            exit;
+        }
+    }
 }

@@ -5,8 +5,8 @@ return array(
         'host' => 'localhost',
         'user' => 'root',
         'password' => '',
-        'db' => 'donate'
-    ), 
+        'db' => 'donate_test'
+    ),
     'servers' => [
         [
             'title' => 'Server 1',
@@ -32,6 +32,6 @@ return array(
             'password' => '',
             'db' => 'l2j_2'
         ]
-        
+
     ]
 );

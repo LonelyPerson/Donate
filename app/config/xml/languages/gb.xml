@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <language>
+    <translation key="Donate sistema" value="" />
     <translation key="Veiksmų istorija" value="" />
     <translation key="Istorijoje rodomi paskutinieji %s veiksmų (-ai)" value="" />
     <translation key="Istorija tuščia" value="" />
@@ -100,7 +101,7 @@
     <translation key="Jei tikrai norite gauti naują slaptažodį puslapyje %s paspauskite žemiau esančią patvirtinimo nuorodą" value="" />
     <translation key="Naujas slaptažodis" value="" />
     <translation key="Jūsų naujasis slaptažodis yra: %s" value="" />
-    <!-- 2015-07-22 -->
+
     <translation key="Norima taškų suma" value="" />
     <translation key="Pavadinimas" value="" />
     <translation key="Daiktų kiekis" value="" />
@@ -109,11 +110,38 @@
     <translation key="Ar tikrai norite pirkti šią prekę?" value="" />
     <translation key="Taip" value="" />
     <translation key="Ne" value="" />
-    <!-- 2015-07-23 -->
+
     <translation key="Apmokėjimas per" value="" />
     <translation key="Kursas" value="" />
     <translation key="Minimali taškų suma" value="" />
     <translation key="Maksimali taškų suma" value="" />
     <translation key="Reikės mokėti" value="" />
     <translation key="Pasirinkite šalį" value="" />
+
+    <translation key="Pranešimas" value="" />
+    <translation key="Prašome ištrinti %s aplanką, kad galėtumėte naudotis sistema." value="" />
+    <translation key="Sistemos diegimas" value="" />
+    <translation key="Prieš įdiegiant sistemą reikia atlikti keletą patikrinimų, kad įdiegimas būtų sėkmingas. Patikrinimą pradėkite tik tada kai užpildysite duomenų bazės nustatymus.
+    Nepamirškite ištrinti %s aplanko po sėkmingo sistemos įdiegimo." value="" />
+    <translation key="visi pagrindiniai nustatymai" value="" />
+    <translation key="duomenų bazės nustatymai" value="" />
+    <translation key="serverių nustatymai" value="" />
+    <translation key="serverių duom. bazių stulpelių pavadinimai" value="" />
+    <translation key="kalbų failai" value="" />
+    <translation key="paysera.com sms raktažodžiai" value="" />
+    <translation key="parduotuvės daiktai" value="" />
+    <translation key="Patikrinimai" value="" />
+    <translation key="Prisijungimas prie MySQL" value="" />
+    <translation key="tikrinama" value="" />
+    <translation key="pavyko" value="" />
+    <translation key="nepavyko" value="" />
+    <translation key="suteiktos" value="" />
+    <translation key="nesuteiktos" value="" />
+    <translation key="Įrašymo teisės %s aplankui" value="" />
+    <translation key="Pradėti patikrinimą" value="" />
+    <translation key="Diegimas" value="" />
+    <translation key="Prašome palaukti, sistema diegiama" value="" />
+    <translation key="Sistema sėkmingai įdiegta" value="" />
+    <translation key="Įdiegti" value="" />
+    <translation key="Baigti" value="" />
 </language>
