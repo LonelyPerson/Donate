@@ -17,13 +17,17 @@
             </div>
 
             <?php if ($servers) { ?>
-                <div class="input">
-                    <select name="server" class="form-control">
-                        <?php foreach ($servers as $key => $server) { ?>
-                            <option value="<?php echo $key; ?>"><?php echo reset($server); ?></option>
-                        <?php } ?>
-                    </select>
-                 </div>
+                <?php if (count($servers) > 1) { ?>
+                    <div class="input">
+                        <select name="server" class="form-control">
+                            <?php foreach ($servers as $key => $server) { ?>
+                                <option value="<?php echo $key; ?>"><?php echo reset($server); ?></option>
+                            <?php } ?>
+                        </select>
+                     </div>
+                 <?php } else { ?>
+                     <input type="hidden" name="server" value="1" />
+                 <?php } ?>
             <?php } ?>
 
             <?php

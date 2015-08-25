@@ -2,20 +2,20 @@
 <shop>
     <item>
         <title>Test 1</title>
-        <id>2300</id>
+        <id>57</id>
         <price>1</price>
-        <count>1</count>
+        <count>100</count>
         <img>custom.png</img>
     </item>
     <item>
         <title>Test 2</title>
-        <id>2301</id>
+        <id>200</id>
         <price>2</price>
         <count>1</count>
     </item>
     <item>
         <title>Test 3</title>
-        <id>2301</id>
+        <id>201</id>
         <price>2</price>
         <count>1</count>
     </item>

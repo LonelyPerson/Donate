@@ -18,10 +18,12 @@
                             ?>
                                 <tr>
                                     <td>
-                                        <?php if (Session::has('character_obj_id') && Session::get('character_obj_id') == $row->$SqlObjId) { ?>
+                                        <?php if ((Session::has('character_obj_id') && Session::get('character_obj_id') == $row->$SqlObjId) || Player::isOnline($row->$SqlObjId)) { ?>
                                             <a href="javascript: void(0)" class="select-char selected"><?php echo $row->$SqlCharName; ?></a>
+                                            <div class="pull-right"><i class="fa fa-lock"></i></div>
                                         <?php } else { ?>
                                             <a href="javascript: void(0)" class="select-char"><?php echo $row->$SqlCharName; ?></a>
+                                            <div class="pull-right"><i class="fa fa-unlock"></i></div>
                                         <?php } ?>
                                     </td>
                                 </tr>
@@ -31,7 +33,7 @@
                 </tbody>
             </table>
         <?php } else { ?>
-            <div class="alert alert-info"><?=Language::_('Nėra nė vieno veikėjo');?></div>
+            <div class="alert alert-info"><?=Language::_('Veikėjų nėra');?></div>
         <?php } ?>
     </div>
 </div>

@@ -20,7 +20,7 @@ $(document).ready(function() {
 
             var data = $('#jas-paypal-form').serialize();
 
-            $.post('index.php', data, function(response) {
+            $.post(route('/balance/paypal'), data, function(response) {
                 if (response.hasOwnProperty('redirect')) {
                     window.location = response.redirect;
                 } else {
@@ -51,7 +51,7 @@ $(document).ready(function() {
 
             var data = $('#jas-mokejimai-form').serialize();
 
-            $.post('index.php', data, function(response) {
+            $.post(route('/balance/paysera'), data, function(response) {
                 if (response.hasOwnProperty('submit')) {
                     $('#jas-mokejimai-form input[name="sign"]').val(response.sign);
                     $('#jas-mokejimai-form input[name="data"]').val(response.data);
@@ -86,7 +86,7 @@ $(document).ready(function() {
 
             var data = $('#jas-paygol-form').serialize();
 
-            $.post('index.php', data, function(response) {
+            $.post(route('/balance/paygol'), data, function(response) {
                 if (response.hasOwnProperty('submit')) {
                     $('#jas-paygol-form').submit();
                 } else {
@@ -107,7 +107,7 @@ $(document).ready(function() {
 
             var code = $(this).attr('data-code');
 
-            $.post('index.php', { get_sms_data: 'ok', 'code': code }, function(response) {
+            $.post(route('/balance/sms'), { get_sms_data: 'ok', 'code': code }, function(response) {
                 if (response.hasOwnProperty('success')) {
                     $('#sms').html(response.table);
 

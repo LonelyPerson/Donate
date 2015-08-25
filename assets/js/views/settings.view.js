@@ -5,7 +5,7 @@ $(document).ready(function() {
 
             var data = $('#settings-form').serialize();
 
-            $.post('index.php', data, function(response) {
+            $.post(route('/config/save'), data, function(response) {
                 if (response.hasOwnProperty('content')) {
                     $("#response").html(formatMessage(response.content, response.type));
 

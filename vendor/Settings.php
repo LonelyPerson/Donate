@@ -54,4 +54,12 @@ class Settings {
             return self::$settings[$key];
         }
     }
+
+    public static function has($key) {
+        if (isset(self::$settings['app'][$key])) {
+            return true;
+        }
+
+        return false;
+    }
 }

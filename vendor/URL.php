@@ -34,10 +34,13 @@ class URL {
         $path = ltrim($parse['path'], '/');
         $elements = explode('/', $path);
 
-        $args = array();
+        $args = [];
+        $counter = 1;
         foreach ($elements as $key => $value) {
-            if ($value)
-                $args[] = $value;
+            if ($value) {
+                $args[$counter] = $value;
+                $counter++;
+            }
         }
 
         return $args;

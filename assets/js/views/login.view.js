@@ -12,7 +12,9 @@ $(document).ready(function() {
 
             var data = $this.serialize();
 
-            $.post('index.php', data, function(response) {
+            $.post(route('/login'), data, function(response) {
+                console.log(response);
+
                 if (response.hasOwnProperty('view')) {
                     loadView(response.view);
                 } else {

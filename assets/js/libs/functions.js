@@ -1,7 +1,7 @@
 function loadPage(page, controller, callback) {
     blockScreen();
 
-    $('#jas-content').load('index.php?route=' + controller, function() {
+    $('#jas-content').load(route('/' + controller), function(response) {
         setPage(page);
         callback();
 
@@ -39,7 +39,7 @@ function setPage(page) {
 }
 
 function logout() {
-    $.post('index.php', { logout: true }, function(response) {
+    $.post(route('/user/logout'), { logout: true }, function(response) {
         if (response.success)
             loadView('login');
     });
@@ -60,11 +60,12 @@ function formatMessage(message, type) {
 
 function blockScreen() {
     $.blockUI({
-        message: '<span style="font-size: 30px;"></span>',
+        message: '<span style="font-size: 50px; color: #344146;"><i class="fa fa-cog fa-spin"></i></span>',
         overlayCSS:  {
             backgroundColor: '#fff',
             opacity: 0.8,
-            cursor: 'pointer'
+            cursor: 'pointer',
+            zIndex: 9999
         },
         css: {
             padding:        0,
@@ -76,7 +77,8 @@ function blockScreen() {
             color:          '#000',
             border:         'none',
             backgroundColor:'transparent',
-            cursor:         'pointer'
+            cursor:         'pointer',
+            zIndex: 9999
         },
     });
 }
@@ -87,9 +89,23 @@ function unblockScreen() {
 function setLanguage(code) {
     blockScreen();
 
-    $.post('index.php', { set_language: true, language: code }, function(response) {
+    $.post(route('/language'), { set_language: true, language: code }, function(response) {
         if (response.success) {
             window.location.reload();
+        }
+    });
+}
+
+function route(path) {
+    return gVar['base-url'] + path;
+}
+
+function checkIsOnline() {
+    $.post(route('/user/online'), {}, function(response) {
+        console.log(response);
+        if (response.type == 'true') {
+            console.log('what?');
+            location.reload(true);
         }
     });
 }

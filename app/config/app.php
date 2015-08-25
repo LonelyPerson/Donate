@@ -6,6 +6,9 @@ return [
     'email' => 'justas.asmanavicius@gmail.com',
     'session' => 'simple', // simple/database - veiks tik po sistemos idiegimo
     'dev' => false,
+    'player' => [
+        'online_check' => false
+    ],
     'registration' => [
         'enabled' => true,
         'min' => 4,
@@ -17,8 +20,16 @@ return [
     ],
     'shop' => [
         'enabled' => true,
-        'buy_confirmation' => false,
-        'per_page' => 0
+        'buy_confirmation' => true,
+        'per_page' => 0,
+        'show_icons' => true,
+        'auto_title' => true
+    ],
+    'inventory' => [
+        'enabled' => true,
+        'allow_delete' => true,
+        'delete_confirm' => true,
+        //'allow_sell' => true
     ],
     'paypal' => [
         'enabled' => true,

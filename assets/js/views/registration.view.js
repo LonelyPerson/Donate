@@ -11,8 +11,9 @@ $(document).ready(function() {
             var $this = $('#registration-form');
 
             var data = $this.serialize();
-
-            $.post('index.php', data, function(response) {
+            console.log(data);
+            $.post(route('/registration'), data, function(response) {
+                console.log(response);
                 if (response.hasOwnProperty('content')) {
                     if ($('#captcha').length) {
                         Recaptcha.reload();

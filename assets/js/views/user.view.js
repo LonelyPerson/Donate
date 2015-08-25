@@ -7,14 +7,9 @@ $(document).ready(function() {
 
             if ($this.hasClass('selected')) return;
 
-            $.post('index.php', { select_character: true, character_name: name }, function(response) {
+            $.post(route('/user/character/select'), { select_character: true, character_name: name }, function(response) {
                 if (response.success) {
-                    $('#selected-char').html(name);
-
-                    $('.select-char.selected').removeClass('selected');
-                    $this.addClass('selected');
-
-                    $("#response").html(formatMessage(response.content, response.type));
+                    loadView(response.view);
                 } else {
                     $("#response").html(formatMessage(response.content, response.type));
                 }

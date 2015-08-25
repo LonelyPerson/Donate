@@ -1,6 +1,6 @@
 $(document).ready(function() {
     loadPage('shop', 'shop', function() {
-        $('.image-link').magnificPopup({
+        /*$('.image-link').magnificPopup({
             type: 'image',
             closeOnContentClick: true,
             closeBtnInside: false,
@@ -13,43 +13,50 @@ $(document).ready(function() {
                 enabled: true,
                 duration: 300 // don't foget to change the duration also in CSS
             }
-        });
+        });*/
 
-        $('[data-toggle="tooltip"]').tooltip({
+        /*$('[data-toggle="tooltip"]').tooltip({
             html: true
-        });
+        });*/
 
-        if (gVar['buy-confirm']) {
+        /*if (gVar['buy-confirm']) {
             $('.item-box').on('click', function() {
                 $('#buy-confirm-modal').modal('show');
             });
-        }
+        }*/
 
-        $(document).on('click', '.jas-buy', function() {
+        $('.item-modal .jas-buy').on('click', function() {
+            var id = $(this).attr('data-id');
+
+            $(".response-c").hide();
+
             if (gVar['buy-confirm'])
                 $('#buy-confirm-modal').modal('hide');
+
             blockScreen();
 
             var $this = $(this);
             var data = $this.attr('data-item');
 
-            $.post('index.php', { buy: true, item_data: data }, function(response) {
+            $.post(route('/shop/buy'), { buy: true, item_data: data }, function(response) {
                 if (response.hasOwnProperty('content')) {
                     $('.nav li#balance span').html(response.balance);
-                    $("#response").html(formatMessage(response.content, response.type));
+                    $("#response-" + id).html(formatMessage(response.content, response.type)).show();
+
+                    $('#buy-confirm-modal-' + id).modal('hide');
 
                     unblockScreen();
                 }
             });
         });
 
-        $('.overlay .title').center('.item-box');
+        /*$('.overlay .title').center('.item-box');
 
         $('.item-box').on('mouseenter', function() {
             $(this).find('.overlay').stop(true).fadeIn('fast');
         }).on('mouseleave', function() {
             $(this).find('.overlay').stop(true).fadeOut('fast');
-        });
+        });*/
 
         $('.pagination li a').on('click', function() {
             if ($(this).parent().hasClass('active')) return;

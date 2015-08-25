@@ -19,8 +19,9 @@ return [
         'characters' => [
             'characters' => 'characters',
             'account_name' => 'account_name',
-            'obj_Id' => 'charId',
-            'char_name' => 'char_name'
+            'obj_Id' => 'obj_Id',
+            'char_name' => 'char_name',
+            'online' => 'online'
         ]
     ],
     2 => [
@@ -42,7 +43,8 @@ return [
             'characters' => 'characters',
             'account_name' => 'account_name',
             'obj_Id' => 'obj_Id',
-            'char_name' => 'char_name'
+            'char_name' => 'char_name',
+            'online' => 'online'
         ]
     ]
 

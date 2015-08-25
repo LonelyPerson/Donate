@@ -50,38 +50,26 @@ body {
     font-size: 12px;
 }
 #jas-content .item-box {
-    width: 300px;
+    width: 180px;
     border: 1px solid #e7e7e7;
     padding: 5px;
-    margin-left: 8px;
-    margin-top: 8px;
+    margin-left: 21px;
+    margin-top: 21px;
     text-align: center;
-    cursor: pointer;
 }
-#jas-content .item-box .overlay {
-    position: absolute;
-    width: 298px;
-    height: 110px;
-    margin-left: -5px;
-    margin-top: -5px;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 50;
-    display: none;
+#jas-content .item-box .jas-title {
+    text-align: center;
 }
-#jas-content .item-box .overlay .title {
-    position: absolute;
-    z-index: 1500;
-    color:  rgba(255, 255, 255, 1);
-    font-size: 16px;
-    margin-top: -8px;
-    margin-left: -15px;
-    font-weight: 300;
-    text-transform: uppercase;
+#jas-content .item-box .jas-title-in {
+    width: 100%;
+    height: 20px;
+    overflow: hidden;
 }
 #jas-content .item-box .price {
     position: absolute;
     margin-top: -14px;
-    margin-left: -15px;
+    margin-left: 40px;
+    text-align: right;
 }
 #jas-content .item-box .group-price {
     position: absolute;
@@ -92,6 +80,15 @@ body {
     position: absolute;
     margin-top: -14px;
     margin-left: 78px;
+}
+#jas-content .item-box .img {
+    width: 170px;
+    height: 80px;
+    text-align: center;
+}
+#jas-content .item-box .img img.small {
+    margin-top: 35px;
+    border-radius: 20px;
 }
 #jas-content .item-box .jas-buy-box {
     margin-top: 5px;
@@ -108,7 +105,22 @@ body {
     text-align: left;
     font-size: 12px;
 }
-#jas-content .item-box .jas-buy-box ul li span {}
+#jas-content .item-box .jas-buttons {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+#jas-content .item-modal .info {
+    margin-left: 15px;
+}
+#jas-content .item-modal .info ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+#jas-content .item-modal .info ul li {
+    margin: 0;
+    padding: 0;
+}
 #jas-content .languages-list {
     text-align: center;
     margin-bottom: 15px;
@@ -173,6 +185,10 @@ body {
     z-index: 0;
 }
 .modal {
+    z-index: 9999;
+}
+
+.popover {
     z-index: 9999;
 }
 

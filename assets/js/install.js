@@ -44,7 +44,7 @@ $(document).ready(function() {
 
         $.ajax({
             method: "POST",
-            url: "index.php",
+            url: route('/install/start'),
             data: { install: true },
             success: function(response) {
                 if (response.status == 'success') {
@@ -60,7 +60,7 @@ $(document).ready(function() {
 function check_db() {
     $.ajax({
         method: "POST",
-        url: "index.php",
+        url: route('/install/check/mysql'),
         data: { check_mysql_data: true },
         success: function(response) {
             if (response.status == 'error') {
@@ -81,7 +81,7 @@ function check_db() {
 function check_chmod() {
     $.ajax({
         method: "POST",
-        url: "index.php",
+        url: route('/install/check/chmod'),
         data: { check_chmod: true },
         success: function(response) {
             if (response.status == 'error') {

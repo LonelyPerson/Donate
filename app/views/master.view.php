@@ -19,6 +19,7 @@
 
         <script>
             var gVar = [];
+            gVar['base-url'] = "<?=Settings::get('app.base_url');?>";
             <?php if (Auth::isLoggedIn()) { ?>
                 gVar['support-email'] = "<?=Settings::get('app.email');?>";
             <?php } ?>
@@ -38,6 +39,7 @@
         <script src="<?=Settings::get('app.js');?>/libs/bootstrap.min.js"></script>
         <script src="<?=Settings::get('app.js');?>/libs/jquery.magnific-popup.min.js"></script>
         <script src="<?=Settings::get('app.js');?>/libs/blockui.js"></script>
+        <script src="<?=Settings::get('app.js');?>/libs/jquery.confirm.js"></script>
 
         <script src="<?=Settings::get('app.js');?>/libs/functions.js"></script>
         <script src="<?=Settings::get('app.js');?>/libs/log.js"></script>
