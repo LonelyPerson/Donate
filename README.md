@@ -46,6 +46,9 @@ Kelias iki "Url Background (IPN)" paygol sistemoje: http://manopuslapis.lt/paygo
 * Veikia su bet kuria Lineage 2 kronika (yra galimybė nurodyti duom. bazės stulpelių pavadinimus kiekvienam serveriui)
 * Paprastas išvaizdos keitimas
 * Galimybė siųsti laiškus per SMTP
+* Galimybė žaidėjui keisti savo lygi, nick'a, bei persikelti į kitą vietą jei užstrigo
+* Galimybė matyti ir valdyti savo daiktus
+* Patogus ir paprastas sistemos įdiegimas
 
 ##### Kontaktai
 Jei sistemoje radote klaidų, turite pasiūlymų ar norite tiesiog pasibėdavoti apie gyvenimą rašykite el. paštu justas.asmanavicius@gmail.com
