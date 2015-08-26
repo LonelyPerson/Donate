@@ -192,6 +192,10 @@ body {
     z-index: 9999;
 }
 
+.alert {
+    margin-bottom: 0;
+}
+
 /* balance page */
 #jas-content .balance .tab-content p {
     margin: 0;
@@ -263,4 +267,8 @@ body {
 #jas-content.install h4 {
     margin-top: 20px;
     margin-bottom: 5px;
+}
+
+#jas-content #response .alert, #jas-content .response-c .alert {
+    margin-bottom: 15px;
 }

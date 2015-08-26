@@ -6,8 +6,8 @@ function loadPage(page, controller, callback) {
         callback();
 
         // set active menu item
-        $('.nav li').removeClass('active');
-        $('.nav li#' + page).addClass('active');
+        $('.right-side .nav li').removeClass('active');
+        $('.right-side .nav li#' + page).addClass('active');
 
         $('.left-side').append('<div style="position: absolute; margin-top: 10px; font-size: 10px; text-transform: uppercase;">Autorius: <a href="http://justas.asmanavicius.lt" target="_blank">Justas Ašmanavičius</a></div>');
 
@@ -15,6 +15,14 @@ function loadPage(page, controller, callback) {
 
         unblockScreen();
     });
+}
+
+function setActiveTab(element, index) {
+    $(element + ' .nav li').not(':eq(' + index + ')').removeClass('active');
+    $(element + ' .nav li:eq(' + index + ')').addClass('active');
+
+    $(element + ' .tab-content .tab-pane').not(':eq(' + index + ')').removeClass('active');
+    $(element + ' .tab-content .tab-pane:eq(' + index + ')').addClass('active');
 }
 
 function loadView(view) {

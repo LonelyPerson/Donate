@@ -7,7 +7,28 @@ return [
     'session' => 'simple', // simple/database - veiks tik po sistemos idiegimo
     'dev' => false,
     'player' => [
-        'online_check' => false
+        'online_check' => false,
+        'enabled' => true,
+        'change_name' => [
+            'enabled' => true,
+            'min_chars' => 3,
+            'max_chars' => 10,
+            'allowed_chars' => 'a-zA-Z0-9_', // regexp
+            'price' => 3
+        ],
+        'unstuck' => [
+            'enabled' => true,
+            'price' => 1,
+            'loc' => 'x,y,z'
+        ],
+        'level' => [
+            'enabled' => true,
+            'allow_delevel' => true,
+            'delevel_price' => 2, // kaina uz -1 lvl
+            'price' => 1, // kaina uz +1 lvl
+            'min_level' => 10,
+            'max_level' => 80
+        ]
     ],
     'registration' => [
         'enabled' => true,
@@ -28,8 +49,7 @@ return [
     'inventory' => [
         'enabled' => true,
         'allow_delete' => true,
-        'delete_confirm' => true,
-        //'allow_sell' => true
+        'delete_confirm' => true
     ],
     'paypal' => [
         'enabled' => true,

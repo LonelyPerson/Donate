@@ -15,6 +15,11 @@
 
             <ul class="nav nav-pills nav-stacked">
                 <li id="user"><a href="javacript: void(0);" onclick="loadView('user'); return false;"><?=Language::_('Veikėjo pasirinkimas');?> <i class="fa fa-user pull-right"></i></a></li>
+                <?php if (Settings::get('app.player.enabled')) { ?>
+                    <li id="player">
+                        <a href="javacript: void(0);" onclick="loadView('player'); return false;"><?=Language::_('Veikėjas');?> <i class="fa fa-shopping-cart pull-right"></i></a>
+                    </li>
+                <?php } ?>
                 <?php if (Settings::get('app.inventory.enabled')) { ?>
                     <li id="inventory">
                         <a href="javacript: void(0);" onclick="loadView('inventory'); return false;"><?=Language::_('Inventorius');?> <i class="fa fa-suitcase pull-right"></i></a>

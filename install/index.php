@@ -21,6 +21,11 @@
         <script src="<?=Settings::get('app.js');?>/libs/log.js"></script>
 
         <script src="<?=Settings::get('app.js');?>/install.js"></script>
+
+        <script>
+            var gVar = [];
+            gVar['base-url'] = "<?=Settings::get('app.base_url');?>";
+        </script>
     </head>
     <body>
         <div id="jas-content" class="install">

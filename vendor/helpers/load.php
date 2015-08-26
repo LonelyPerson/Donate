@@ -31,13 +31,6 @@ if ( ! defined('STARTED')) {
 
     Language::load();
 
-    include_once APP_PATH . '/routes.php';
-
-    Router::dispatch();
-
-    // payment
-    include VENDOR_PATH . '/helpers/payment.php';
-
     // installed?
     if ( ! Settings::get('app.dev')) {
         if ( ! file_exists(STORAGE_PATH . '/installed')) {
@@ -50,4 +43,11 @@ if ( ! defined('STARTED')) {
             exit;
         }
     }
+
+    include_once APP_PATH . '/routes.php';
+
+    Router::dispatch();
+
+    // payment
+    include VENDOR_PATH . '/helpers/payment.php';
 }

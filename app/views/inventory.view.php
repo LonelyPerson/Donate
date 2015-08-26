@@ -62,11 +62,6 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Uždaryti</button>
 
-                                    <!--<?php if (Settings::get('app.inventory.allow_sell')) : ?>
-                                        <?php if (Item::inMarket($row->$sql_objectId)) ?>
-                                        <button type="button" class="btn btn-primary" data-id="<?=$c;?>">Parduoti</button>
-                                    <?php endif; ?>-->
-
                                     <?php if (Settings::get('app.inventory.allow_delete') && ! Item::inMarket($row->$sql_objectId)) : ?>
                                         <?php if ($row->$sql_count > 1) : ?>
                                             <div class="col-lg-6 pull-right">
@@ -93,7 +88,11 @@
                     </div>
                 <?php $c++; endforeach; ?>
             <?php else: ?>
-                <div class="alert alert-info">Neturite daiktų</div>
+                <?php if ( ! Player::isSelected()) : ?>
+                    <div class="alert alert-info">Nepasirinktas veikėjas</div>
+                <?php else: ?>
+                    <div class="alert alert-info">Neturite daiktų</div>
+                <?php endif; ?>
             <?php endif; ?>
 
             <div class="clearfix"></div>

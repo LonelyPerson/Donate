@@ -21,7 +21,11 @@ return [
             'account_name' => 'account_name',
             'obj_Id' => 'obj_Id',
             'char_name' => 'char_name',
-            'online' => 'online'
+            'online' => 'online',
+            'level' => 'level',
+            'x' => 'x',
+            'y' => 'y',
+            'z' => 'z'
         ]
     ],
     2 => [
@@ -44,7 +48,11 @@ return [
             'account_name' => 'account_name',
             'obj_Id' => 'obj_Id',
             'char_name' => 'char_name',
-            'online' => 'online'
+            'online' => 'online',
+            'level' => 'level',
+            'x' => 'x',
+            'y' => 'y',
+            'z' => 'z'
         ]
     ]
 

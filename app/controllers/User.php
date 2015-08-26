@@ -195,4 +195,127 @@ class User {
 
         return Output::json(['type' => 'false']);
     }
+
+    public function get_player() {
+        $player = DB::first("SELECT " . SQL::get('sql.characters.level') . " FROM " . SQL::get('sql.characters.characters') . " WHERE " . SQL::get('sql.characters.obj_Id') . " = ?", [Session::get('character_obj_id')], 'server');
+
+        $sql_level = SQL::get('sql.characters.level');
+        $currentLevel = $player->$sql_level;
+
+        return View::make('player', ['current_level' => $currentLevel]);
+    }
+    public function post_changeName() {
+        $name = Input::get('new_name');
+        $userBalance = Auth::user()->balance;
+        $price = Settings::get('app.player.change_name.price');
+
+        if ( ! $name)
+            return Output::json(['content' => Language::_('Neįvedėte naujo slapyvardžio'), 'type' => 'danger', 'error' => 'ok']);
+
+        if ($userBalance < $price)
+            return Output::json(['content' => Language::_('Nepakankamas balansas'), 'type' => 'danger', 'error' => 'ok']);
+
+        if (mb_strlen($name, 'UTF-8') < Settings::get('app.player.change_name.min_chars'))
+            return Output::json(['content' => Language::_('Minimalus simbolių kiekis: %s', [Settings::get('app.player.change_name.min_chars')]), 'type' => 'danger', 'error' => 'ok']);
+
+        if (mb_strlen($name, 'UTF-8') > Settings::get('app.player.change_name.max_chars'))
+            return Output::json(['content' => Language::_('Maksimalus simbolių kiekis: %s', [Settings::get('app.player.change_name.max_chars')]), 'type' => 'danger', 'error' => 'ok']);
+
+        if ( ! preg_match("/^[" . Settings::get('app.player.change_name.allowed_chars') . "]+$/i", $name))
+            return Output::json(['content' => Language::_('Įvedėte neleidžiamą simbolį'), 'type' => 'danger', 'error' => 'ok']);
+
+        $player = DB::first("SELECT * FROM " . SQL::get('sql.characters.characters') . " WHERE " . SQL::get('sql.characters.char_name') . " = ?", [$name], 'server');
+        if ($player)
+            return Output::json(['content' => Language::_('Toks slapyvardis jau naudojamas'), 'type' => 'danger', 'error' => 'ok']);
+
+        $newUserBalance = $userBalance - $price;
+        DB::query("UPDATE users SET balance = :balance WHERE id = :id", [
+            ':balance' => $newUserBalance,
+            ':id' => Session::get('donate_user_id')
+        ]);
+
+        DB::query("UPDATE " . SQL::get('sql.characters.characters') . " SET " . SQL::get('sql.characters.char_name') . " = ? WHERE " . SQL::get('sql.characters.obj_Id') . " = ?", [$name, Session::get('character_obj_id')], 'server');
+
+        Session::put('character_name', $name);
+
+        return Output::json(['content' => Language::_('Slapyvardis sėkmingai pakeistas'), 'type' => 'success', 'success' => 'ok', 'view' => 'player']);
+    }
+    public function post_unstuck() {
+        $userBalance = Auth::user()->balance;
+        $price = Settings::get('app.player.unstuck.price');
+        $loc = Settings::get('app.player.unstuck.loc');
+
+        $ex = explode(',', $loc);
+        $x = $ex[0];
+        $y = $ex[1];
+        $z = $ex[2];
+
+        if ($userBalance < $price)
+            return Output::json(['content' => Language::_('Nepakankamas balansas'), 'type' => 'danger', 'error' => 'ok']);
+
+        if ($price > 0) {
+            $newUserBalance = $userBalance - $price;
+            DB::query("UPDATE users SET balance = :balance WHERE id = :id", [
+                ':balance' => $newUserBalance,
+                ':id' => Session::get('donate_user_id')
+            ]);
+        }
+
+        DB::query("UPDATE " . SQL::get('sql.characters.characters') . " SET " . SQL::get('sql.characters.x') . " = ?, " . SQL::get('sql.characters.y') . " = ?, " . SQL::get('sql.characters.z') . " = ? WHERE " . SQL::get('sql.characters.obj_Id') . " = ?", [$x, $y, $z, Session::get('character_obj_id')], 'server');
+
+        return Output::json(['content' => Language::_('Veikėjas sėkmingai perkeltas'), 'type' => 'success', 'success' => 'ok', 'view' => 'player']);
+    }
+    public function post_level() {
+        $userBalance = Auth::user()->balance;
+        $newLevel = Input::get('level');
+        $price = Settings::get('app.player.level.price');
+        $delevelPrice = Settings::get('app.player.level.delevel_price');
+        $minLevel = Settings::get('app.player.level.min_level');
+        $maxLevel = Settings::get('app.player.level.max_level');
+
+        if ( ! $newLevel)
+            return Output::json(['content' => Language::_('Neįvedėte norimo lygio'), 'type' => 'danger', 'error' => 'ok']);
+
+        if ($newLevel < $minLevel)
+            return Output::json(['content' => Language::_('Minimalus lygis: %s', [$minLevel]), 'type' => 'danger', 'error' => 'ok']);
+
+        if ($newLevel > $maxLevel)
+            return Output::json(['content' => Language::_('Maksimalus lygis: %s', [$maxLevel]), 'type' => 'danger', 'error' => 'ok']);
+
+        $type = 'up';
+        $player = DB::first("SELECT * FROM " . SQL::get('sql.characters.characters') . " WHERE " . SQL::get('sql.characters.obj_Id') . " = ?", [Session::get('character_obj_id')], 'server');
+
+        $sql_level = SQL::get('sql.characters.level');
+
+        $currentLevel = $player->$sql_level;
+
+        if ($newLevel == $currentLevel)
+            return Output::json(['content' => Language::_('Įvedėte tokį patį lygį'), 'type' => 'danger', 'error' => 'ok']);
+
+        if ($newLevel < $currentLevel)
+            $type = 'down';
+
+        if ($type == 'up') {
+            // level up
+            $levelsCount = $newLevel - $currentLevel;
+            $price = $price * $levelsCount;
+        } else {
+            // delevel
+            $levelsCount = $currentLevel - $newLevel;
+            $price = $delevelPrice * $levelsCount;
+        }
+
+        if ($userBalance < $price)
+            return Output::json(['content' => Language::_('Nepakankamas balansas'), 'type' => 'danger', 'error' => 'ok']);
+
+        DB::query("UPDATE " . SQL::get('sql.characters.characters') . " SET " . SQL::get('sql.characters.level') . " = ? WHERE " . SQL::get('sql.characters.obj_Id') . " = ?", [$newLevel, Session::get('character_obj_id')], 'server');
+
+        $newUserBalance = $userBalance - $price;
+        DB::query("UPDATE users SET balance = :balance WHERE id = :id", [
+            ':balance' => $newUserBalance,
+            ':id' => Session::get('donate_user_id')
+        ]);
+
+        return Output::json(['content' => Language::_('Lygis sėkmingai pakeistas'), 'type' => 'success', 'success' => 'ok', 'view' => 'player']);
+    }
 }

@@ -14,4 +14,11 @@ class Player {
 
         return false;
     }
+
+    public function isSelected() {
+        if (Session::has('character_obj_id'))
+            return true;
+
+        return false;
+    }
 }

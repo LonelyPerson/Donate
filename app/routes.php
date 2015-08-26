@@ -18,13 +18,19 @@ Router::post('/user/character/select', 'User@post_selectCharacter');
 Router::post('/user/logout', 'User@post_logout');
 Router::post('/user/online', 'User@post_isOnline');
 
+// player
+Router::ajax('/player', 'User@get_player');
+Router::post('/player/change-name', 'User@post_changeName');
+Router::post('/player/unstuck', 'User@post_unstuck');
+Router::post('/player/level', 'User@post_level');
+
 // shop
 Router::ajax('/shop', 'Shop@get_index');
 Router::post('/shop/buy', 'Shop@post_buy');
 
 // market
-Router::ajax('/market', 'Market@get_index');
-Router::post('/market/buy', 'Market@post_buy');
+//Router::ajax('/market', 'Market@get_index');
+//Router::post('/market/buy', 'Market@post_buy');
 
 // inventory
 Router::ajax('/inventory', 'Inventory@get_index');
