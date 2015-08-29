@@ -4,6 +4,9 @@
 ##### Apie
 Ši sistema nėra perkurta senoji sistema, tai visiškai nauja, tobulesnė ir saugesnė, turinti daugiau galimybių sistema. Šios sistemos autorius, kaip ir senosios, esu aš - [Justas Ašmanavičius](http://justas.asmanavicius.lt).
 
+##### SVARBU!!!
+Kol kas sistema yra bandymo stadijoje ir dažnai atnaujinama, taisomos klaidos.
+
 ##### Sistemos įdiegimas
 Norėdami įdiegti sistemą atsisiųskite visus failus, išskleiskite juos ten kur norite, kad veiktų sistema. Po to vadovaukitės įdiegimo vedliu. Po sėkmingo sistemos įdiegimo nepamirškite ištrinti **install** aplanką.
 
