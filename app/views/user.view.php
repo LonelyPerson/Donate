@@ -1,7 +1,7 @@
 <?php include VIEWS_PATH . '/user_menu.inc.php'; ?>
 
 <div class="panel panel-default left-side">
-    <div class="panel-heading"><?=Language::_('Veikėjai');?></div>
+    <div class="panel-heading"><?=__('Characters');?></div>
     <div class="panel-body">
         <div id="response"></div>
 
@@ -9,7 +9,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th><?=Language::_('Vardas');?></th>
+                        <th><?=__('Char name');?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,7 +33,7 @@
                 </tbody>
             </table>
         <?php } else { ?>
-            <div class="alert alert-info"><?=Language::_('Veikėjų nėra');?></div>
+            <div class="alert alert-info"><?=__('No characters found');?></div>
         <?php } ?>
     </div>
 </div>

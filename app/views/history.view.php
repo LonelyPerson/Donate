@@ -1,23 +1,23 @@
 <?php
     include VIEWS_PATH . '/user_menu.inc.php';
 
-    if ( ! Settings::get('app.history.enabled'))
+    if ( ! config('app.history.enabled'))
         exit('History disabled');
 ?>
 
 <div class="panel panel-default left-side">
-    <div class="panel-heading"><?=Language::_('Veiksmų istorija');?></div>
+    <div class="panel-heading"><?=__('History');?></div>
     <div class="panel-body">
 
         <?php if ($history) { ?>
-            <div class="alert alert-info"><?=Language::_('Istorijoje rodomi paskutinieji %s veiksmų (-ai)', [Settings::get('app.history.limit')]);?></div>
+            <div class="alert alert-info" style="margin-bottom: 15px;"><?=__('Showing % last actions', [config('app.history.limit')]);?></div>
 
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th><?=Language::_('Skyrius');?></th>
-                        <th><?=Language::_('Veiksmas');?></th>
-                        <th><?=Language::_('Data');?></th>
+                        <th><?=__('Section');?></th>
+                        <th><?=__('Action');?></th>
+                        <th><?=__('Date');?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,7 +31,7 @@
                 </tbody>
             </table>
         <?php } else { ?>
-            <div class="alert alert-info"><?=Language::_('Istorija tuščia');?></div>
+            <div class="alert alert-info"><?=__('History is empty');?></div>
         <?php } ?>
     </div>
 </div>

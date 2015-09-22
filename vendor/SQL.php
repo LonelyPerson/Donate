@@ -1,5 +1,11 @@
 <?php
 
+namespace Donate\Vendor;
+
+if ( ! defined('STARTED')) exit;
+
+use \Donate\Vendor\Session;
+
 class SQL {
     public static function get($key, $serverID = 1) {
         $key = explode('.', $key);

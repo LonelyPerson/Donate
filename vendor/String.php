@@ -1,5 +1,9 @@
 <?php
 
+namespace Donate\Vendor;
+
+if ( ! defined('STARTED')) exit;
+
 class String {
 	public static function truncate($string, $length = 50, $append="..") {
 		$string = trim($string);

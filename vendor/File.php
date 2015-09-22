@@ -1,27 +1,12 @@
 <?php
 
+namespace Donate\Vendor;
+
+if ( ! defined('STARTED')) exit;
+
+use \Donate\Vendor\Settings;
+
 class File {
-    public static function getItemIcon($imgName, $itemID = 0) {
-        $item = XML::findItemByID($itemID);
-
-        $itemIcon = '';
-        if ($item) {
-            foreach ($item->set as $set) {
-                if ($set->attributes()->name == 'icon') {
-                    $itemIcon = $set->attributes()->val;
-                    $itemIcon = str_replace('icon.', '', $itemIcon);
-                    break;
-                }
-            }
-        }
-
-        if ($itemIcon)
-            return '<img src="' . Settings::get('app.img') . '/icons/' . $itemIcon . '.png" class="small" style="width: 32px; height: 32px;" />';
-        else
-            return '<img src="' . Settings::get('app.img') . '/icons/default_no_img.jpg" class="small" style="width: 32px; height: 32px;" />';
-
-    }
-
     public static function getFlagIcon($code, $width = 0) {
         $code = strtoupper($code);
         $flagPath = Settings::get('app.base_url') . '/assets/img/flags';
@@ -51,5 +36,17 @@ class File {
     public static function create($path) {
         $h = fopen($path, "w") or die("File::create error");
         fclose($h);
+    }
+
+    public static function append($path, $string) {
+        $fh = fopen($path, 'a') or die("File::append error");
+        fwrite($fh, $string);
+        fclose($fh);
+    }
+
+    public static function write($path, $string) {
+        $fh = fopen($path, 'w') or die("File::append error");
+        fwrite($fh, $string);
+        fclose($fh);
     }
 }

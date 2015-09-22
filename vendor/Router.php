@@ -1,5 +1,9 @@
 <?php
 
+namespace Donate\Vendor;
+
+if ( ! defined('STARTED')) exit;
+
 class Router {
     public static $halts = true;
 
@@ -56,6 +60,8 @@ class Router {
         $replaces = array_values(static::$patterns);
 
         $found_route = false;
+
+        self::$routes = str_replace(['//', '\/'], ['/', '/'], self::$routes);
 
         // check if route is defined without regex
         if (in_array($uri, self::$routes)) {

@@ -1,19 +1,20 @@
 <?php include VIEWS_PATH . '/menu.inc.php'; ?>
 
 <div class="panel panel-default left-side">
-    <div class="panel-heading"><?=Language::_('Registracija');?></div>
+    <div class="panel-heading"><?=__('Registration');?></div>
     <div class="panel-body">
         <div id="response"></div>
 
         <form id="registration-form" class="col-xs-8" style="float: none !important; margin: 0 auto;">
             <input type="hidden" name="registration" value="ok" />
+            <input type="hidden" name="token" value="<?=Form::token('registration');?>" />
 
             <div class="input">
-                <input type="text" class="form-control" name="username" placeholder="<?=Language::_('Slapyvardis');?>" />
+                <input type="text" class="form-control" name="username" placeholder="<?=__('Username');?>" />
             </div>
 
             <div class="input">
-                <input type="password" class="form-control" name="password" placeholder="<?=Language::_('Slaptažodis');?>" />
+                <input type="password" class="form-control" name="password" placeholder="<?=__('Password');?>" />
             </div>
 
             <?php if ($servers) { ?>
@@ -31,12 +32,12 @@
             <?php } ?>
 
             <?php
-                if (Settings::get('app.captcha.registration'))
+                if (config('app.captcha.registration'))
                     include VIEWS_PATH . '/captcha.inc.php';
             ?>
 
             <div class="input">
-                <input type="button" name="register" class="btn btn-primary pull-right" value="<?=Language::_('Registruotis');?>" />
+                <input type="button" name="register" class="btn btn-primary pull-right" value="<?=__('Register');?>" />
             </div>
             <div class="clearfix"></div>
         </form>

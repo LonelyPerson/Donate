@@ -13,14 +13,16 @@ $(document).ready(function() {
             var data = $this.serialize();
 
             $.post(route('/login'), data, function(response) {
-                console.log(response);
-
                 if (response.hasOwnProperty('view')) {
                     loadView(response.view);
                 } else {
                     if ($('#captcha').length) {
                         Recaptcha.reload();
                     }
+
+                    $.post(route('/user/token/reload'), { form: 'login' }, function(response) {
+                       $('input[name="token"]').val(response.token);
+                    });
 
                     $this.find('input[name="username"]').val('');
                     $this.find('input[name="password"]').val('');

@@ -1,5 +1,12 @@
 <?php
 
+namespace Donate\Vendor;
+
+if ( ! defined('STARTED')) exit;
+
+use \Donate\Vendor\Settings;
+use \Donate\Vendor\SessionStorage;
+
 class Session {
     public static function type() {
         $type = Settings::get('app.session');

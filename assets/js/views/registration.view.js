@@ -11,13 +11,15 @@ $(document).ready(function() {
             var $this = $('#registration-form');
 
             var data = $this.serialize();
-            console.log(data);
             $.post(route('/registration'), data, function(response) {
-                console.log(response);
                 if (response.hasOwnProperty('content')) {
                     if ($('#captcha').length) {
                         Recaptcha.reload();
                     }
+
+                    $.post(route('/user/token/reload'), { form: 'registration' }, function(response) {
+                       $('input[name="token"]').val(response.token);
+                    });
 
                     $("#response").html(formatMessage(response.content, response.type));
                 }

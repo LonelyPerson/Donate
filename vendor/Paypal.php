@@ -1,5 +1,12 @@
 <?php
 
+namespace Donate\Vendor;
+
+if ( ! defined('STARTED')) exit;
+
+use \Donate\Vendor\Settings;
+use \Donate\Vendor\DB;
+
 class Paypal {
     private static $paypalSandboxUrl = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
     private static $paypalUrl = 'https://www.paypal.com/cgi-bin/webscr';

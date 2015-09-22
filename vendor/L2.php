@@ -1,5 +1,9 @@
 <?php
 
+namespace Donate\Vendor;
+
+if ( ! defined('STARTED')) exit;
+
 class L2 {
     public static function hash($string, $type = 'default') {
         if ($type == 'whirlpool') {

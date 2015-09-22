@@ -1,5 +1,7 @@
 <?php
 
+if ( ! defined('STARTED')) exit;
+
 return [
     'donate' => [
         'host' => 'localhost',
@@ -23,15 +25,6 @@ return [
                 'password' => '',
                 'db' => 'l2j_server'
             ]
-        ]/*,
-        [
-            'title' => 'Server 2',
-            'id' => 2,
-            'host' => 'localhost',
-            'user' => 'root',
-            'password' => '',
-            'db' => 'l2j_2'
-        ]*/
-
+        ]
     ]
 ];

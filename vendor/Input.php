@@ -1,5 +1,9 @@
 <?php
 
+namespace Donate\Vendor;
+
+if ( ! defined('STARTED')) exit;
+
 class Input {
     public static function get($key = '') {
         if (isset($_POST[$key]) && ! empty($_POST[$key])) {

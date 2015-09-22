@@ -1,12 +1,16 @@
 <?php
 
+namespace Donate\Vendor;
+
+if ( ! defined('STARTED')) exit;
+
 class URL {
     public static function to($where = '/') {
-        Header('Location: ' . Settings::get('app.base_url') . $where);
+        Header('Location: ' . config('app.base_url') . $where);
         exit;
     }
 
-    function baseUrl($atRoot=FALSE, $atCore=FALSE, $parse=FALSE){
+    public static function baseUrl($atRoot=FALSE, $atCore=FALSE, $parse=FALSE){
         if (isset($_SERVER['HTTP_HOST'])) {
             $http = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
             $hostname = $_SERVER['HTTP_HOST'];
@@ -29,7 +33,7 @@ class URL {
         return rtrim($base_url, '/');
     }
 
-    function segments($url) {
+    public static function segments($url) {
         $parse = parse_url($url);
         $path = ltrim($parse['path'], '/');
         $elements = explode('/', $path);
@@ -44,5 +48,20 @@ class URL {
         }
 
         return $args;
+    }
+
+    public static function urlOrigin($s, $use_forwarded_host=false) {
+        $ssl = (!empty($s['HTTPS']) && $s['HTTPS'] == 'on') ? true:false;
+        $sp = strtolower($s['SERVER_PROTOCOL']);
+        $protocol = substr($sp, 0, strpos($sp, '/')) . (($ssl) ? 's' : '');
+        $port = $s['SERVER_PORT'];
+        $port = ((!$ssl && $port=='80') || ($ssl && $port=='443')) ? '' : ':'.$port;
+        $host = ($use_forwarded_host && isset($s['HTTP_X_FORWARDED_HOST'])) ? $s['HTTP_X_FORWARDED_HOST'] : (isset($s['HTTP_HOST']) ? $s['HTTP_HOST'] : null);
+        $host = isset($host) ? $host : $s['SERVER_NAME'] . $port;
+        return $protocol . '://' . $host;
+    }
+
+    public static function current() {
+        return self::urlOrigin($_SERVER) . $_SERVER['REQUEST_URI'];
     }
 }

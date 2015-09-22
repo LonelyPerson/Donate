@@ -1,5 +1,12 @@
 <?php
 
+if ( ! defined('STARTED')) exit;
+
+use \Donate\Vendor\DB;
+use \Donate\Vendor\Output;
+use \Donate\Vendor\File;
+use \Donate\Vendor\SQL;
+
 class Install {
     public function post_checkDBConnection() {
         if ( ! DB::isActive())

@@ -1,5 +1,11 @@
 <?php
 
+namespace Donate\Vendor;
+
+if ( ! defined('STARTED')) exit;
+
+use \Donate\Vendor\View;
+
 class Menu {
     public static function render() {
         $items = [

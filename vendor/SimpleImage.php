@@ -1,5 +1,9 @@
 <?php
 
+namespace Donate\Vendor;
+
+if ( ! defined('STARTED')) exit;
+
 class SimpleImage {
 
 	/**

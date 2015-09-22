@@ -1,0 +1,102 @@
+body {
+    font-family: 'Roboto';
+}
+
+input {
+	outline: none;
+}
+ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.container {
+	margin-top: 50px;
+}
+
+/* dashboard */
+#jas-content-admin .dashboard .main-nav {
+	list-style: none;
+}
+#jas-content-admin .dashboard .main-nav li {
+	width: 100px;
+	float: left;
+}
+#jas-content-admin .dashboard .main-nav a i {
+	font-size: 25px;
+}
+#jas-content-admin .dashboard .main-nav a {
+	display: block;
+	text-align: center;
+	margin: 0 auto;
+	text-decoration: none;
+}
+#jas-content-admin .side-menu ul li a .title {
+	display: inline-block;
+	margin-left: 5px;
+}
+#jas-content-admin .side-menu ul li a {
+	text-decoration: none;
+}
+#jas-content-admin .side-menu ul li ul.submenu {
+	margin-left: 20px;
+}
+
+/* configs */
+#jas-content-admin .config .main-nav {
+	list-style: none;
+}
+#jas-content-admin .config .main-nav li {
+	width: 100px;
+	
+	float: left;
+}
+#jas-content-admin .config .main-nav a i {
+	font-size: 25px;
+}
+#jas-content-admin .config .main-nav a {
+	display: block;
+	text-align: center;
+	margin: 0 auto;
+	text-decoration: none;
+	padding: 15px;
+}
+#jas-content-admin .config .main-nav a:hover {
+	background: #D4D4D4;
+}
+
+#jas-content-admin .block {}
+
+#jas-content-admin label {
+	font-weight: 700;
+	text-transform: uppercase;
+	margin: 0;
+}
+#jas-content-admin p.description {
+	font-size: 11px;
+	color: #7f8c8d;
+}
+
+#jas-content-admin .minus {
+	margin-top: 15px;
+	font-size: 16px;
+}
+#jas-content-admin .items-group {
+	margin-top: 25px;
+}
+
+/* utilities */
+.clearfix {
+	clear: both;
+}
+.pull-left { float: left; }
+.pull-right { float: right; }
+
+/* override */
+.table {
+	margin-bottom: 0;
+}
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+	vertical-align: middle;
+}

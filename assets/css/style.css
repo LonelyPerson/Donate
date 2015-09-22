@@ -90,6 +90,12 @@ body {
     margin-top: 35px;
     border-radius: 20px;
 }
+#jas-content .item-box .img i {
+    margin-top: 30px;
+    border-radius: 20px;
+    background: #ecf0f1;
+    padding: 10px;
+}
 #jas-content .item-box .jas-buy-box {
     margin-top: 5px;
     width: 170px;
@@ -121,6 +127,9 @@ body {
     margin: 0;
     padding: 0;
 }
+#jas-content .item-modal .items-group {
+    margin-bottom: 20px;
+}
 #jas-content .languages-list {
     text-align: center;
     margin-bottom: 15px;
@@ -134,7 +143,6 @@ body {
 #jas-content #selected-char {
     text-align: center;
     font-weight: 700;
-    text-transform: uppercase;
 }
 #jas-content .select-char.selected {
     cursor: default;

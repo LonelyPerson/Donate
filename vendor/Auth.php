@@ -1,5 +1,13 @@
 <?php
 
+namespace Donate\Vendor;
+
+if ( ! defined('STARTED')) exit;
+
+use \Donate\Vendor\Session;
+use \Donate\Vendor\DB;
+use \Donate\Vendor\SQL;
+
 class Auth {
     public static function check($username = '', $password = '', $server = 0) {
         $encodedPassword = L2::hash($password, Server::getHashType($server));
@@ -21,15 +29,20 @@ class Auth {
                 }
 
                 $id = DB::lastInsertId('INSERT INTO users SET code = ?, username = ?, server = ?', [$code, $login, $server]);
+                $access = 0;
             } else {
                 $id = $results->id;
                 $code = $results->code;
+                $access = $results->access;
             }
 
             Session::put('server_account_login', $login);
             Session::put('donate_user_id', $id);
             Session::put('active_server_id', ( ! $server) ? '1' : Server::getID($server));
             Session::put('donate_user_code', $code);
+            Session::put('access', $access);
+
+            _log('Sign in successfully', 'user', $username);
 
             return true;
         }

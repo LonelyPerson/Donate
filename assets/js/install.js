@@ -42,16 +42,13 @@ $(document).ready(function() {
         $(this).hide();
         $('.install-progress').show();
 
-        $.ajax({
-            method: "POST",
-            url: route('/install/start'),
-            data: { install: true },
-            success: function(response) {
-                if (response.status == 'success') {
-                    $('#end').show();
-                    $('.install-progress .wait').hide();
-                    $('.install-progress .success').show();
-                }
+        $.post(route('/setup/start'), {}, function(response) {
+            console.log(response);
+
+            if (response.status == 'success') {
+                $('#end').show();
+                $('.install-progress .wait').hide();
+                $('.install-progress .success').show();
             }
         });
     });
@@ -60,7 +57,7 @@ $(document).ready(function() {
 function check_db() {
     $.ajax({
         method: "POST",
-        url: route('/install/check/mysql'),
+        url: route('/setup/check/mysql'),
         data: { check_mysql_data: true },
         success: function(response) {
             if (response.status == 'error') {
@@ -81,7 +78,7 @@ function check_db() {
 function check_chmod() {
     $.ajax({
         method: "POST",
-        url: route('/install/check/chmod'),
+        url: route('/setup/check/chmod'),
         data: { check_chmod: true },
         success: function(response) {
             if (response.status == 'error') {

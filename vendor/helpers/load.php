@@ -1,8 +1,13 @@
 <?php
 
+use \Donate\Vendor\Settings;
+use \Donate\Vendor\Language;
+use \Donate\Vendor\Router;
+
 if ( ! defined('STARTED')) {
+    header('Content-Type: text/html; charset=utf-8');
     define('STARTED', true);
-    error_reporting(1);
+    error_reporting(E_ALL & ~E_NOTICE);
 
     // some global settings
     if ( ! defined('ROOT_PATH'))
@@ -14,40 +19,31 @@ if ( ! defined('STARTED')) {
     define('CONTROLLERS_PATH', APP_PATH . '/controllers');
     define('CONFIG_PATH', APP_PATH . '/config');
     define('STORAGE_PATH', APP_PATH . '/storage');
-
-    include VENDOR_PATH . '/PHPMailer/PHPMailer.php';
-    include VENDOR_PATH . '/PHPMailer/SMTP.php';
+    define('LANGUAGES_PATH', APP_PATH . '/languages');
 
     session_start();
 
     // autoload
     include VENDOR_PATH . '/autoload.php';
 
+    include VENDOR_PATH . '/helpers/alias.php';
+    include VENDOR_PATH . '/helpers/recaptchalib.php';
+
     // load settings
     Settings::load();
 
-    if (Settings::get('app.timezone'))
-        date_default_timezone_set(Settings::get('app.timezone'));
+    if (config('app.timezone'))
+        date_default_timezone_set(config('app.timezone'));
 
     Language::load();
 
     // installed?
-    if ( ! Settings::get('app.dev')) {
-        if ( ! file_exists(STORAGE_PATH . '/installed')) {
-            include ROOT_PATH . '/install/index.php';
-            exit;
-        }
-
-        if (file_exists(STORAGE_PATH . '/installed') && file_exists(ROOT_PATH . '/install')) {
-            include ROOT_PATH . '/install/warning.php';
-            exit;
-        }
+    if ( ! file_exists(STORAGE_PATH . '/installed') && ! Request::isMethod('post')) {
+        include ROOT_PATH . '/install/index.php';
+        exit;
     }
 
     include_once APP_PATH . '/routes.php';
 
     Router::dispatch();
-
-    // payment
-    include VENDOR_PATH . '/helpers/payment.php';
 }

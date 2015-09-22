@@ -1,12 +1,12 @@
 <?php
     include VIEWS_PATH . '/menu.inc.php';
 
-    if ( ! Settings::get('app.recovery.enabled'))
+    if ( ! config('app.recovery.enabled'))
         exit('Recovery disabled');
 ?>
 
 <div class="panel panel-default left-side">
-    <div class="panel-heading"><?=Language::_('Slaptažodžio atstatymas');?></div>
+    <div class="panel-heading"><?=__('Password recovery');?></div>
     <div class="panel-body">
 
         <div id="response"></div>
@@ -21,9 +21,10 @@
 
         <form id="recovery-form" class="col-xs-8" style="float: none !important; margin: 0 auto;">
             <input type="hidden" name="recovery" value="ok" />
+            <input type="hidden" name="token" value="<?=Form::token('recovery');?>" />
 
             <div class="input">
-                <input type="text" class="form-control" name="recovery_input" placeholder="<?=Language::_('El. pašto adresas arba slapyvardis');?>" />
+                <input type="text" class="form-control" name="recovery_input" placeholder="<?=__('Your e-mail or username');?>" />
             </div>
 
             <?php if ($servers) { ?>
@@ -41,12 +42,12 @@
             <?php } ?>
 
             <?php
-            if (Settings::get('app.captcha.recovery'))
+            if (config('app.captcha.recovery'))
                 include VIEWS_PATH . '/captcha.inc.php';
             ?>
 
             <div class="input">
-                <input type="button" name="save" class="btn btn-primary pull-right" value="<?=Language::_('Gauti naują slaptažodį');?>" />
+                <input type="button" name="save" class="btn btn-primary pull-right" value="<?=__('Request new password');?>" />
             </div>
 
             <div class="clearfix"></div>

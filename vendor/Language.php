@@ -1,5 +1,12 @@
 <?php
 
+namespace Donate\Vendor;
+
+if ( ! defined('STARTED')) exit;
+
+use \Donate\Vendor\Session;
+use \Donate\Vendor\Settings;
+
 class Language {
     private static $translations = [];
 
@@ -8,14 +15,8 @@ class Language {
     }
 
     public static function load($code = 'lt') {
-        if (Language::getActive() && Language::getActive() != 'lt' && file_exists(CONFIG_PATH . '/xml/languages/' . Language::getActive() . '.xml')) {
-            $xml = simplexml_load_file(CONFIG_PATH . '/xml/languages/' . self::getActive() . '.xml');
-
-            if ($xml) {
-                foreach ($xml as $translation) {
-                    self::$translations[(string)$translation['key']] = (string)$translation['value'];
-                }
-            }
+        if (self::getActive() && self::getActive() != 'lt' && file_exists(LANGUAGES_PATH . '/' . self::getActive() . '.lang.php')) {
+            self::$translations = include LANGUAGES_PATH . '/' . self::getActive() . '.lang.php';
         }
     }
 
@@ -28,10 +29,18 @@ class Language {
             }
         }
 
+        // temp
+        $base = (array) include APP_PATH . '/languages/base.php'; 
+        $base[$key] = '';
+        file_put_contents(APP_PATH . '/languages/base.php', '<?php return ' . var_export($base, true) . ';');
+
         return ($args) ? vsprintf($key, $args) : $key;
     }
 
     public static function getEnabled() {
-        return Settings::get('app.language.enabled');
+        $languages = Settings::get('app.language.enabled');
+       
+        $languages = explode(',', $languages);
+        return $languages;
     }
 }

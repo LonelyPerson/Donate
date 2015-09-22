@@ -9,7 +9,7 @@ function loadPage(page, controller, callback) {
         $('.right-side .nav li').removeClass('active');
         $('.right-side .nav li#' + page).addClass('active');
 
-        $('.left-side').append('<div style="position: absolute; margin-top: 10px; font-size: 10px; text-transform: uppercase;">Autorius: <a href="http://justas.asmanavicius.lt" target="_blank">Justas Ašmanavičius</a></div>');
+        $('.left-side').append('<div style="position: absolute; margin-top: 10px; font-size: 10px; text-transform: uppercase;">Author: <a href="http://justas.asmanavicius.lt" target="_blank">Justas Ašmanavičius</a></div>');
 
         $("html, body").animate({ scrollTop: 0 }, "slow");
 
@@ -119,15 +119,13 @@ function checkIsOnline() {
 }
 
 (function($){
-  $.isBlank = function(obj){
-    return(!obj || $.trim(obj) === "");
-  };
+    $.isBlank = function(obj) {
+        return(!obj || $.trim(obj) === "");
+    };
 })(jQuery);
 
 jQuery.fn.center = function (element) {
-    this.css("top", Math.max(0, (($(element).height() - $(this).outerHeight()) / 2) +
-                                                $(element).scrollTop()) + "px");
-    this.css("left", Math.max(0, (($(element).width() - $(this).outerWidth()) / 2) +
-                                                $(element).scrollLeft()) + "px");
+    this.css("top", Math.max(0, (($(element).height() - $(this).outerHeight()) / 2) + $(element).scrollTop()) + "px");
+    this.css("left", Math.max(0, (($(element).width() - $(this).outerWidth()) / 2) + $(element).scrollLeft()) + "px");
     return this;
 }

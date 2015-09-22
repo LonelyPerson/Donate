@@ -1,14 +1,23 @@
 <?php
 
+namespace Donate\Vendor;
+
+if ( ! defined('STARTED')) exit;
+
+use \Donate\Vendor\Settings;
+use \Donate\Vendor\Auth;
+use \Donate\Vendor\Session;
+
 class DB {
     private static $donateDB = null;
     private static $serverDB = null;
+    private static $config = [];
 
     public static function connect($host, $user, $pass, $db) {
         try {
-            return new PDO('mysql:dbname=' . $db . ';host=' . $host, $user, $pass, array(
-                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
+            return new \PDO('mysql:dbname=' . $db . ';host=' . $host, $user, $pass, array(
+                \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ
             ));
         } catch (PDOException $e) {
             return false;
@@ -16,11 +25,13 @@ class DB {
     }
 
     public static function dbh($conn = 'donate', $serverID = 0, $br = '') {
+        self::$config = include CONFIG_PATH . '/database.php';
+
         if ($conn == 'donate' && is_null(self::$donateDB) === true) {
-            $host = Settings::get('database.donate.host');
-            $user = Settings::get('database.donate.user');
-            $pass = Settings::get('database.donate.password');
-            $db = Settings::get('database.donate.db');
+            $host = self::$config['donate']['host'];
+            $user = self::$config['donate']['user'];
+            $pass = self::$config['donate']['password'];
+            $db = self::$config['donate']['db'];
 
             self::$donateDB = self::connect($host, $user, $pass, $db);
         }
@@ -28,7 +39,7 @@ class DB {
         if ($conn == 'server') {
             if (Auth::isLoggedIn()) $serverID = Session::get('active_server_id');
 
-            $serverData = Settings::get('database.servers');
+            $serverData = config('database.servers');
 
             if (isset($serverData[$serverID]['login'])) {
                 if ($br == 'login') {

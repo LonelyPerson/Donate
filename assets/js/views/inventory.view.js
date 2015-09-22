@@ -46,5 +46,27 @@ $(document).ready(function() {
                 }
             });
         });*/
+
+        $('.pagination li a').on('click', function() {
+            if ($(this).parent().hasClass('active')) return;
+
+            var page = parseInt($(this).attr('data-page'));
+            var perPage = parseInt(gVar['inventory-pagination']);
+            var start = 0;
+            if (page != 1) {
+                start = (page - 1) * perPage;
+            }
+            var end = parseInt(start + perPage - 1);
+
+            $('.inventory .p').not(':hidden').stop(true, true).fadeOut('fast', function() {
+                $(this).hide();
+                for(i=start;i<=end;i++) {
+                    $('.inventory .p#' + i).fadeIn('fast');
+                }
+            });
+
+            $('.pagination li.active').removeClass('active');
+            $(this).parent().addClass('active');
+        });
     });
 });

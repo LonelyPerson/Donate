@@ -1,5 +1,11 @@
 <?php
 
+namespace Donate\Vendor;
+
+if ( ! defined('STARTED')) exit;
+
+use \Donate\Vendor\DB;
+
 // save sessions to database
 class SessionStorage {
     private $type;

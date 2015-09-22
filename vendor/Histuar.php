@@ -1,5 +1,11 @@
 <?php
 
+namespace Donate\Vendor;
+
+if ( ! defined('STARTED')) exit;
+
+use \Donate\Vendor\Histuar;
+
 class Histuar {
     public static function add($key, $value, $userID = false) {
         DB::query('INSERT INTO history SET user_id = :user_id, action_key = :action_key, action_value = :action_value, action_date = :action_date', [

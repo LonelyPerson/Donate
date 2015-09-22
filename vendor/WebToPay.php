@@ -26,6 +26,7 @@
  * @link       http://www.webtopay.com/
  */
 
+if ( ! defined('STARTED')) exit;
 
 /**
  * Contains static methods for most used scenarios.
@@ -321,7 +322,7 @@ class WebToPay {
 /**
  * Base exception class for all exceptions in this library
  */
-class WebToPayException extends Exception {
+class WebToPayException extends \Exception {
 
     /**
      * Missing field.

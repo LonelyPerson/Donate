@@ -1,5 +1,13 @@
 <?php
 
+namespace Donate\Vendor;
+
+if ( ! defined('STARTED')) exit;
+
+use \Donate\Vendor\Settings;
+use \PHPMailer;
+use \SMTP;
+
 class Mail {
 	public static function send($to, $subject, $message, $from = false, $replyTo = false, $contentType = false) {
 		$mail = new PHPMailer;
